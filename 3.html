@@ -154,6 +154,232 @@ The one critical difference between LINQ and Ecto is Ecto is exclusive to queryi
 
 <h3>Building the Repo</h3>
 
+<p>
+Add a file in the <code>lib/splurty</code> folder called <code>repo.ex</code>.  This will define the repository we'll be using in the context of this web application.  Make the file look like this:
+</p>
+
+<pre><code>defmodule Repo do
+  use Ecto.Repo, adapter: Ecto.Adapters.Postgres
+
+  def conf do
+    parse_url Application.get_env(:phoenix, :database)[:url]
+  end
+
+  def priv do
+    app_dir(:splurty, "priv/repo")
+  end
+end
+</code></pre>
+<p>Save the file</p>
+<p>
+	This sets up the repo.  
+</p>
+<p>
+	The <code>priv</code> method defines what folder should private ecto stuff go (for example ecto database migration files).
+</p>
+
+
+<p>
+The <code>conf</code> method describes how we should connect to the database.  It's expecting a database connection string, for example something like: <code>ecto://postgres-user:postgres-password@localhost/database_name</code>.
+</p>
+
+<p>
+In this method we're saying we should pull the database connection string information out of the application's configuration (<code>Mix.Config</code>).  We're looking ahead, and by putting this in the configuration it will be possible to deploy to heroku, or have production's database have a different username/password (or even be on a different physical machine).
+</p>
+
+<p>
+Now let's setup the configuration for the file.  Add the following line to the bottom of <code>config/dev.exs</code>.
+</p>
+
+<pre><code>use Mix.Config
+
+config :splurty, Splurty.Endpoint,
+  http: [port: System.get_env("PORT") || 4000],
+  debug_errors: true,
+  cache_static_lookup: false
+
+# Enables code reloading for development
+config :phoenix, :code_reloader, true
+
+# Do not include metadata nor timestamps in development logs
+config :logger, :console, format: "[$level] $message\n"
+
+config :phoenix, :database,
+url: "ecto://ecto:password@localhost/splurty_development"
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+This sets up most of Ecto's repo.  The core repo code will run in external erlang process however, so we'll to configure that process to work.
+</p>
+
+<p>
+When dealing with multiple processes, both Erlang and Elixir use the concept of <code>Supervisors</code>, and this is how the code is considered <code>Fault Tolerant</code>, because we think about strategies to keep our processes running smoothly (and how to deal with exceptional cases), by default.
+</p>
+
+<p>
+The core thought in the erlang community is that <strong>Exceptional Cases Should Crash the Process</strong>, and then supervisors will re-start a new process that isn't messed up.
+</p>
+
+<p>
+The two most common types of supervisors are <code>one_for_one</code>, which indicates when a process crashes a new process should be spun up to replace it.  The stratgey <code>one_for_all</code> will restart all children whenever any process dies.
+</p>
+
+<p>
+For more information about Elixir's supervision tree check the <a href="http://elixir-lang.org/getting_started/mix_otp/5.html">Elixir-Lang Supervisor and Application</a> documentation.
+</p>
+
+<p>
+Let's build a supervisor that uses the <code>one_for_one</code> strategy, and starts our Web Application's Endpoints as well as the Repo.
+</p>
+
+<p>
+Add a file called in the <code>lib/splurty</code> folder called <code>supervisor.ex</code> that looks like this:
+</p>
+
+<pre><code>defmodule Splurty.Supervisor do
+  use Supervisor
+  
+  def start_link do
+    :supervisor.start_link(__MODULE__, [])
+  end
+  
+  def init([]) do
+    # Adding repo to be sent into supervise
+    tree = [
+      worker(Repo, []),
+      worker(Splurty.Endpoint, []),
+    ]
+    supervise(tree, strategy: :one_for_one)
+  end
+end
+</code></pre>
+
+<p>
+This sets up a pretty standard supervisor for our application.
+</p>
+
+<p>
+The <code>start_link</code> method you may notice starts the line with <code>:supervisor</code>. The code <code>:supervisor</code> indicates we are calling the method on the Erlang's supervisor module.  Elixir allows us to call Erlang code directly quite easily.
+</p>
+
+<p>
+The <code>tree</code> indicates all the child processes we want this supervisor to monitor.
+</p>
+
+<p>
+Finally, we need to tell our application to use this supervisor.
+</p>
+
+<p>
+Edit the <code>lib/splurty.ex</code> file to point to this supervisor.
+</p>
+
+<pre><code>defmodule Splurty do
+  use Application
+
+  # See http://elixir-lang.org/docs/stable/elixir/Application.html
+  # for more information on OTP Applications
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+    
+    Splurty.Supervisor.start_link
+  end
+  
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  def config_change(changed, _new, removed) do
+    Splurty.Endpoint.config_change(changed, removed)
+    :ok
+  end
+end
+</code></pre>
+<p>
+Save the file.
+</p>
+
+<p>
+This changes our application to use the Supervisor we just setup for the supervisor of the application.  It also builds a whole new supervisor file, rather than having the supervision code within the application start method.
+</p>
+
+<h3>Create a Database Migration</h3>
+
+<p>
+Just like ActiveRecord, changes to the database schema are managed through migrations.
+</p>
+
+<p>
+Let's generate a new migration by running the mix command:
+</p>
+
+<pre><code>$ mix ecto.gen.migration Repo create_quotes</code></pre>
+
+<p>
+This should output text similar to the following when indicating files it generated:
+</p>
+
+<pre><code>* creating priv/repo/migrations
+* creating priv/repo/migrations/20150124205648_create_quotes.exs
+</code></pre>
+
+<p>
+Cool.  Let's open up the <code>XXXXX_create_quotes.ex</code> within the <code>priv/repo</code> folder.
+</p>
+
+<p>
+You'll notice there are two methods.  A method for migrating up, and a method for rolling back.  Each is expected to return a string of SQL code that will run against the database. 
+</p>
+
+<p>
+At this point, Ecto doesn't have a nice DSL style method to create and modify our database structure, so we'll need to put direct SQL commands.  The fact it deals with migrations though solves most of the complexity of database schema changes.
+</p>
+
+<p>
+Let's edit this up to create a database table for <code>quotes</code> that has a <code>saying</code> and an <code>author</code>. 
+</p>
+
+<pre><code>defmodule Repo.Migrations.CreateQuotes do
+  use Ecto.Migration
+
+  def up do
+    "CREATE TABLE quotes(id serial primary key, saying varchar(140), author varchar(140));"
+  end
+
+  def down do
+    "DROP TABLE quotes;"
+  end
+end
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Execute the database migration by running the following command:
+</p>
+
+<pre><code>mix ecto.migrate Repo</code></pre>
+
+<p>
+It should output some text on the console that looks something like this:
+</p>
+
+<pre><code>[debug] CREATE TABLE IF NOT EXISTS schema_migrations (id serial primary key, version bigint) (404670µs)
+[debug] SELECT version FROM schema_migrations (13173µs)
+* running UP _build/dev/lib/splurty/priv/repo/migrations/20150124205648_create_quotes.exs
+[debug] CREATE TABLE IF NOT EXISTS schema_migrations (id serial primary key, version bigint) (12836µs)
+[debug] SELECT version FROM schema_migrations WHERE version = 20150124205648 (7710µs)
+[debug] CREATE TABLE quotes(id serial primary key, saying varchar(140), author varchar(140)); (5369µs)
+[debug] INSERT INTO schema_migrations(version) VALUES (20150124205648) (2352µs)
+</code></pre>
+
+<p>
+Awesome!  Our database is setup!
+</p>
 
 		<div class="text-center">
 		<a href="4.html" class="btn-primary btn-lg">Onward to Lesson 4</a>
