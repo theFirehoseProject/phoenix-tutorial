@@ -75,7 +75,40 @@ iex(2)> </code></pre>
 		Once you load up atom, in the menu click Atom&gt;Preferences...  Click the "packages" button, filter for the <code>language-elixir</code> package and install it.  This will automatically highlight files with the extension <code>exs</code> as elixir source code.
 		</p>
 
+		<h3>Installing and Setting Up Postgres</h3>
 
+		<p>
+		Right now, Postgres is the only supported database by <code>Ecto</code>, which is what we'll be using to connect to our database.  That makes the decision about what database to choose easy!
+		</p>
+
+		<p>
+		So if you don't have Postgres installed yet, <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">Follow the Instructions</a> to install it.
+		</p>
+
+		<p>
+		Then create an ecto user:
+		</p>
+
+		<pre><code>$ createuser ecto --pwprompt</code></pre>
+
+		<p>
+		Then enter a password you'll remember.
+		</p>
+		<p>
+		Then create our database:
+		</p>
+
+		<pre><code>$ createdb -Oecto -Eutf8 splurty_development</code></pre>
+
+		<p>
+		Then make sure you can log into your postgres database:
+		</p>
+
+		<pre><code>$ psql splurty_development --user ecto --password</code></pre>
+
+		<p>
+		When you get pulled into the postgres database prompt, hold CTRL+D to exit.
+		</p>
 
 		<h3>Getting the Phoenix Framework</h3>
 		<p>  Go into the directory where you usually write code and clone the <a href="https://github.com/phoenixframework/phoenix">phoenix</a> source code:
