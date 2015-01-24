@@ -1,0 +1,248 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 5</h1>
+
+		<h2>Adding new quotes and creating them in the database</h2>
+   <p>
+   The first part of the application to allow user generated quotes we'll need is to build a new form where a user is prompted to enter details about the quote they want to add.  Then we can deal with storing the quote in our database.
+   </p>
+
+   <h4>Building a new form</h4>
+
+   <p>
+   Right now if you navigate to <a href="http://localhost:4000/quotes/new">quotes/new</a>, you'll see an error message indicating we need to add the action to our controller.
+   </p>
+
+   <p>
+   Edit <code>web/controllers/quote_controller.ex</code> and add the following method to it:
+   </p>
+
+   <pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+end
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Refresh the page.  The error message should change to say that the new.html template doesn't exist.  This makes sense.  Add a file in the <code>web/templates/quote/new.html.eex</code> that looks like this:
+</p>
+
+<pre><code>Hello!</code></pre>
+
+
+<p>
+Save the file and refresh the page.  Awesome the error message goes away and we see a page.
+</p>
+
+<p>
+We're going to want to use routing aliases in our view (to hook up the action of the form to the create action).  In order to do that, we'll want to add the routing helpers to our app.  Add the following lines of code to <code>web/controllers/quote_controller.ex</code>:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+end
+</code></pre>
+
+<p>
+Save the file, then restart the server.
+</p>
+
+
+
+<p>
+Next let's add the form to the view.  Change the file <code>web/templates/quote/new.html.eex</code> code to look like this:
+</p>
+
+<pre><code>&lt;h1>New Quote&lt;/h1&gt;
+&lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;label for="quote[saying]">saying&lt;/label&gt;
+    &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
+
+    &lt;label for="quote[author]">author&lt;/label&gt;
+    &lt;input type="text" name="quote[author]" class="form-control" /&gt;
+
+  &lt;/div&gt;
+  &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Awesome, the form appeared!
+</p>
+
+<h3>Dealing with CSRF</h3>
+
+<p>
+Next up let's support the create action.  To start with let's see what error message comes up when we press the submit button.
+</p>
+
+<p>
+It looks like we're getting a CSRF error message.  This indicates we're not passing along a valid CSRF token when we're submitting the form.
+</p>
+
+<p>
+Add the following helper method to <code>web/view.ex</code> to add a helper method to generate csrf tokens:
+</p>
+
+<pre><code>defmodule Splurty.View do
+  use Phoenix.View, root: "web/templates"
+
+  # The quoted expression returned by this block is applied
+  # to this module and all other views that use this module.
+  using do
+    quote do
+      # Import common functionality
+      import Splurty.Router.Helpers
+
+      # Use Phoenix.HTML to import all HTML functions (forms, tags, etc)
+      use Phoenix.HTML
+    end
+  end
+
+  def csrf_token(conn) do
+    Plug.Conn.get_session(conn, :csrf_token)
+  end
+  # Functions defined here are available to all other views/templates
+end</code></pre>
+
+<p>
+Save the file.  Awesome, add the following snippet to pass through the CSRF token in the action to <code>web/templates/quote/new.html.eex</code>.
+</p>
+
+<pre><code>&lt;h1&gt;New Quote&lt;/h1&gt;
+&lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
+    
+    &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
+    &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
+
+    &lt;label for="quote[author]"&gt;author&lt;/label&gt;
+    &lt;input type="text" name="quote[author]" class="form-control" /&gt;
+
+  &lt;/div>
+  &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+   <p>
+   Navigate to <a href="http://localhost:4000/quotes/new">quotes/new</a> and refresh the page.  Then fill out the form and press the submit button.  Nice, now we see an error message that the controller action is undefined.
+   </p>
+
+
+
+<h3>Adding the create action</h3>
+
+<p>
+We'll need to add an action to the quotes controller to support the create functionality.  Edit <code>web/controllers/quote_controller.ex</code> and add the create method:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+end
+</code></pre>
+
+<p>
+Save the file.  Try to create a new quote.  Awesome, it seems to work and redirects to the index page.  On the index page you can see the newly added quote.
+</p>
+
+<p>
+The new form should look something like this:
+</p>
+
+<img src="lesson-5.png" class="img-responsive" />
+
+
+		<div class="text-center">
+		<a href="6.html" class="btn-primary btn-lg">Onward to Lesson 6</a>
+		</div>
+
+
+
+
+
+</div>
+	</body>
+</html>
