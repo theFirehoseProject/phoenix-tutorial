@@ -1,0 +1,145 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 1</h1>
+
+		<h2>Getting Setup</h2>
+
+		<p>
+		The first step to building web applications with the Phoenix Web Framework is to install all the tools you'll need to get coding.  
+		</p>
+
+		<h3>Installing Elixir</h3>
+
+		<p>
+			Follow the <a href="http://elixir-lang.org/install.html">Install Instructions</a> from the Elixir-Lang homepage.  This will install Elixir and the Erlang programming language on your machine.
+		</p>
+
+		<p>
+			I used the homebrew instructions and it went through seemlessly.  Once you have installed Elixir, you can verify it's properly installed by running the following commands:
+		</p>
+
+		<pre><code>$ elixir --version
+Elixir 1.0.2</code></pre>
+
+	<pre><code>$ erl -version
+Erlang (SMP,ASYNC_THREADS,HIPE) (BEAM) emulator version 6.2</code></pre>
+
+	<p>
+	Elixir provides a REPL, similar to IRB, called <code>iex</code>.  Jump into iex by running the following command:
+	</p>
+
+	<pre><code>$ iex</code></pre>
+
+	<p>
+	As you would expect you can run standard Elixir code here:
+	</p>
+
+	<pre><code>$ iex
+Erlang/OTP 17 [erts-6.2] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
+
+Interactive Elixir (1.0.2) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> a = 10 + 14
+24
+iex(2)> </code></pre>
+
+	<p>
+	To get out of iex, press CTRL+C twice in a row.
+	</p>
+
+	<p>
+	When you get to the point where you need more of an rbenv type tool, checkout the <a href="https://github.com/mururu/exenv">exenv</a> project.
+	</p>
+
+	<p>
+	The syntax to Elixir is very similar to ruby.  The key differences are: macros instead of meta-programming, no classes or instance variables and pattern matching support.
+	</p>
+
+
+		<h3>Setting Up A Text Editor</h3>
+
+		<p>
+		Most text editors don't include syntax highlighting for Elixir source code by default.  You can find packages for Sublime if you use that, but I'll walk you through how to add support for Elixir into atom.  If you haven't installed the atom text editor, you can get it <a href="https://atom.io/">here</a>.
+		</p>
+
+		<p>
+		Once you load up atom, in the menu click Atom&gt;Preferences...  Click the "packages" button, filter for the <code>language-elixir</code> package and install it.  This will automatically highlight files with the extension <code>exs</code> as elixir source code.
+		</p>
+
+
+
+		<h3>Getting the Phoenix Framework</h3>
+		<p>  Go into the directory where you usually write code and clone the <a href="https://github.com/phoenixframework/phoenix">phoenix</a> source code:
+		</p>
+
+		<pre><code>$ git clone https://github.com/phoenixframework/phoenix.git</code></pre>
+
+		<p>
+		This tutorial is geared to work with Phoenix version 0.8.  As it's changing quite quickly, you'll want to make sure you're using that version.
+		</p> 
+
+		<pre><code>$ git checkout v0.8.0</code></pre>
+
+
+
+		<h3>Starting your first project</h3>
+
+		<p>
+		You'll need to be in the same directory as the phoenix project you cloned when you run the command to create the first project:
+		</p>
+
+		<pre><code>$ mix phoenix.new splurty ../splurty</code></pre>
+
+		<p>
+		This command will generate a new phoenix web project called <code>splurty</code> in the splurty directory of the parent folder.
+		</p>
+
+		<p>
+		This command is the first time we're using <code>mix</code>.  Mix is a program that is a hybrid of bundler and rake if you're familiar with ruby on rails.  In short it allows us to run commands and manages our dependencies.
+		</p>
+
+		<p>
+		If you've tried programming in scala, or other functional programming, you may have noticed package management usually tends to suck.  Mix is very well designed and works seemlessly.
+		</p>
+
+		<p>
+		Next change the directory to the folder your splurty application is located in:
+		</p>
+
+		<pre><code>$ cd ../splurty</code></pre>
+
+		<p>
+		Next compile your application's source code and also fetch and install all the dependencies:
+		</p>
+
+		<pre><code>$ mix do deps.get, compile</code></pre>
+
+		<p>
+		It should complete without showing you any error messages and you can start your server by running the following command:
+		</p>
+		<pre><code>$ mix phoenix.server</code></pre>
+
+		<p>
+		Then you can go to <a href="http://localhost:4000">localhost:4000</a> and see your generated phoenix web application.  Awesome!
+		</p>
+
+		<img src="lesson-1.png" class="img-responsive"/>
+
+
+		<div class="text-center">
+		<a href="2.html" class="btn-primary btn-lg">Onward to Lesson 2</a>
+		</div>
+
+
+</div>
+	</body>
+</html>
