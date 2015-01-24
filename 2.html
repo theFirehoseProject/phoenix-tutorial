@@ -1,0 +1,214 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 2</h1>
+
+		<h2>Setting Up a New Page</h2>
+		<p>
+		Phoenix is an MVC Web Framework.  By default it sets up a controller called <code>page</code> and an action called <code>index</code>.
+		</p>
+
+		<p>
+		One subtle different you'll notice from rails is controller names tend to be in the <strong>singular</strong> rather than <strong>plural</strong>.
+		</p>
+
+		<p>
+		As of <strong>v 0.8</strong> there aren't generators to create controllers, so we need to create them manually.
+		</p>
+
+		<p>
+		In this lesson we'll setup a new controller, called the <code>quote</code> controller and setup an action called <code>homepage</code>.
+		</p>
+
+		<h3>Quick Overview</h3>
+
+		<p>
+		Quickly look at the project structure that was provided by the Phoenix framework.  The bulk of the interesting code is in the folder called <code>web</code>.  You'll see <code>channels</code>, <code>controllers</code>, <code>models</code>, <code>templates</code>, <code>views</code>.
+		</p>
+
+		<p>
+			If you're coming from rails, <code>views</code> is serving a role close to what <code>helpers</code> do in rails.  <code>templates</code> on the otherhand serve the role of templated code.
+		</p>
+
+		<h3>Create a Controller</h3>
+
+		<p>
+		Build a new file in the folder <code>web/controllers</code> called <code>quote_controller.ex</code>, and have it be a blank controller, with similar syntax to the page controller.
+		</p>
+
+		<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  plug :action
+end</code></pre>
+	<p>
+	Save the file.
+	</p>
+
+	<p>
+	We want to hook-up the root page of our application to go to the <code>QuoteController</code> and the <code>homepage</code> action.
+	</p>
+
+	<p>
+	To start with, let's look at how our application is hooked up.  Run the following command to see which URLs are hooked up to, which controllers/actions.
+	</p>
+
+	<pre><code>$ mix phoenix.routes</code></pre>
+
+	<p>
+	Right now it should say:
+	</p>
+
+	<pre><code>page_path  GET  /  Splurty.PageController.index/2
+</code></pre>
+
+<p>
+Cool, let's change our routes so the root page goes to the QuoteController.
+</p>
+
+<p>
+Open this file <code>web/router.ex</code> and edit it to look like this:
+</p>
+
+<pre><code>defmodule Splurty.Router do
+  use Phoenix.Router
+
+  pipeline :browser do
+    plug :accepts, ~w(html)
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+  end
+
+  pipeline :api do
+    plug :accepts, ~w(json)
+  end
+
+  scope "/", Splurty do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", QuoteController, :homepage
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", Splurty do
+  #   pipe_through :api
+  # end
+end
+</code></pre>
+<p>
+Save the file.
+</p>
+<p>
+Then run the command to see the routes table again to make sure things are setup properly.
+</p>
+	<pre><code>$ mix phoenix.routes</code></pre>
+
+	<p>
+	Right now it should say:
+	</p>
+
+	<pre><code>quote_path  GET  /  Splurty.QuoteController.homepage/2
+</code></pre>
+
+<p>
+Cool, we hooked up our new action.
+</p>
+
+<p>
+Next, let's add the <code>homepage</code> action into our controller.
+</p>
+
+<p>
+Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+</p>
+
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  plug :action
+  
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+  
+end</code></pre>
+
+<p>
+And then save the file.
+</p>
+
+<h3>Building the View</h3>
+
+<p>
+We'll need to build the view file to support our quotes controller.
+</p>
+
+<p>
+Build a new, blank view in the <code>web/views</code> folder that is caled <code>quote_view.ex</code> and make it look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteView do
+  use Splurty.View
+end</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Awesome, we're super close to having our app be updated.
+</p>
+
+<h3>Next up, build the template</h3>
+
+<p>
+Add a new folder for <code>quote</code> templates within the application:
+</p>
+
+<pre><code>$ mkdir web/templates/quote</code></pre>
+
+<p>
+Then add a file called <code>homepage.html.eex</code> to <code>web/templates/quote</code> folder.  Add the following text to the file:
+</p>
+
+<pre><code>Number of reasons I yolo everyday &lt;%= 10 + 14 %&gt;
+</code></pre>
+
+<p>
+Save the file.  
+</p>
+
+<p>
+Return to your web browser.  Refresh the page at <a href="http://localhost:4000">localhost:4000</a> and the page should update.
+</p>
+
+<p>
+You'll notice <code>html.eex</code> is similar to <code>html.erb</code> files in ruby.  This allows you to template out HTML, and will execute elixir code, and display it to the page  between the &lt;%= and %&gt;.
+</p>
+<p>
+You should be looking at something that looks like this:
+</p>
+
+<img src="lesson-2.png" class="img-responsive" %>
+
+
+		<div class="text-center">
+		<a href="3.html" class="btn-primary btn-lg">Onward to Lesson 3</a>
+		</div>
+
+
+
+</div>
+	</body>
+</html>
