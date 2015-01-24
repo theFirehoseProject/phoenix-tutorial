@@ -1,0 +1,205 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 8</h1>
+
+		<h2>Adding Destroy Functionality</h2>
+   
+
+    <p>
+    Now let's allow users to destroy quotes from the index page.
+    </p>
+
+    <p>
+    We'll want to trigger a DELETE HTTP request to the quote_path.  Unfortunately, right now Phoenix doesn't support links to GET requests out of the box.  Let's pull in a JavaScript plugin to do this.
+    </p>
+
+    <h3>RESTFULIZER</h3>
+
+    <p>
+    The <a href="https://github.com/Ifnot/RestfulizerJs">RestfulizerJs</a> library will support this for us.  To start with copy the <code>jquery.restfulizer.js</code> file into <code>priv/static/js</code> folder.
+
+    </p>
+
+    <p>
+    Next, let's pull in both jQuery and the RESTfulizer into our application in the <code>web/templates/layout/application.html.eex</code> file.  This file is like <code>application.html.erb</code> in rails.
+    </p>
+
+    <p>
+    Add the following two lines into the head of the file:
+    </p>
+
+    <pre><code>&lt;script src="https://code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
+    &lt;script src="/js/jquery.restfulizer.js"&gt;&lt;/script&gt;</code></pre>
+    <p>
+    We'll also need to add a bit of JavaScript to activate the plugin, and also play nicely with CSRF tokens.  Add the following script tag to the <code>application.html.eex</code> file:
+    </p>
+
+<pre><code>    &lt;script&gt;
+    $(function() {
+      $(".rest").click(function(d) {
+        $('form').submit(function(s) {
+          var input = $("&lt;input&gt;")
+          .attr("type", "hidden")
+          .attr("name", "csrf_token").val("&lt;%= csrf_token(@conn) %&gt;");
+          $(s.target).append($(input));
+        });
+      });
+      $(".rest").restfulizer({});
+    });
+    &lt;/script&gt;</code></pre>
+
+<p>
+Save the file.  Sweet, now we've got the ability to do POST/PUT and DELETE from links.
+</p>
+
+<h3>Adding a Delete Link</h3>
+
+<p>
+Open up <code>web/templates/quote/index.eex</code> and add a button to delete the quote:
+</p>
+
+<pre><code>&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Saying&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+      &lt;th&gt;Actions&lt;/th&gt;
+  &lt;/thead&gt;
+  &lt;%= for q &lt;- @quotes do %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
+        &lt;%= q.saying %&gt;
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;%= q.author %&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href="&lt;%=quote_path(@conn, :edit, q.id) %&gt;"&gt;
+        Edit
+      &lt;/a&gt;
+      |
+      &lt;a href="&lt;%= quote_path(@conn, :destroy, q.id) %&gt;" data-method="DELETE" class="rest"&gt;
+        Destroy
+      &lt;/a&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;% end %&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>
+Save the file.  Refresh the index page. 
+</p>
+
+<p>
+You should notice a destroy link got added.  Sweet!
+</p>
+
+<p>
+Press the destroy button and you'll notice the error message that indicates that we haven't implemented the action in the controller yet.  This makes sense.
+</p>
+
+<p>
+Let's add the destroy action in the quotes controller.  Add the method to <code>web/controllers/quote_controller.ex</code> that looks like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+  def show(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("show.html")
+  end
+
+  def edit(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("edit.html")
+  end
+
+
+  def update(conn, %{"id" => id, "quote" => %{"saying" => saying, "author" => author}}) do
+    {id, _} = Integer.parse(id)
+    q = Repo.get(Splurty.Quote, id)
+    q = %{q | saying: saying, author: author }
+    Repo.update(q)
+    redirect conn, to: quote_path(conn, :show, q.id)
+  end
+
+  def destroy(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    q = Repo.get(Splurty.Quote, id)
+    Repo.delete(q)
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+end
+</code></pre>
+<p>
+Save the file.
+</p>
+
+<p>
+Press the destroy button.  Sweet, it removes the quote from our database and redirects you back to the index page.
+</p>
+
+<p>
+You should see something that looks like this when you go to your index page:
+</p>
+
+<img src="lesson-8.png" class="img-responsive" />
+
+
+		<div class="text-center">
+		<a href="9.html" class="btn-primary btn-lg">Onward to Lesson 9</a>
+		</div>
+
+
+
+
+
+</div>
+	</body>
+</html>
