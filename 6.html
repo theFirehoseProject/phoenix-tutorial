@@ -1,0 +1,146 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 6</h1>
+
+		<h2>Adding a Show Page</h2>
+   
+
+   <p>
+   Let's add a detail page for the quote.  This will be in the <code>quote</code> controller and the <code>show</code> action.
+   </p>
+
+   <p>
+   To start with let's edit the quote saying on the index page to link to the detail page.  Edit <code>web/templates/quote/index.html.eex</code> to look like this:
+   </p>
+
+<pre><code>   &lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Saying&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+  &lt;/thead&gt;
+  &lt;%= for q &lt;- @quotes do %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
+        &lt;%= q.saying %&gt;
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;%= q.author %&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;% end %&gt;
+&lt;/table&gt;
+</code></pre>
+<p>
+Awesome, this added a link to the detail page on the index page.  When you click the link you'll see an error that we haven't build the show action in the quotes controller.  Let's add that now.
+</p>
+
+<p>
+Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+  def show(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("show.html")
+  end
+
+end
+</code></pre>
+
+<p>
+Save the file.  One thing you'll notice is we need to convert the input from a string as an id to an integer.  If we don't do this, Ecto will give us error messages.
+</p>
+
+<p>
+If you try to view the page again, you'll notice an error message that indicates we haven't build the template yet.  This makes sense, let's build one.
+</p>
+
+<p>
+Add a file to the folder <code>web/templates/quote/show.html.eex</code> that looks like this:
+</p>
+
+<pre><code>hi
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Excellent, the error goes away and we see "hi".  Let's put details about the quote we're showing on the page now.
+</p>
+
+<p>
+Edit <code>web/templates/quote/show.html.eex</code> to look like this:
+</p>
+
+<pre><code>&lt;h1&gt;
+  &lt;%= @quote.saying %&gt;
+&lt;/h1&gt;
+
+&lt;h2&gt;
+  &lt;%= @quote.author %&gt;
+&lt;/h2&gt;
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Awesome, we now see an awesome detail page.
+</p>
+
+<p>
+You should see something that looks like this now:
+</p>
+
+<img src="lesson-6.png" class="img-responsive" />
+
+
+		<div class="text-center">
+		<a href="7.html" class="btn-primary btn-lg">Onward to Lesson 7</a>
+		</div>
+
+
+
+
+
+</div>
+	</body>
+</html>
