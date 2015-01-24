@@ -1,0 +1,166 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 3</h1>
+
+		<h2>Setting up the database with Ecto</h2>
+
+
+		<p>
+		Ecto is the mechanism we're going to use to connect to our postgres database, which we created in Lesson 1.
+		</p>
+
+		<p>
+		Ecto takes an approach that's different from ActiveRecord to how you'll deal with the database, but it does support database migrations.
+		</p>
+
+		<p>
+			To start with we'll need to configure <code>postgrex</code> and <code>ecto</code> as both applications and dependencies.
+		</p>
+
+		<p>
+		When you want to include a new project as a dependency in your application, you add the its to the <code>deps</code> section in <code>mix.exs</code>.  Add the following two lines into the file:
+		</p>
+
+<pre><code>defmodule Splurty.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :splurty,
+     version: "0.0.1",
+     elixir: "~> 1.0",
+     elixirc_paths: ["lib", "web"],
+     compilers: [:phoenix] ++ Mix.compilers,
+     deps: deps]
+  end
+
+  # Configuration for the OTP application
+  #
+  # Type `mix help compile.app` for more information
+  def application do
+    [mod: {Splurty, []},
+     applications: [:phoenix, :cowboy, :logger]]
+  end
+
+  # Specifies your project dependencies
+  #
+  # Type `mix help deps` for examples and options
+  defp deps do
+    [
+     {:phoenix, "~> 0.8.0"},
+     {:cowboy, "~> 1.0"},
+     {:postgrex, ">= 0.0.0"},
+     {:ecto, "~> 0.2.0"}
+    ]
+  end
+end</code></pre>
+
+
+<p>
+Save the file.
+</p>
+
+<p>
+Then run the command to fetch and install the dependencies:
+</p>
+
+<pre><code>mix do deps.get, compile</code></pre>
+
+<p>
+It should complete without giving you error messages.  That includes the dependencies in our application.
+</p>
+
+<p>
+Elixir also has a concept of <code>Applications</code>.  Applications are separate processes from our main application that our web application will communicate with.
+</p>
+
+<p>
+We'll also need to add both the <code>postgrex</code> and <code>ecto</code> applications to our application.
+</p>
+
+<pre><code>defmodule Splurty.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :splurty,
+     version: "0.0.1",
+     elixir: "~> 1.0",
+     elixirc_paths: ["lib", "web"],
+     compilers: [:phoenix] ++ Mix.compilers,
+     deps: deps]
+  end
+
+  # Configuration for the OTP application
+  #
+  # Type `mix help compile.app` for more information
+  def application do
+    [mod: {Splurty, []},
+     applications: [:phoenix, :cowboy, :logger, :postgrex, :ecto]]
+  end
+
+  # Specifies your project dependencies
+  #
+  # Type `mix help deps` for examples and options
+  defp deps do
+    [
+     {:phoenix, "~> 0.8.0"},
+     {:cowboy, "~> 1.0"},
+     {:postgrex, ">= 0.0.0"},
+     {:ecto, "~> 0.2.0"}
+    ]
+  end
+end</code></pre>
+
+
+<h3>Zooming Out: How Ecto Is Organized</h3>
+
+<p>
+For an in-depth analysis of how ecto works, check <a href="https://www.youtube.com/watch?v=SJRfujy9vLA">this talk by Jose Valim</a>, or the official documentation <a href="http://hexdocs.pm/ecto/">here</a>.
+</p>
+
+<p>
+The part of the Ecto documentation that you'll want to know going in is that there are three main components to it.
+</p>
+
+<h4>Repo</h4>
+
+<p>
+Short for Repository, a repo is the connection to a database.  Ecto makes it easy to connect to multiple different database in a single application.
+</p>
+
+<h4>Model</h4>
+<p>
+Models make it easy to save items to our database and provides callbacks in the lifecycle of the object.
+</p>
+
+<h4>Queries</h4>
+
+<p>
+Unlike ActiveRecord, Ecto doesn't hide the querying so much.  The querying system is influenced by dot-net's <code>LINQ</code>.  Since Elixir's syntax supports macros, the library actually doesn't need any "Language Integration", in the same vein as LINQ.
+</p>
+
+<p>
+The one critical difference between LINQ and Ecto is Ecto is exclusive to querying databases.  In LINQ the abstraction is moved to any type of collection (such as arrays, hashes, etc).  Ecto makes the claim that the relational algebra it supports should be available to databases, which it maps to intuitively, but should not provide the functionality for regular collections, since the data types are not optimized for those types of queries.
+</p>
+
+<h3>Building the Repo</h3>
+
+
+		<div class="text-center">
+		<a href="4.html" class="btn-primary btn-lg">Onward to Lesson 4</a>
+		</div>
+
+
+
+</div>
+	</body>
+</html>
