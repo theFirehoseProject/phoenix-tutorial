@@ -381,6 +381,96 @@ It should output some text on the console that looks something like this:
 Awesome!  Our database is setup!
 </p>
 
+<h3>Setting up the Model</h3>
+
+<p>
+Now that we have our database table setup, we can create the Quote model.  Add a file in <code>web/models</code> called <code>quote.ex</code> that looks like this:
+</p>
+
+<pre><code>defmodule Splurty.Quote do
+  use Ecto.Model
+
+  schema "quotes" do
+    field :saying, :string
+    field :author, :string
+  end
+end
+</code></pre>
+
+<p>
+Save the file. 
+</p>
+<p>
+ Notice how we have to explicitly tell the model, which fields it has and what table it is connected to.  
+</p>
+
+
+<h3>Storing a quote in our database</h3>
+
+<p>
+Let's add a quote in our database by using elixir's interactive console.
+</p>
+
+<p>
+Run the following command to get into interactive elixir console:
+</p>
+
+<pre><code>$ iex -S mix</code></pre>
+
+<p>
+Once it boots up, let's build up quote specifying the key/value pairs for the quote and store it in a variable.
+</p>
+
+<pre><code>&gt; quote = %Splurty.Quote{saying: "Haters gonna hate.  Ain'ters gonna ain't.", author: "Dave Skylark"}</code></pre>
+
+<p>
+And we can extract the message from the quote in the map by access the <code>saying</code> field.
+</p>
+
+<pre><code>&gt; quote.saying </code></pre>
+
+<p>
+And we see the following output:
+</p>
+
+<pre><code>"Haters gunna hate.  Ain'ter gunna a'int."</code></pre>
+
+<p>
+Cool.  Now let's store this into our database (aka the Repo)
+</p>
+
+<pre><code>&gt; Repo.insert(quote)</code></pre>
+
+<p>
+When you run the command you should see something like the following output to the console:
+</p>
+
+<pre><code>[debug] INSERT INTO "quotes" ("author", "saying") VALUES ($1, $2) RETURNING "id" (347555µs)
+%Splurty.Quote{author: "Dave Skylark", id: 1,
+ saying: "Haters gonna hate.  Ain'ters gonna ain't."}</code></pre>
+
+ <p>
+We can load the item back from the database by running the following code.
+ </p>
+
+ <pre><code>quote2 = Repo.get(Splurty.Quote, 1)</code></pre>
+
+ <p>
+And we can update the author to be <code>James Franco</code> instead of <code>Dave Skylark</code> like this:
+ </p>
+
+ <pre><code>&gt; quote3 = %{quote2 | author: "James Franco"}
+ &gt; Repo.update(quote3)</code>
+<p>
+And finally we can remove the item from our database like this:
+</p>
+
+<pre><code>&gt; Repo.delete(quote3)</code></pre>
+
+<p>
+Sweet.  We know our database connection is working properly!  Press CTRL+C  twice to exit <code>iex</code>.
+</p>
+
 		<div class="text-center">
 		<a href="4.html" class="btn-primary btn-lg">Onward to Lesson 4</a>
 		</div>
