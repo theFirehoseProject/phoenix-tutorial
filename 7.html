@@ -1,0 +1,231 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 7</h1>
+
+		<h2>Adding Edit and Update Functionality</h2>
+   <p>
+   Next up in setting up CRUD will be to allow us to edit and update a quote in our database.
+   </p>
+
+   <h3>Edit Page</h3>
+
+   <p>
+   To start with, let's add a link to the edit page to the index page.  Edit <code>web/templates/quote/index.eex</code> to look like this:
+   </p>
+
+
+<pre><code>
+   &lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Saying&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+      &lt;th&gt;Actions&lt;/th&gt;
+  &lt;/thead&gt;
+  &lt;%= for q &lt;- @quotes do %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
+        &lt;%= q.saying %&gt;
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;%= q.author %&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href="&lt;%=quote_path(@conn, :edit, q.id) %&gt;"&gt;
+        Edit
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;% end %&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>
+Return to the quotes index page and notice that a link to the edit page comes up.  Awesome.  When you click it, it gives you an error that the action isn't present in the controller.  Let's add it!
+</p>
+
+<p>
+Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+  def show(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("show.html")
+  end
+  
+  def edit(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("edit.html")
+  end
+end
+</code></pre>
+
+<p>
+Save the file.  Now if you refresh the edit page, you'll see an error that the template doesn't exist yet.  This makes sense, since we haven't built one.  Let's build one now.
+</p>
+<p>
+Add a file in <code>web/templates/quote</code> called <code>edit.html.eex</code>:
+</p>
+<pre><code>
+
+</code>Hello!</pre>
+<p>
+Save the file.  Nice the error message went away.  Now let's add the real form.  For now let's just copy and paste the markup from the <code>new.html.eex</code> and make a few edits.
+</p>
+
+<pre><code>&lt;h1&gt;Edit Quote&lt;/h1&gt;
+&lt;form action="&lt;%= quote_path(@conn, :update, @quote.id) %&gt;" method="post"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
+    &lt;input type="hidden" name="_method" value="put"&gt;
+
+    &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
+    &lt;input type="text" name="quote[saying]" class="form-control" value="&lt;%= @quote.saying %&gt;" /&gt;
+
+    &lt;label for="quote[author]"&gt;author&lt;/label&gt;
+    &lt;input type="text" name="quote[author]" class="form-control" value="&lt;%= @quote.author %&gt;" /&gt;
+
+  &lt;/div&gt;
+  &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Awesome, our form came up.
+</p>
+
+<h3>Update Action</h3>
+
+<p>
+Press the submit button.  You'll see an error message that there is an undefined controller action for update.  This makes sense.  Let's jump in and add one.
+</p>
+
+<p>
+Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+  def show(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("show.html")
+  end
+
+  def edit(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("edit.html")
+  end
+
+
+  def update(conn, %{"id" => id, "quote" => %{"saying" => saying, "author" => author}}) do
+    {id, _} = Integer.parse(id)
+    q = Repo.get(Splurty.Quote, id)
+    q = %{q | saying: saying, author: author }
+    Repo.update(q)
+    redirect conn, to: quote_path(conn, :show, q.id)
+  end
+end
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Try to update the quote again from the form.  Awesome, it works! :)
+</p>
+
+<p>
+Your edit page should look like this:
+</p>
+
+<img src="lesson-7.png" class="img-responsive" />
+
+		<div class="text-center">
+		<a href="8.html" class="btn-primary btn-lg">Onward to Lesson 8</a>
+		</div>
+
+
+
+
+
+</div>
+	</body>
+</html>
