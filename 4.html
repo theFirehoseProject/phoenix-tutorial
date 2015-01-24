@@ -1,0 +1,217 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 4</h1>
+
+		<h2>Building an index page</h2>
+    <p>
+    Let's build a page to list out all the quotes in our application.  In this case we'll use the <code>quote_controller</code> and <code>index</code> action.
+    </p>
+
+    <p>
+    We're going to build full CRUD functionality on the quotes controller, so we can go ahead and setup the full set of RESTful (or <code>resource</code>ful) routes.
+    </p>
+
+    <p>
+    Edit <code>web/router.ex</code> and add the following line:
+    </p>
+
+    <pre><code>defmodule Splurty.Router do
+  use Phoenix.Router
+
+  pipeline :browser do
+    plug :accepts, ~w(html)
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+  end
+
+  pipeline :api do
+    plug :accepts, ~w(json)
+  end
+
+  scope "/", Splurty do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", QuoteController, :homepage
+    resources "/quotes", QuoteController
+
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", Splurty do
+  #   pipe_through :api
+  # end
+end
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Let's output our routes table and make sure it looks ok.
+</p>
+
+  <pre><code>$ mix phoenix.routes</code></pre>
+
+  <p>
+  Right now it should say:
+  </p>
+<pre><code>quote_path  GET     /                 Splurty.QuoteController.homepage/2
+quote_path  GET     /quotes           Splurty.QuoteController.index/2
+quote_path  GET     /quotes/:id/edit  Splurty.QuoteController.edit/2
+quote_path  GET     /quotes/new       Splurty.QuoteController.new/2
+quote_path  GET     /quotes/:id       Splurty.QuoteController.show/2
+quote_path  POST    /quotes           Splurty.QuoteController.create/2
+quote_path  PATCH   /quotes/:id       Splurty.QuoteController.update/2
+            PUT     /quotes/:id       Splurty.QuoteController.update/2
+quote_path  DELETE  /quotes/:id       Splurty.QuoteController.destroy/2
+</code></pre>
+
+<p>
+Awesome, it hooked up the full set of resourceful routes.  Sweet.
+</p>
+
+<p>
+Restart your server.
+</p>
+
+<p>
+Next up, go into the web browser to the URL that looks like: <a href="http://localhost:4000/quotes/">localhost:4000/quotes</a>.  It complains with the error message: <strong>undefined function: Splurty.QuoteController.index/2</strong>.
+</p>
+<p>
+Since it's mad we don't have the index action in our controller, let's go add one.  Open <code>web/controllers/quote_controller.ex</code> and add the following section:
+</p>
+
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    render conn, "index.html"
+  end
+  
+end
+</code></pre>
+
+<p>
+Save the file and refresh the page.  It should show you an error message that the template <code>index.html</code> hasn't been created.  This makes sense.
+</p>
+
+<p>
+Add a file in <code>web/templates/quote/index.html.eex</code> that looks like this:
+</p>
+
+<pre><code>YOLO!</code></pre>
+
+<p>
+Save the file, and refresh the page.  Awesome, we no longer see an error message.
+</p>
+
+<p>
+We want this page to list out each of the quotes in our database, but right now our database has no quotes in it.  Let's jump into iex and add a couple quotes:
+</p>
+
+<pre><code>$ iex -S mix</code></pre>
+
+
+<p>
+And add two quotes, running commands like this:
+</p>
+
+<pre><code>&gt; quote = %Splurty.Quote{saying: "They hate us, cause they ain't us.", author: "Dave Skylark"}
+&gt; Repo.insert(quote)
+</code></pre>
+
+<pre><code>&gt; quote2 = %Splurty.Quote{saying: "They're peanut butter and jealous.", author: "Dave Skylark"}
+&gt; Repo.insert(quote2)</code></pre>
+<p>
+Then press CTRL+C twice to exit iex.
+</p>
+
+<p>
+Cool, now that we have quotes in our database, let's loop through each of them and put them on an HTML table.
+</p>
+
+<p>
+First thing we'll need to do is load up our quotes in our controller.
+Open <code>web/controller/quote_controller.ex</code> and edit the index action to look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  plug :action
+
+  def homepage(conn, _params) do
+    render conn, "homepage.html"
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+end
+</code></pre>
+
+<p>
+This will render the <code>index.html.eex</code> template on the connection and pass through the assignment of <code>@quotes</code> being all the quotes loaded up.
+</p>
+
+<p>
+Now edit <code>web/templates/quote/index.html.eex</code> and add the following code:
+</p>
+
+<pre><code>&lt;table&gt;
+  &lt;thead>
+    &lt;tr&gt;
+      &lt;th&gt;Saying&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+  &lt;/thead>
+  &lt;%= for q &lt;- @quotes do %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;%= q.saying %&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;%= q.author %&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;% end %&gt;
+
+&lt;/table&gt;
+</code></pre>
+
+<p>
+Save the file and open <a href="http://localhost:4000/quotes/">localhost:4000/quotes</a> in your browser.  It should look like this:
+</p>
+
+<img src="lesson-4.png" class="img-responsive" />
+
+		<div class="text-center">
+		<a href="5.html" class="btn-primary btn-lg">Onward to Lesson 5</a>
+		</div>
+
+
+
+</div>
+	</body>
+</html>
