@@ -1,0 +1,694 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 10</h1>
+
+		<h2>Cleaning up the Design (Optional)</h2>
+		<p>
+		Right now our web application looks pretty lousy.  In this lesson we'll make a few tweaks to the UI to make the application look a lot better.
+		</p>
+
+		<h3>Removing existing Phoenix CSS</h3>
+
+		<p>
+		Phoenix provides us with some design elements to start with, as well as integrating with the Twitter Bootstrap v3 Framework.
+		</p>
+
+		<p>
+		Remove everything after line 8 in <code>priv/static/css/phoenix.css</code>, which will remove the Phoenix specific CSS, but leave us with Twitter Bootstrap and normalize.css.
+		</p>
+
+		<p>
+		The file should look something like this when you're done:
+		</p>
+
+		<pre><code>/*!
+ * Bootstrap v3.1.1 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+/*! normalize.css v3.0.0 | MIT License | git.io/normalize */A TON OF LINES OF CSS CODE ARE RIGHT HERE</code></pre>
+
+	<p>
+	Save the file.
+	</p>
+
+	<p>
+	Next let's get rid of the content in <code>web/templates/layout/application.html.eex</code> that is specific to the Phoenix CSS.  Make the body tag of the application start like this:
+	</p>
+
+	<pre><code>
+  &lt;body&gt;
+    &lt;%= @inner %&gt;
+  &lt;/body&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Refresh the page and you'll notice all the Phoenix specific styles have been removed.  Now we can add the specific style elements we want.
+</p>
+		<h3>Adjusting the Font Stack</h3>
+
+		<p>
+		One thing that will make this application look much better is to adjust the font stack.
+		</p>
+
+		<p>
+		Go to <a href="https://www.google.com/fonts">Google Fonts</a> and find a font you think will look good.
+		</p>
+
+		<p>
+		I selected Roboto Slab, and selected the different font weights and found the standard import code.  I added this to <code>web/templates/layout/application.html.eex</code> beneath the existing style tags:
+		</p>
+
+		<pre><code>&lt;link rel="stylesheet" href="/css/phoenix.css"&gt;
+    &lt;link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'&gt;
+    &lt;script src="https://code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Add the following to the bottom of <code>priv/static/css/phoenix.css</code> (it might be different depending on which font you imported):
+</p>
+
+<pre><code>body {
+  font-family: 'Roboto Slab', serif;
+}
+</code></pre>
+
+<p>
+Save the file.  Refresh the page and you'll notice the font got upgraded.  Nice.
+</p>
+
+<h3>Adding a Header</h3>
+
+<p>
+Next, let's add a header, with a spot for links and a logo.
+</p>
+
+<p>
+Add the following to <code>web/templates/layouts/application.html.eex</code>:
+</p>
+
+<pre><code>  &lt;body&gt;
+
+    &lt;header&gt;
+      &lt;div class="col-xs-6"&gt;
+        LOGO HERE
+      &lt;/div&gt;
+
+      &lt;div class="col-xs-6 text-right"&gt;
+        LINKS HERE
+      &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;%= @inner %&gt;
+  &lt;/body&gt;</code></pre>
+
+  <p>
+Save the file and refresh the page.  Nice it added a section for our header.
+  </p>
+
+  <p>
+  Let's add a bit of CSS to the bottom of <code>priv/static/css/phoenix.css</code>:
+  </p>
+
+  <pre><code>header {
+border-top: 9px solid #222222;
+}</code></pre>
+
+<p>
+Save the file and refresh.  It added a black bar to the top.
+</p>
+
+<p>
+Next let's base our logo in the top left off <a href="http://cssdeck.com/labs/9zdit3ih">this</a> HTML and CSS from CSSDeck.  Replace <code>LOGO HERE</code> in <code>web/templates/layout/application.html.eex</code> with this: 
+</p>
+
+<pre><code>    &lt;header&gt;
+      &lt;div class="col-xs-6"&gt;
+        &lt;div class="circle"&gt;
+          &lt;br /&gt;
+          Elixir &amp;
+          &lt;br /&gt;
+          Erlang
+          &lt;br /&gt;
+          Rock!
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;div class="col-xs-6 text-right"&gt;
+        LINKS HERE
+      &lt;/div&gt;
+    &lt;/header&gt;
+</code></pre>
+
+<p>
+And add the CSS from CSSDeck to <code>priv/static/css/phoenix.css</code>:
+</p>
+
+<pre><code>.circle {
+    font-weight:bold;
+    font-style: italic;
+    position: relative;
+    border-radius: 100%;
+    background: #f84342;
+    border: 1px solid #F7F7F7;
+    width: 80px;
+    height: 80px;
+    margin: 10px 10px;
+    text-align: center;
+    color: #FFF;
+    font-size: 10px;
+    line-height: 16px;
+    cursor: pointer;
+    transform:rotate(11deg);
+    -ms-transform:rotate(11deg); /* IE 9 */
+    -webkit-transform:rotate(11deg); /* Opera, Chrome, and Safari */
+}</code></pre>
+
+<p>
+Save the file and refresh the page.  
+</p>
+
+<p>
+Next play with the font-family, font-size and font-weight within the logo:
+</p>
+
+<pre><code>.circle {
+  font-weight:bold;
+  font-style: italic;
+  position: relative;
+  border-radius: 100%;
+  background: #f84342;
+  border: 1px solid #F7F7F7;
+  width: 80px;
+  height: 80px;
+  margin: 10px 10px;
+  text-align: center;
+  color: #FFF;
+  font-size: 10px;
+  line-height: 16px;
+  cursor: pointer;
+  transform:rotate(11deg);
+  -ms-transform:rotate(11deg); /* IE 9 */
+  -webkit-transform:rotate(11deg); /* Opera, Chrome, and Safari */
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-weight:200;
+  font-size:16px;
+}
+</code></pre>
+
+<p>
+Let's add a horizontal rule under the header.  Edit <code>web/templates/layouts/application.html.eex</code> to look like this:
+</p>
+
+<pre><code>  &lt;body&gt;
+
+    &lt;header&gt;
+      &lt;div class="col-xs-6"&gt;
+        &lt;div class="circle"&gt;
+          &lt;br /&gt;
+          Elixir &amp;
+          &lt;br /&gt;
+          Erlang
+          &lt;br /&gt;
+          Rock!
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;div class="col-xs-6 text-right"&gt;
+        LINKS HERE
+      &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;hr class="clear col-xs-12"/&gt;
+    &lt;%= @inner %&gt;
+  &lt;/body&gt;</code></pre>
+
+  <p>
+And let's implement the CSS class for <code>.clear</code> to clear both, and also make the rule have no margin:
+  </p>
+
+  <p>
+  Add this to <code>priv/static/css/phoenix.css</code>:
+  </p>
+
+  <pre><code>
+.clear {
+  clear:both;
+}
+
+hr {
+  margin:0;
+}</code></pre>
+
+<p>
+Next let's add a link to the new form in the header:
+</p>
+
+<pre><code>    &lt;header&gt;
+      &lt;div class="col-xs-6"&gt;
+        &lt;div class="circle"&gt;
+          &lt;br /&gt;
+          Elixir &amp;
+          &lt;br /&gt;
+          Erlang
+          &lt;br /&gt;
+          Rock!
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;div class="col-xs-6 text-right"&gt;
+        &lt;div id="header-links"&gt;
+          &lt;a href="&lt;%= quote_path(@conn, :new) %&gt;"&gt;Contribute&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+</code></pre>
+
+<p>
+And let's add some CSS to make the contribute link to look good:
+</p>
+
+<pre><code>#header-links {
+  margin-top:20px;
+  margin-right:20px;
+}
+#header-links a {
+  color:black;
+  font-weight:700;
+  font-size: 40px;
+}
+
+#header-links a:hover {
+  color: #f84342;
+}
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Awesome, the header looks solid.  Next let's add a footer.
+</p>
+
+<h3>Adding a Footer</h3>
+
+<p>
+Next, let's add a sticky footer using <a href="http://philipwalton.github.io/solved-by-flexbox/">flexbox</a>.
+
+</p>
+
+<p>
+Based off the <a href="http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/">Sticky Footer Example</a>, adjust <code>web/templates/layouts/application.html.eex</code> to look like this:
+</p>
+
+<pre><code>    &lt;main class="Site-content"&gt;
+      &lt;%= @inner %&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+      &lt;div class="col-xs-6"&gt;
+        LEFT SIDE
+      &lt;/div&gt;
+      &lt;div class="col-xs-6"&gt;
+        
+      &lt;/div&gt;
+    &lt;/footer&gt;
+</code></pre>
+
+<p>
+And add the class <code>Site</code> to the body tag:
+</p>
+<pre><code>  &lt;body class="Site"&gt;</code></pre>
+<p>Save the file</p>
+<p>
+And add the following line to your <code>priv/static/css/phoenix.css</code> file:
+</p>
+
+<pre><code>.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+</code></pre>
+
+<p>
+Save the file and refresh the page.
+</p>
+
+<p>
+It's coming together.  Let's add a link to see another quote in the footer:
+</p>
+
+
+<pre><code>
+    &lt;footer&gt;
+      &lt;div class="col-xs-6"&gt;
+        &lt;a href="&lt;%= quote_path(@conn, :homepage)%&gt;"&gt;
+          This isn't enough, I need more
+        &lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="col-xs-6"&gt;
+        RIGHT SIDE
+      &lt;/div&gt;
+    &lt;/footer&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Add a bit of CSS to make the link in the bottom look a bit better:
+</p>
+
+<pre><code>footer {
+  margin-bottom:20px;
+  margin-left:20px;
+}
+footer a {
+  color:#f84342;
+  font-size:24px;
+}
+
+footer a:hover {
+  color:black;
+}
+</code></pre>
+
+<p>
+Next, let's brag-it-up about how we used the latest tech to build this out.  Download the<a href="http://elixir-lang.org/images/logo/logo.png">elixir logo</a> and the <a href="https://raw.githubusercontent.com/phoenixframework/media/master/badges/poweredby-phoenix-badge1-01.png">phoenix badge</a> into the <code>priv/static/images</code> folder as <code>elixir.png</code> and <code>phoenix.png</code>.  Then add the following code to your app:
+</p>
+
+<pre><code>    &lt;footer&gt;
+      &lt;div class="col-xs-6"&gt;
+        &lt;a href="&lt;%= quote_path(@conn, :homepage)%&gt;"&gt;
+          This isn't enough, I need more
+        &lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="col-xs-6 text-right"&gt;
+        &lt;a href="http://elixir-lang.org"&gt;
+          &lt;img src="/images/elixir.png"/&gt;
+        &lt;/a&gt;
+        &lt;a href="http://www.phoenixframework.org/"&gt;
+          &lt;img src="/images/phoenix.png" /&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/footer&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+<p>
+Then jump into your CSS file and add the following:
+</p>
+
+<pre><code>footer img {
+  height:30px;
+}
+</code></pre>
+<p>
+Save the file and refresh the page.  Starting to come together...
+</p>
+
+<h3>Styling the Show Page</h3>
+
+<p>
+Next up, let's jump into <code>web/templates/quote/show.html.eex</code> and get this page looking better.  To start with let's add a bit of spacing from the edges:
+</p>
+
+<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
+  &lt;h1&gt;
+    &lt;%= @quote.saying %&gt;
+  &lt;/h1&gt;
+
+  &lt;h2&gt;
+    &lt;%= @quote.author %&gt;
+  &lt;/h2&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Next, let's add a little context about the quote we're going to show:
+</p>
+
+<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
+  &lt;h3&gt;
+    &lt;span&gt;SPLURTY No. &lt;%= @quote.id %&gt;&lt;/span&gt;
+    You know &lt;u&gt;you need to learn Elixir&lt;/u&gt; because...
+  &lt;/h3&gt;
+  &lt;h1&gt;
+    &lt;%= @quote.saying %&gt;
+  &lt;/h1&gt;
+
+  &lt;h2&gt;
+    &lt;%= @quote.author %&gt;
+  &lt;/h2&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Save the file.  Next edit the CSS file to add this:
+</p>
+
+<pre><code>h3 span {
+  color: #ddd;
+  font-size: 20px;
+  font-weight:700;
+  padding-right:30px;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: 100;
+}
+</code></pre>
+
+<p>
+Next let's adjust the size of our h1:
+</p>
+
+<pre><code>h1 {
+  font-size:80px;
+  font-weight:700;
+}
+</code></pre>
+
+<p>
+And we can right align the author:
+</p>
+
+<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
+  &lt;h3&gt;
+    &lt;span&gt;SPLURTY No. &lt;%= @quote.id %&gt;&lt;/span&gt;
+    You know &lt;u&gt;you need to learn Elixir&lt;/u&gt; because...
+  &lt;/h3&gt;
+  &lt;h1 class="text-center"&gt;
+    &lt;%= @quote.saying %&gt;
+  &lt;/h1&gt;
+
+  &lt;h2 class="text-right"&gt;
+    &lt;%= @quote.author %&gt;
+  &lt;/h2&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+
+<p>
+Next let's add some spacing from the top of the page:
+</p>
+
+<pre><code>.page-content {
+  margin-top:30px;
+}
+</code></pre>
+
+<p>
+And let's adjust the selection color to be red:
+</p>
+
+<pre><code>::selection {
+  background-color: #f84342;
+}</code></pre>
+
+
+<p>
+Save the file and refresh.  Sweet, this page looks solid.
+</p>
+
+<h3>Styling the new and edit forms</h3>
+
+<p>
+First press the <strong>Contribute</strong> link in the nav.  You'll see the new form.  It looks pretty close, but let's tidy it up a bit.
+</p>
+
+<p>
+Edit <code>web/templates/quote/new.html.eex</code>:
+</p>
+
+<pre><code>&lt;div class="col-xs-10 col-xs-offset-1"&gt;
+  &lt;h1&gt;New Quote&lt;/h1&gt;
+  &lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
+    &lt;div class="form-group"&gt;
+      &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
+
+      &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
+      &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
+
+      &lt;label for="quote[author]"&gt;author&lt;/label&gt;
+      &lt;input type="text" name="quote[author]" class="form-control" /&gt;
+
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Looks pretty solid.
+</p>
+
+<p>
+
+Let's do the same to the edit page, edit <code>web/templates/quote/edit.html.eex</code> to look like this:
+</p>
+
+<pre><code>&lt;div class="col-xs-10 col-xs-offset-1"&gt;
+  &lt;h1&gt;Edit Quote&lt;/h1&gt;
+  &lt;form action="&lt;%= quote_path(@conn, :update, @quote.id) %&gt;" method="post"&gt;
+    &lt;div class="form-group"&gt;
+      &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
+      &lt;input type="hidden" name="_method" value="put"&gt;
+
+      &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
+      &lt;input type="text" name="quote[saying]" class="form-control" value="&lt;%= @quote.saying %&gt;" /&gt;
+
+      &lt;label for="quote[author]"&gt;author&lt;/label&gt;
+      &lt;input type="text" name="quote[author]" class="form-control" value="&lt;%= @quote.author %&gt;" /&gt;
+
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Save the file.
+</p>
+<p>
+
+
+ Next, let's adjust the button CSS:
+</p>
+<pre><code>.btn-primary, .btn-primary:hover {
+  border-radius:0;
+  font-size:30px;
+  width:100%;
+  font-weight:100;
+  background-color: #f84342;
+  border-color:  #f84342;
+
+}
+</code></pre>
+
+<p>
+Save the file and refresh the page.  Looks solid!
+</p>
+
+<h3>Adjusting the Index Page</h3>
+
+<p>
+Navigate to <a href="http://localhost:4000/quotes/">localhost:4000/quotes/</a>
+</p>
+
+<pre><code>&lt;div class="page-content col-xs-10 col-xs-offset-1"&gt;
+  &lt;table class="table table-striped"&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Saying&lt;/th&gt;
+        &lt;th&gt;Author&lt;/th&gt;
+        &lt;th&gt;Actions&lt;/th&gt;
+    &lt;/thead&gt;
+    &lt;%= for q &lt;- @quotes do %&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
+          &lt;%= q.saying %&gt;
+        &lt;/a&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;%= q.author %&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;a href="&lt;%=quote_path(@conn, :edit, q.id) %&gt;" class="btn btn-danger"&gt;
+          Edit
+        &lt;/a&gt;
+
+        &lt;a href="&lt;%= quote_path(@conn, :destroy, q.id) %&gt;" data-method="DELETE" class="rest btn btn-danger"&gt;
+          Destroy
+        &lt;/a&gt;
+
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;% end %&gt;
+  &lt;/table&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>
+Save the file and refresh.  Looking good, let's quickly adjust the last button:
+</p>
+
+<pre><code>.btn-danger {
+  border-radius:0;
+  font-weight:100;
+}
+</code></pre>
+
+
+<p>
+Save the file and refresh the page.
+</p>
+
+<p>
+When you're done your app should look like this...
+</p>
+
+<img src="lesson-10.png" class="img-responsive" />
+
+
+		<div class="text-center">
+		<a href="11.html" class="btn-primary btn-lg">Onward to Lesson 11</a>
+		</div>
+
+
+</div>
+	</body>
+</html>
