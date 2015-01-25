@@ -1,0 +1,24 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+a {
+	color:black;
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight:700;
+}
+
+.btn, .btn:hover {
+	width: 100%;
+	border-radius: 0;
+	background-color:#19c5ce;
+	font-size:20px;
+	border:none;
+	text-decoration:none;
+	margin: 40px;
+	font-weight:bold;
+}
