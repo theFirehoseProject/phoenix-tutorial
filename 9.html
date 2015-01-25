@@ -1,0 +1,163 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	</head>
+
+	<body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<h1>Lesson 9</h1>
+
+		<h2>Showing a random quote on the root page</h2>
+   
+
+    <p>
+    Our plan of attack should be to pull a random item from the database and then render the show page for the particular quote on the <code>homepage</code> action.
+    </p>
+
+    <p>
+    Ecto's query syntax is quite nice for simple queries.  See an example <a href="https://github.com/elixir-lang/ecto/blob/master/examples/simple/lib/simple.ex#L33">here</a>.
+    </p>
+
+    <p>
+    Unfortunately it doesn't allow us to perform an <code>ORDER BY RANDOM()</code> from SQL easily.
+    </p>
+
+    <p>
+    This means we'll need to craft a custom SQL query and load up a <code>Splurty.Quote</code> based on that.
+    </p>
+
+    <p>
+    Add the following module for queries, and method to pull out a random quote in <code>web/models/quote.ex</code>.
+    </p>
+
+    <pre><code>defmodule Splurty.Quote do
+  use Ecto.Model
+
+  schema "quotes" do
+    field :saying, :string
+    field :author, :string
+  end
+
+  defmodule Queries do
+    def random do
+      query = Ecto.Adapters.Postgres.query(
+        Repo,
+        "SELECT id, saying, author from quotes ORDER BY RANDOM() LIMIT 1",
+        [])
+      %Postgrex.Result{rows: [row]} = query
+      {id, saying, author} = row
+      %Splurty.Quote{id: id, saying: saying, author: author}
+    end
+
+  end
+end
+</code></pre>
+
+<p>
+This will allow us to extract a random quote from our database by calling <code>Splurty.Quote.Queries.random</code>.
+</p>
+
+<p>
+Let's hook this up in our controller.  Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+</p>
+
+<pre><code>defmodule Splurty.QuoteController do
+  use Phoenix.Controller
+
+  alias Splurty.Router
+  import Splurty.Router.Helpers
+
+  plug :action
+
+  def homepage(conn, _params) do
+    conn
+    |> assign(:quote, Splurty.Quote.Queries.random)
+    |> render("show.html")
+  end
+
+  def index(conn, _params) do
+    conn
+    |> assign(:quotes, Repo.all(Splurty.Quote))
+    |> render("index.html")
+  end
+
+  def new(conn, _params) do
+    render conn, "new.html"
+  end
+
+  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
+    q = %Splurty.Quote{saying: saying,  author: author}
+    Repo.insert(q)
+
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+  def show(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("show.html")
+  end
+
+  def edit(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    conn
+    |> assign(:quote, Repo.get(Splurty.Quote, id))
+    |> render("edit.html")
+  end
+
+
+  def update(conn, %{"id" => id, "quote" => %{"saying" => saying, "author" => author}}) do
+    {id, _} = Integer.parse(id)
+    q = Repo.get(Splurty.Quote, id)
+    q = %{q | saying: saying, author: author }
+    Repo.update(q)
+    redirect conn, to: quote_path(conn, :show, q.id)
+  end
+
+  def destroy(conn, %{"id" => id}) do
+    {id, _} = Integer.parse(id)
+    q = Repo.get(Splurty.Quote, id)
+    Repo.delete(q)
+    redirect conn, to: quote_path(conn, :index)
+  end
+
+
+
+
+
+end
+</code></pre>
+
+<p>
+Save the file and then go to the homepage.  You'll notice a random quote is randomly shown.  Sweet!
+</p>
+
+<p>
+Let's clean up after ourselves and delete the file <code>homepage.html.eex</code>, since we're no longer using it.
+</p>
+
+<pre><code>$ rm web/templates/quote/homepage.html.eex</code></pre>
+
+<p>
+You're page should now look like this:
+</p>
+
+<img src="lesson-9.png" class="img-responsive" />
+
+		<div class="text-center">
+		<a href="10.html" class="btn-primary btn-lg">Onward to Lesson 10</a>
+		</div>
+
+
+
+
+
+</div>
+	</body>
+</html>
