@@ -12,40 +12,61 @@ h1,h2,h3,h4,h5,h6 {
 	font-weight:700;
 }
 
-.btn, .btn:hover {
+.btn{
 	width: 100%;
 	border-radius: 0;
-	background-color:#19c5ce;
-	font-size:20px;
-	border:none;
+	background-color:#f20c59;
+	font-size:40px;
 	text-decoration:none;
-	margin: 40px;
 	font-weight:bold;
+	margin-bottom:40px;
+	border-color:#a20c29;
+	border-width:1px;
+}
+
+.btn:hover {
+	background-color:#c20c49;
+		border-color:#a20c29;
+
 }
 
 
 
+h3 {
+	font-weight:100;
+}
 
-
+h4 {
+	font-weight:200;
+}
 
 .title-header {
-	margin:0; font-size:35px; padding-left:20px; padding-right:20px;
+	margin:0; 
+	font-size:35px; 
+	padding-left:20px; 
+	padding-right:20px;
 }
 
 @media (max-width: 670px) {
-
-.title-header {
-	margin:0; font-size:20px;
-	padding-top:20px;
-	font-weight:bold;
-}
-
+	.title-header {
+		margin:0; font-size:20px;
+		padding-top:20px;
+		font-weight:bold;
+	}
 }
 @media (max-width: 443px) {
-.title-header {
-padding-top:8px;
+	.title-header {
+		padding-top:8px;
+	}
 }
 
+p {
+	margin-top:20px;
+	margin-bottom:20px;
+}
+ul li {
+	margin-top:5px;
+	margin-bottom:5px;
 }
 
 
