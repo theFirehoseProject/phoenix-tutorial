@@ -10,6 +10,25 @@
 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-542ec3e65052d59e" async></script>
 
 
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '701819219855091',
+          xfbml      : true,
+          version    : 'v2.1'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "http://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
     <title>Congrats!</title>
 
 
@@ -31,6 +50,7 @@
 <meta name="twitter:title" content="A hands-on intro to building modern web applications with Elixir and Phoenix">
 <meta name="twitter:description" content="Learn to build a fault tolerant web application with Elixir, Phoenix, Ecto and PostgreSQL..">
 <meta name="twitter:image:src" content="og-image.png">
+
 
 
 	</head>
@@ -112,8 +132,27 @@ Tweet it up.
 <br />
 <a class='twitter-share-button' data-count='none' data-size='large' data-text="I just built an awesome web application with #PhoenixWebFramework and #ElixirLang.  It's absolutely amazing!" data-url=' ' data-via='' href='https://twitter.com/share' style='height:400px;'>Tweet</a>
 <script src='http://platform.twitter.com/widgets.js' type='text/javascript'></script>
+
+
+
+
+
+
+
+<div
+  class="fb-like"
+  data-send="true"
+  data-width="450"
+  data-show-faces="true">
 </div>
 
+
+
+<span id="fbsharebutton">Click me to share</span>
+
+</div>
+
+<br /><br />
 
 <div id="disqus_thread"></div>
     <script type="text/javascript">
