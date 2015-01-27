@@ -8,10 +8,15 @@ a {
 	text-decoration:underline;
 }
 
-h1,h2,h3,h4,h5,h6 {
-	font-weight:700;
+h1 {
+color: #f20c59;
+font-size: 50px;
 }
 
+h2{
+font-size: 50px;
+margin-bottom: 40px;
+}
 .btn{
 	width: 100%;
 	border-radius: 0;
@@ -26,11 +31,13 @@ h1,h2,h3,h4,h5,h6 {
 
 .btn:hover {
 	background-color:#c20c49;
-		border-color:#a20c29;
-
+	border-color:#a20c29;
 }
 
 
+.btn.btn-sm{
+	font-size:20px;
+}
 
 h3 {
 	font-weight:100;
