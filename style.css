@@ -47,6 +47,21 @@ h4 {
 	font-weight:200;
 }
 
+
+.fb-share-button
+{
+transform: scale(3.5);
+-ms-transform: scale(3.5);
+-webkit-transform: scale(3.5);
+-o-transform: scale(3.5);
+-moz-transform: scale(3.5);
+transform-origin: top left;
+-ms-transform-origin: top left;
+-webkit-transform-origin: top left;
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+}
+
 .title-header {
 	margin:0; 
 	font-size:35px; 
