@@ -31,26 +31,27 @@
    To start with let's edit the quote saying on the index page to link to the detail page.  Edit <code>web/templates/quote/index.html.eex</code> to look like this:
    </p>
 
-<pre><code>   &lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Saying&lt;/th&gt;
-      &lt;th&gt;Author&lt;/th&gt;
-  &lt;/thead&gt;
-  &lt;%= for q &lt;- @quotes do %&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-      &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
-        &lt;%= q.saying %&gt;
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;%= q.author %&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;% end %&gt;
-&lt;/table&gt;
-</code></pre>
+
+
+<div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;thead&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Saying<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Author<span class="nt">&lt;/th&gt;</span>
+  <span class="nt">&lt;/thead&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">for</span> <span class="n">q</span> <span class="o">&lt;-</span> <span class="vi">@quotes</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+<div class="emphasis">      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span><span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/a&gt;</span></div>    <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+  <span class="nt">&lt;/tr&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
 <p>
 Awesome, this added a link to the detail page on the index page.  When you click the link you'll see an error that we haven't build the show action in the quotes controller.  Let's add that now.
 </p>
@@ -59,44 +60,43 @@ Awesome, this added a link to the detail page on the index page.  When you click
 Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  alias Splurty.Router
-  import Splurty.Router.Helpers
+  <span class="n">alias</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span>
+  <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
+  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span>
 
-  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
-    q = %Splurty.Quote{saying: saying,  author: author}
-    Repo.insert(q)
+  <span class="k">def</span> <span class="n">create</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">{</span><span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span>  <span class="ss">author:</span> <span class="n">author</span><span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
-    redirect conn, to: quote_path(conn, :index)
-  end
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def show(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    conn
-    |> assign(:quote, Repo.get(Splurty.Quote, id))
-    |> render("show.html")
-  end
-
-end
-</code></pre>
+<div class="emphasis">  <span class="k">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;show.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file.  One thing you'll notice is we need to convert the input from a string as an id to an integer.  If we don't do this, Ecto will give us error messages.
@@ -110,9 +110,8 @@ If you try to view the page again, you'll notice an error message that indicates
 Add a file to the folder <code>web/templates/quote/show.html.eex</code> that looks like this:
 </p>
 
-<pre><code>hi
-</code></pre>
-
+<div class="highlight"><pre>hi
+</pre></div>
 <p>
 Save the file and refresh the page.  Excellent, the error goes away and we see "hi".  Let's put details about the quote we're showing on the page now.
 </p>
@@ -121,15 +120,14 @@ Save the file and refresh the page.  Excellent, the error goes away and we see "
 Edit <code>web/templates/quote/show.html.eex</code> to look like this:
 </p>
 
-<pre><code>&lt;h1&gt;
-  &lt;%= @quote.saying %&gt;
-&lt;/h1&gt;
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/h1&gt;</span>
 
-&lt;h2&gt;
-  &lt;%= @quote.author %&gt;
-&lt;/h2&gt;
-</code></pre>
-
+<span class="nt">&lt;h2&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/h2&gt;</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  Awesome, we now see an awesome detail page.
 </p>

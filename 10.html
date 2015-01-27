@@ -39,14 +39,14 @@
 		The file should look something like this when you're done:
 		</p>
 
-		<pre><code>/*!
- * Bootstrap v3.1.1 (http://getbootstrap.com)
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+<div class="highlight"><pre><span class="c">/*!</span>
+<span class="c"> * Bootstrap v3.1.1 (http://getbootstrap.com)</span>
+<span class="c"> * Copyright 2011-2014 Twitter, Inc.</span>
+<span class="c"> * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)</span>
+<span class="c"> */</span>
 
-/*! normalize.css v3.0.0 | MIT License | git.io/normalize */A TON OF LINES OF CSS CODE ARE RIGHT HERE</code></pre>
-
+<span class="c">/*! normalize.css v3.0.0 | MIT License | git.io/normalize */</span><span class="nt">A</span> <span class="nt">TON</span> <span class="nt">OF</span> <span class="nt">LINES</span> <span class="nt">OF</span> <span class="nt">CSS</span> <span class="nt">CODE</span> <span class="nt">ARE</span> <span class="nt">RIGHT</span> <span class="nt">HERE</span>
+</pre></div>
 	<p>
 	Save the file.
 	</p>
@@ -55,12 +55,10 @@
 	Next let's get rid of the content in <code>web/templates/layout/application.html.eex</code> that is specific to the Phoenix CSS.  Make the body tag of the application start like this:
 	</p>
 
-	<pre><code>
-  &lt;body&gt;
-    &lt;%= @inner %&gt;
-  &lt;/body&gt;
-</code></pre>
-
+<div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@inner</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -82,11 +80,9 @@ Refresh the page and you'll notice all the Phoenix specific styles have been rem
 		I selected Roboto Slab, and selected the different font weights and found the standard import code.  I added this to <code>web/templates/layout/application.html.eex</code> beneath the existing style tags:
 		</p>
 
-		<pre><code>&lt;link rel="stylesheet" href="/css/phoenix.css"&gt;
-    &lt;link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'&gt;
-    &lt;script src="https://code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
-</code></pre>
-
+<div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;/css/phoenix.css&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis"><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&#39;http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&#39;</span> <span class="na">rel=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type=</span><span class="s">&#39;text/css&#39;</span><span class="nt">&gt;</span></div><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-1.11.2.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -95,11 +91,10 @@ Save the file.
 Add the following to the bottom of <code>priv/static/css/phoenix.css</code> (it might be different depending on which font you imported):
 </p>
 
-<pre><code>body {
-  font-family: 'Roboto Slab', serif;
-}
-</code></pre>
-
+<div class="highlight"><pre><span class="nt">body</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Roboto Slab&#39;</span><span class="o">,</span> <span class="k">serif</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file.  Refresh the page and you'll notice the font got upgraded.  Nice.
 </p>
@@ -114,20 +109,19 @@ Next, let's add a header, with a spot for links and a logo.
 Add the following to <code>web/templates/layouts/application.html.eex</code>:
 </p>
 
-<pre><code>  &lt;body&gt;
+<div class="highlight"><pre> <span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;header&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+      LOGO HERE
+    <span class="nt">&lt;/div&gt;</span>
 
-    &lt;header&gt;
-      &lt;div class="col-xs-6"&gt;
-        LOGO HERE
-      &lt;/div&gt;
-
-      &lt;div class="col-xs-6 text-right"&gt;
-        LINKS HERE
-      &lt;/div&gt;
-    &lt;/header&gt;
-    &lt;%= @inner %&gt;
-  &lt;/body&gt;</code></pre>
-
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
+      LINKS HERE
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/header&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="vi">@inner</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
   <p>
 Save the file and refresh the page.  Nice it added a section for our header.
   </p>
@@ -136,10 +130,10 @@ Save the file and refresh the page.  Nice it added a section for our header.
   Let's add a bit of CSS to the bottom of <code>priv/static/css/phoenix.css</code>:
   </p>
 
-  <pre><code>header {
-border-top: 9px solid #222222;
-}</code></pre>
-
+<div class="highlight"><pre><span class="nt">header</span> <span class="p">{</span>
+  <span class="k">border-top</span><span class="o">:</span> <span class="m">9px</span> <span class="k">solid</span> <span class="m">#222222</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh.  It added a black bar to the top.
 </p>
@@ -148,49 +142,49 @@ Save the file and refresh.  It added a black bar to the top.
 Next let's base our logo in the top left off <a href="http://cssdeck.com/labs/9zdit3ih">this</a> HTML and CSS from CSSDeck.  Replace <code>LOGO HERE</code> in <code>web/templates/layout/application.html.eex</code> with this: 
 </p>
 
-<pre><code>    &lt;header&gt;
-      &lt;div class="col-xs-6"&gt;
-        &lt;div class="circle"&gt;
-          &lt;br /&gt;
-          Elixir &amp;
-          &lt;br /&gt;
-          Erlang
-          &lt;br /&gt;
-          Rock!
-        &lt;/div&gt;
+<div class="highlight"><pre><span class="nt">&lt;header&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;circle&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Elixir <span class="err">&amp;</span>
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Erlang
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Rock!
+    <span class="nt">&lt;/div&gt;</span>
 
-      &lt;/div&gt;
+  <span class="nt">&lt;/div&gt;</span>
 
-      &lt;div class="col-xs-6 text-right"&gt;
-        LINKS HERE
-      &lt;/div&gt;
-    &lt;/header&gt;
-</code></pre>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
+  LINKS HERE
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/header&gt;</span>
+</pre></div>
 
 <p>
 And add the CSS from CSSDeck to <code>priv/static/css/phoenix.css</code>:
 </p>
 
-<pre><code>.circle {
-    font-weight:bold;
-    font-style: italic;
-    position: relative;
-    border-radius: 100%;
-    background: #f84342;
-    border: 1px solid #F7F7F7;
-    width: 80px;
-    height: 80px;
-    margin: 10px 10px;
-    text-align: center;
-    color: #FFF;
-    font-size: 10px;
-    line-height: 16px;
-    cursor: pointer;
-    transform:rotate(11deg);
-    -ms-transform:rotate(11deg); /* IE 9 */
-    -webkit-transform:rotate(11deg); /* Opera, Chrome, and Safari */
-}</code></pre>
-
+<div class="highlight"><pre><span class="nc">.circle</span> <span class="p">{</span>
+    <span class="k">font-weight</span><span class="o">:</span><span class="k">bold</span><span class="p">;</span>
+    <span class="k">font-style</span><span class="o">:</span> <span class="k">italic</span><span class="p">;</span>
+    <span class="k">position</span><span class="o">:</span> <span class="k">relative</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+    <span class="k">background</span><span class="o">:</span> <span class="m">#f84342</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#F7F7F7</span><span class="p">;</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">80px</span><span class="p">;</span>
+    <span class="k">height</span><span class="o">:</span> <span class="m">80px</span><span class="p">;</span>
+    <span class="k">margin</span><span class="o">:</span> <span class="m">10px</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+    <span class="k">color</span><span class="o">:</span> <span class="m">#FFF</span><span class="p">;</span>
+    <span class="k">font-size</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="k">line-height</span><span class="o">:</span> <span class="m">16px</span><span class="p">;</span>
+    <span class="k">cursor</span><span class="o">:</span> <span class="k">pointer</span><span class="p">;</span>
+    <span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span>
+    <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span> <span class="c">/* IE 9 */</span>
+    <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span> <span class="c">/* Opera, Chrome, and Safari */</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  
 </p>
@@ -199,57 +193,56 @@ Save the file and refresh the page.
 Next play with the font-family, font-size and font-weight within the logo:
 </p>
 
-<pre><code>.circle {
-  font-weight:bold;
-  font-style: italic;
-  position: relative;
-  border-radius: 100%;
-  background: #f84342;
-  border: 1px solid #F7F7F7;
-  width: 80px;
-  height: 80px;
-  margin: 10px 10px;
-  text-align: center;
-  color: #FFF;
-  font-size: 10px;
-  line-height: 16px;
-  cursor: pointer;
-  transform:rotate(11deg);
-  -ms-transform:rotate(11deg); /* IE 9 */
-  -webkit-transform:rotate(11deg); /* Opera, Chrome, and Safari */
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-weight:200;
-  font-size:16px;
-}
-</code></pre>
+<div class="highlight"><pre><span class="nc">.circle</span> <span class="p">{</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="k">bold</span><span class="p">;</span>
+  <span class="k">font-style</span><span class="o">:</span> <span class="k">italic</span><span class="p">;</span>
+  <span class="k">position</span><span class="o">:</span> <span class="k">relative</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+  <span class="k">background</span><span class="o">:</span> <span class="m">#f84342</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#F7F7F7</span><span class="p">;</span>
+  <span class="k">width</span><span class="o">:</span> <span class="m">80px</span><span class="p">;</span>
+  <span class="k">height</span><span class="o">:</span> <span class="m">80px</span><span class="p">;</span>
+  <span class="k">margin</span><span class="o">:</span> <span class="m">10px</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#FFF</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="k">line-height</span><span class="o">:</span> <span class="m">16px</span><span class="p">;</span>
+  <span class="k">cursor</span><span class="o">:</span> <span class="k">pointer</span><span class="p">;</span>
+  <span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span>
+  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span> <span class="c">/* IE 9 */</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">11</span><span class="n">deg</span><span class="p">);</span> <span class="c">/* Opera, Chrome, and Safari */</span>
+<div class="emphasis">  <span class="k">font-family</span><span class="o">:</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">200</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span><span class="m">16px</span><span class="p">;</span></div><span class="p">}</span></pre></div>
 
 <p>
 Let's add a horizontal rule under the header.  Edit <code>web/templates/layouts/application.html.eex</code> to look like this:
 </p>
 
-<pre><code>  &lt;body&gt;
+<div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
 
-    &lt;header&gt;
-      &lt;div class="col-xs-6"&gt;
-        &lt;div class="circle"&gt;
-          &lt;br /&gt;
-          Elixir &amp;
-          &lt;br /&gt;
-          Erlang
-          &lt;br /&gt;
-          Rock!
-        &lt;/div&gt;
+  <span class="nt">&lt;header&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;circle&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+        Elixir <span class="err">&amp;</span>
+        <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+        Erlang
+        <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+        Rock!
+      <span class="nt">&lt;/div&gt;</span>
 
-      &lt;/div&gt;
+    <span class="nt">&lt;/div&gt;</span>
 
-      &lt;div class="col-xs-6 text-right"&gt;
-        LINKS HERE
-      &lt;/div&gt;
-    &lt;/header&gt;
-    &lt;hr class="clear col-xs-12"/&gt;
-    &lt;%= @inner %&gt;
-  &lt;/body&gt;</code></pre>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
+      LINKS HERE
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/header&gt;</span>
 
+<div class="emphasis">  <span class="nt">&lt;hr</span> <span class="na">class=</span><span class="s">&quot;clear col-xs-12&quot;</span><span class="nt">/&gt;</span></div>
+  <span class="cp">&lt;%=</span> <span class="vi">@inner</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
   <p>
 And let's implement the CSS class for <code>.clear</code> to clear both, and also make the rule have no margin:
   </p>
@@ -258,59 +251,55 @@ And let's implement the CSS class for <code>.clear</code> to clear both, and als
   Add this to <code>priv/static/css/phoenix.css</code>:
   </p>
 
-  <pre><code>
-.clear {
-  clear:both;
-}
+<div class="highlight"><pre><span class="nc">.clear</span> <span class="p">{</span>
+  <span class="k">clear</span><span class="o">:</span><span class="k">both</span><span class="p">;</span>
+<span class="p">}</span>
 
-hr {
-  margin:0;
-}</code></pre>
-
+<span class="nt">hr</span> <span class="p">{</span>
+  <span class="k">margin</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Next let's add a link to the new form in the header:
 </p>
 
-<pre><code>    &lt;header&gt;
-      &lt;div class="col-xs-6"&gt;
-        &lt;div class="circle"&gt;
-          &lt;br /&gt;
-          Elixir &amp;
-          &lt;br /&gt;
-          Erlang
-          &lt;br /&gt;
-          Rock!
-        &lt;/div&gt;
+<div class="highlight"><pre><span class="nt">&lt;header&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;circle&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Elixir <span class="err">&amp;</span>
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Erlang
+      <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      Rock!
+    <span class="nt">&lt;/div&gt;</span>
 
-      &lt;/div&gt;
+  <span class="nt">&lt;/div&gt;</span>
 
-      &lt;div class="col-xs-6 text-right"&gt;
-        &lt;div id="header-links"&gt;
-          &lt;a href="&lt;%= quote_path(@conn, :new) %&gt;"&gt;Contribute&lt;/a&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/header&gt;
-</code></pre>
-
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis">    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;header-links&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:new</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>Contribute<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span></div>  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/header&gt;</span>
+</pre></div>
 <p>
 And let's add some CSS to make the contribute link to look good:
 </p>
 
-<pre><code>#header-links {
-  margin-top:20px;
-  margin-right:20px;
-}
-#header-links a {
-  color:black;
-  font-weight:700;
-  font-size: 40px;
-}
+<div class="highlight"><pre><span class="nf">#header-links</span> <span class="p">{</span>
+  <span class="k">margin-top</span><span class="o">:</span><span class="m">20px</span><span class="p">;</span>
+  <span class="k">margin-right</span><span class="o">:</span><span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">#header-links</span> <span class="nt">a</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span><span class="nb">black</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">700</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">40px</span><span class="p">;</span>
+<span class="p">}</span>
 
-#header-links a:hover {
-  color: #f84342;
-}
-</code></pre>
-
+<span class="nf">#header-links</span> <span class="nt">a</span><span class="nd">:hover</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#f84342</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  Awesome, the header looks solid.  Next let's add a footer.
 </p>
@@ -326,39 +315,37 @@ Next, let's add a sticky footer using <a href="http://philipwalton.github.io/sol
 Based off the <a href="http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/">Sticky Footer Example</a>, adjust <code>web/templates/layouts/application.html.eex</code> to look like this:
 </p>
 
-<pre><code>    &lt;main class="Site-content"&gt;
-      &lt;%= @inner %&gt;
-    &lt;/main&gt;
-    &lt;footer&gt;
-      &lt;div class="col-xs-6"&gt;
-        LEFT SIDE
-      &lt;/div&gt;
-      &lt;div class="col-xs-6"&gt;
-        
-      &lt;/div&gt;
-    &lt;/footer&gt;
-</code></pre>
+<div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;main</span> <span class="na">class=</span><span class="s">&quot;Site-content&quot;</span><span class="nt">&gt;</span></div>  <span class="cp">&lt;%=</span> <span class="vi">@inner</span> <span class="cp">%&gt;</span>
+<div class="emphasis"><span class="nt">&lt;/main&gt;</span>
+
+<span class="nt">&lt;footer&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    LEFT SIDE
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    RIGHT SIDE
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/footer&gt;</span></div></pre></div>
 
 <p>
 And add the class <code>Site</code> to the body tag:
 </p>
-<pre><code>  &lt;body class="Site"&gt;</code></pre>
-<p>Save the file</p>
+<div class="highlight"><pre><span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">&quot;Site&quot;</span><span class="nt">&gt;</span>
+</pre></div><p>Save the file</p>
 <p>
 And add the following line to your <code>priv/static/css/phoenix.css</code> file:
 </p>
 
-<pre><code>.Site {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
+<div class="highlight"><pre><span class="nc">.Site</span> <span class="p">{</span>
+  <span class="k">display</span><span class="o">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="k">min-height</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
+  <span class="n">flex</span><span class="o">-</span><span class="k">direction</span><span class="o">:</span> <span class="n">column</span><span class="p">;</span>
+<span class="p">}</span>
 
-.Site-content {
-  flex: 1;
-}
-</code></pre>
-
+<span class="nc">.Site-content</span> <span class="p">{</span>
+  <span class="n">flex</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh the page.
 </p>
@@ -368,19 +355,16 @@ It's coming together.  Let's add a link to see another quote in the footer:
 </p>
 
 
-<pre><code>
-    &lt;footer&gt;
-      &lt;div class="col-xs-6"&gt;
-        &lt;a href="&lt;%= quote_path(@conn, :homepage)%&gt;"&gt;
-          This isn't enough, I need more
-        &lt;/a&gt;
-      &lt;/div&gt;
-      &lt;div class="col-xs-6"&gt;
-        RIGHT SIDE
-      &lt;/div&gt;
-    &lt;/footer&gt;
-</code></pre>
-
+<div class="highlight"><pre><span class="nt">&lt;footer&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis">    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:homepage</span><span class="p">)</span><span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+      This isn&#39;t enough, I need more
+    <span class="nt">&lt;/a&gt;</span></div>  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    RIGHT SIDE
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/footer&gt;</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -389,41 +373,38 @@ Save the file.
 Add a bit of CSS to make the link in the bottom look a bit better:
 </p>
 
-<pre><code>footer {
-  margin-bottom:20px;
-  margin-left:20px;
-}
-footer a {
-  color:#f84342;
-  font-size:24px;
-}
+<div class="highlight"><pre><span class="nt">footer</span> <span class="p">{</span>
+  <span class="k">margin-bottom</span><span class="o">:</span><span class="m">20px</span><span class="p">;</span>
+  <span class="k">margin-left</span><span class="o">:</span><span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">footer</span> <span class="nt">a</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span><span class="m">#f84342</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span><span class="m">24px</span><span class="p">;</span>
+<span class="p">}</span>
 
-footer a:hover {
-  color:black;
-}
-</code></pre>
-
+<span class="nt">footer</span> <span class="nt">a</span><span class="nd">:hover</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span><span class="nb">black</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Next, let's brag-it-up about how we used the latest tech to build this out.  Download the<a href="http://elixir-lang.org/images/logo/logo.png">elixir logo</a> and the <a href="https://raw.githubusercontent.com/phoenixframework/media/master/badges/poweredby-phoenix-badge1-01.png">phoenix badge</a> into the <code>priv/static/images</code> folder as <code>elixir.png</code> and <code>phoenix.png</code>.  Then add the following code to your app:
 </p>
 
-<pre><code>    &lt;footer&gt;
-      &lt;div class="col-xs-6"&gt;
-        &lt;a href="&lt;%= quote_path(@conn, :homepage)%&gt;"&gt;
-          This isn't enough, I need more
-        &lt;/a&gt;
-      &lt;/div&gt;
-      &lt;div class="col-xs-6 text-right"&gt;
-        &lt;a href="http://elixir-lang.org"&gt;
-          &lt;img src="/images/elixir.png"/&gt;
-        &lt;/a&gt;
-        &lt;a href="http://www.phoenixframework.org/"&gt;
-          &lt;img src="/images/phoenix.png" /&gt;
-        &lt;/a&gt;
-      &lt;/div&gt;
-    &lt;/footer&gt;
-</code></pre>
-
+<div class="highlight"><pre><span class="nt">&lt;footer&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:homepage</span><span class="p">)</span><span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+      This isn&#39;t enough, I need more
+    <span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<div class="emphasis">  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://elixir-lang.org&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;/images/elixir.png&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.phoenixframework.org/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;/images/phoenix.png&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span></div>  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/footer&gt;</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -431,11 +412,10 @@ Save the file.
 Then jump into your CSS file and add the following:
 </p>
 
-<pre><code>footer img {
-  height:30px;
-}
-</code></pre>
-<p>
+<div class="highlight"><pre><span class="nt">footer</span> <span class="nt">img</span> <span class="p">{</span>
+  <span class="k">height</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div><p>
 Save the file and refresh the page.  Starting to come together...
 </p>
 
@@ -445,85 +425,77 @@ Save the file and refresh the page.  Starting to come together...
 Next up, let's jump into <code>web/templates/quote/show.html.eex</code> and get this page looking better.  To start with let's add a bit of spacing from the edges:
 </p>
 
-<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
-  &lt;h1&gt;
-    &lt;%= @quote.saying %&gt;
-  &lt;/h1&gt;
+<div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h1&gt;</span>
 
-  &lt;h2&gt;
-    &lt;%= @quote.author %&gt;
-  &lt;/h2&gt;
-
-&lt;/div&gt;
-</code></pre>
-
+  <span class="nt">&lt;h2&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h2&gt;</span>
+<div class="emphasis"><span class="nt">&lt;/div&gt;</span></div></pre></div>
 <p>
 Next, let's add a little context about the quote we're going to show:
 </p>
 
-<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
-  &lt;h3&gt;
-    &lt;span&gt;SPLURTY No. &lt;%= @quote.id %&gt;&lt;/span&gt;
-    You know &lt;u&gt;you need to learn Elixir&lt;/u&gt; because...
-  &lt;/h3&gt;
-  &lt;h1&gt;
-    &lt;%= @quote.saying %&gt;
-  &lt;/h1&gt;
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis">  <span class="nt">&lt;h3&gt;</span>
+    <span class="nt">&lt;span&gt;</span>SPLURTY No. <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+    You know <span class="nt">&lt;u&gt;</span>you need to learn Elixir<span class="nt">&lt;/u&gt;</span> because...
+  <span class="nt">&lt;/h3&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h1&gt;</span>
 
-  &lt;h2&gt;
-    &lt;%= @quote.author %&gt;
-  &lt;/h2&gt;
+  <span class="nt">&lt;h2&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h2&gt;</span>
 
-&lt;/div&gt;
-</code></pre>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
 
 <p>
 Save the file.  Next edit the CSS file to add this:
 </p>
 
-<pre><code>h3 span {
-  color: #ddd;
-  font-size: 20px;
-  font-weight:700;
-  padding-right:30px;
-}
+<div class="highlight"><pre><span class="nt">h3</span> <span class="nt">span</span> <span class="p">{</span>
+  <span class="k">color</span><span class="o">:</span> <span class="m">#ddd</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">700</span><span class="p">;</span>
+  <span class="k">padding-right</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
+<span class="p">}</span>
 
-h3 {
-  font-size: 30px;
-  font-weight: 100;
-}
-</code></pre>
-
+<span class="nt">h3</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span> <span class="m">100</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Next let's adjust the size of our h1:
 </p>
 
-<pre><code>h1 {
-  font-size:80px;
-  font-weight:700;
-}
-</code></pre>
+<div class="highlight"><pre><span class="nt">h1</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="o">:</span><span class="m">80px</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">700</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 
 <p>
 And we can right align the author:
 </p>
 
-<pre><code>&lt;div class="col-xs-10 col-xs-offset-1 page-content"&gt;
-  &lt;h3&gt;
-    &lt;span&gt;SPLURTY No. &lt;%= @quote.id %&gt;&lt;/span&gt;
-    You know &lt;u&gt;you need to learn Elixir&lt;/u&gt; because...
-  &lt;/h3&gt;
-  &lt;h1 class="text-center"&gt;
-    &lt;%= @quote.saying %&gt;
-  &lt;/h1&gt;
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h3&gt;</span>
+    <span class="nt">&lt;span&gt;</span>SPLURTY No. <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+    You know <span class="nt">&lt;u&gt;</span>you need to learn Elixir<span class="nt">&lt;/u&gt;</span> because...
+  <span class="nt">&lt;/h3&gt;</span>
+  <span class="nt">&lt;h1</span> <span class="na">class=</span><span class="s">&quot;text-center&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h1&gt;</span>
 
-  &lt;h2 class="text-right"&gt;
-    &lt;%= @quote.author %&gt;
-  &lt;/h2&gt;
+<div class="emphasis">  <span class="nt">&lt;h2</span> <span class="na">class=</span><span class="s">&quot;text-right&quot;</span><span class="nt">&gt;</span></div>    <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/h2&gt;</span>
 
-&lt;/div&gt;
-</code></pre>
-
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -532,20 +504,18 @@ Save the file.
 Next let's add some spacing from the top of the page:
 </p>
 
-<pre><code>.page-content {
-  margin-top:30px;
-}
-</code></pre>
-
+<div class="highlight"><pre><span class="nc">.page-content</span> <span class="p">{</span>
+  <span class="k">margin-top</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 And let's adjust the selection color to be red:
 </p>
 
-<pre><code>::selection {
-  background-color: #f84342;
-}</code></pre>
-
-
+<div class="highlight"><pre><span class="o">:</span><span class="nd">:selection</span> <span class="p">{</span>
+  <span class="k">background-color</span><span class="o">:</span> <span class="m">#f84342</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh.  Sweet, this page looks solid.
 </p>
@@ -560,24 +530,21 @@ First press the <strong>Contribute</strong> link in the nav.  You'll see the new
 Edit <code>web/templates/quote/new.html.eex</code>:
 </p>
 
-<pre><code>&lt;div class="col-xs-10 col-xs-offset-1"&gt;
-  &lt;h1&gt;New Quote&lt;/h1&gt;
-  &lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
-    &lt;div class="form-group"&gt;
-      &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
+<div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>New Quote<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;csrf_token&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span><span class="p">(</span><span class="vi">@conn</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
 
-      &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
-      &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[saying]&quot;</span><span class="nt">&gt;</span>saying<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[saying]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
 
-      &lt;label for="quote[author]"&gt;author&lt;/label&gt;
-      &lt;input type="text" name="quote[author]" class="form-control" /&gt;
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[author]&quot;</span><span class="nt">&gt;</span>author<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[author]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
 
-    &lt;/div&gt;
-    &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
-  &lt;/form&gt;
-&lt;/div&gt;
-</code></pre>
-
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<div class="emphasis"><span class="nt">&lt;/div&gt;</span></div></pre></div>
 <p>
 Save the file and refresh the page.  Looks pretty solid.
 </p>
@@ -587,24 +554,24 @@ Save the file and refresh the page.  Looks pretty solid.
 Let's do the same to the edit page, edit <code>web/templates/quote/edit.html.eex</code> to look like this:
 </p>
 
-<pre><code>&lt;div class="col-xs-10 col-xs-offset-1"&gt;
-  &lt;h1&gt;Edit Quote&lt;/h1&gt;
-  &lt;form action="&lt;%= quote_path(@conn, :update, @quote.id) %&gt;" method="post"&gt;
-    &lt;div class="form-group"&gt;
-      &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
-      &lt;input type="hidden" name="_method" value="put"&gt;
+<div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>Edit Quote<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;csrf_token&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span><span class="p">(</span><span class="vi">@conn</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;_method&quot;</span> <span class="na">value=</span><span class="s">&quot;put&quot;</span><span class="nt">&gt;</span>
 
-      &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
-      &lt;input type="text" name="quote[saying]" class="form-control" value="&lt;%= @quote.saying %&gt;" /&gt;
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[saying]&quot;</span><span class="nt">&gt;</span>saying<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[saying]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
 
-      &lt;label for="quote[author]"&gt;author&lt;/label&gt;
-      &lt;input type="text" name="quote[author]" class="form-control" value="&lt;%= @quote.author %&gt;" /&gt;
+      <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[author]&quot;</span><span class="nt">&gt;</span>author<span class="nt">&lt;/label&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[author]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
 
-    &lt;/div&gt;
-    &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
-  &lt;/form&gt;
-&lt;/div&gt;
-</code></pre>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<div class="emphasis"><span class="nt">&lt;/div&gt;</span></div></pre></div>
+
+
 
 <p>
 Save the file.
@@ -614,17 +581,15 @@ Save the file.
 
  Next, let's adjust the button CSS:
 </p>
-<pre><code>.btn-primary, .btn-primary:hover {
-  border-radius:0;
-  font-size:30px;
-  width:100%;
-  font-weight:100;
-  background-color: #f84342;
-  border-color:  #f84342;
-
-}
-</code></pre>
-
+<div class="highlight"><pre><span class="nc">.btn-primary</span><span class="o">,</span> <span class="nc">.btn-primary</span><span class="nd">:hover</span> <span class="p">{</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
+  <span class="k">width</span><span class="o">:</span><span class="m">100</span><span class="o">%</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">100</span><span class="p">;</span>
+  <span class="k">background-color</span><span class="o">:</span> <span class="m">#f84342</span><span class="p">;</span>
+  <span class="k">border-color</span><span class="o">:</span>  <span class="m">#f84342</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  Looks solid!
 </p>
@@ -635,51 +600,49 @@ Save the file and refresh the page.  Looks solid!
 Navigate to <a href="http://localhost:4000/quotes/">localhost:4000/quotes/</a>
 </p>
 
-<pre><code>&lt;div class="page-content col-xs-10 col-xs-offset-1"&gt;
-  &lt;table class="table table-striped"&gt;
-    &lt;thead&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Saying&lt;/th&gt;
-        &lt;th&gt;Author&lt;/th&gt;
-        &lt;th&gt;Actions&lt;/th&gt;
-    &lt;/thead&gt;
-    &lt;%= for q &lt;- @quotes do %&gt;
-    &lt;tr&gt;
-      &lt;td&gt;
-        &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
-          &lt;%= q.saying %&gt;
-        &lt;/a&gt;
-      &lt;/td&gt;
-      &lt;td&gt;
-        &lt;%= q.author %&gt;
-      &lt;/td&gt;
-      &lt;td&gt;
-        &lt;a href="&lt;%=quote_path(@conn, :edit, q.id) %&gt;" class="btn btn-danger"&gt;
-          Edit
-        &lt;/a&gt;
+<div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;page-content col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">&quot;table table-striped&quot;</span><span class="nt">&gt;</span></div>    <span class="nt">&lt;thead&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Saying<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Author<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Actions<span class="nt">&lt;/th&gt;</span>
+    <span class="nt">&lt;/thead&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="k">for</span> <span class="n">q</span> <span class="o">&lt;-</span> <span class="vi">@quotes</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;td&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span><span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;td&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;td&gt;</span>
+<div class="emphasis">        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span><span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-danger&quot;</span><span class="nt">&gt;</span></div>          Edit
+        <span class="nt">&lt;/a&gt;</span>
 
-        &lt;a href="&lt;%= quote_path(@conn, :destroy, q.id) %&gt;" data-method="DELETE" class="rest btn btn-danger"&gt;
-          Destroy
-        &lt;/a&gt;
+<div class="emphasis">        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">data-method=</span><span class="s">&quot;DELETE&quot;</span> <span class="na">class=</span><span class="s">&quot;rest btn btn-danger&quot;</span><span class="nt">&gt;</span></div>          Destroy
+        <span class="nt">&lt;/a&gt;</span>
 
-      &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;% end %&gt;
-  &lt;/table&gt;
+      <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/table&gt;</span>
 
-&lt;/div&gt;
-</code></pre>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+
 
 <p>
 Save the file and refresh.  Looking good, let's quickly adjust the last button:
 </p>
 
-<pre><code>.btn-danger {
-  border-radius:0;
-  font-weight:100;
-}
-</code></pre>
-
+<div class="highlight"><pre><span class="nc">.btn-danger</span> <span class="p">{</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
+  <span class="k">font-weight</span><span class="o">:</span><span class="m">100</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 
 <p>
 Save the file and refresh the page.

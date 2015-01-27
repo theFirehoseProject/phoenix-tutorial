@@ -46,26 +46,29 @@
     Add the following two lines into the head of the file:
     </p>
 
-    <pre><code>&lt;script src="https://code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
-    &lt;script src="/js/jquery.restfulizer.js"&gt;&lt;/script&gt;</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-1.11.2.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/js/jquery.restfulizer.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+
     <p>
     We'll also need to add a bit of JavaScript to activate the plugin, and also play nicely with CSRF tokens.  Add the following script tag to the <code>application.html.eex</code> file:
     </p>
 
-<pre><code>    &lt;script&gt;
-    $(function() {
-      $(".rest").click(function(d) {
-        $('form').submit(function(s) {
-          var input = $("&lt;input&gt;")
-          .attr("type", "hidden")
-          .attr("name", "csrf_token").val("&lt;%= csrf_token(@conn) %&gt;");
-          $(s.target).append($(input));
-        });
-      });
-      $(".rest").restfulizer({});
-    });
-    &lt;/script&gt;</code></pre>
-
+<div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.rest&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;input&gt;&quot;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;hidden&quot;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;csrf_token&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s2">&quot;</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span><span class="p">(</span><span class="vi">@conn</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s2">&quot;</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">input</span><span class="p">));</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.rest&quot;</span><span class="p">).</span><span class="nx">restfulizer</span><span class="p">({});</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
 <p>
 Save the file.  Sweet, now we've got the ability to do POST/PUT and DELETE from links.
 </p>
@@ -76,37 +79,36 @@ Save the file.  Sweet, now we've got the ability to do POST/PUT and DELETE from 
 Open up <code>web/templates/quote/index.eex</code> and add a button to delete the quote:
 </p>
 
-<pre><code>&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Saying&lt;/th&gt;
-      &lt;th&gt;Author&lt;/th&gt;
-      &lt;th&gt;Actions&lt;/th&gt;
-  &lt;/thead&gt;
-  &lt;%= for q &lt;- @quotes do %&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-      &lt;a href="&lt;%=quote_path(@conn, :show, q.id) %&gt;"&gt;
-        &lt;%= q.saying %&gt;
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;%= q.author %&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href="&lt;%=quote_path(@conn, :edit, q.id) %&gt;"&gt;
+<div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;thead&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Saying<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Author<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Actions<span class="nt">&lt;/th&gt;</span>
+  <span class="nt">&lt;/thead&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">for</span> <span class="n">q</span> <span class="o">&lt;-</span> <span class="vi">@quotes</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span><span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span><span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
         Edit
-      &lt;/a&gt;
-      |
-      &lt;a href="&lt;%= quote_path(@conn, :destroy, q.id) %&gt;" data-method="DELETE" class="rest"&gt;
+      <span class="nt">&lt;/a&gt;</span>
+<div class="emphasis">      |
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">data-method=</span><span class="s">&quot;DELETE&quot;</span> <span class="na">class=</span><span class="s">&quot;rest&quot;</span><span class="nt">&gt;</span>
         Destroy
-      &lt;/a&gt;
-
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;% end %&gt;
-&lt;/table&gt;
-</code></pre>
+      <span class="nt">&lt;/a&gt;</span></div>
+    <span class="nt">&lt;/td&gt;</span>
+  <span class="nt">&lt;/tr&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
 
 <p>
 Save the file.  Refresh the index page. 
@@ -124,67 +126,66 @@ Press the destroy button and you'll notice the error message that indicates that
 Let's add the destroy action in the quotes controller.  Add the method to <code>web/controllers/quote_controller.ex</code> that looks like this:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  alias Splurty.Router
-  import Splurty.Router.Helpers
+  <span class="n">alias</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span>
+  <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
+  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span>
 
-  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
-    q = %Splurty.Quote{saying: saying,  author: author}
-    Repo.insert(q)
+  <span class="k">def</span> <span class="n">create</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">{</span><span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span>  <span class="ss">author:</span> <span class="n">author</span><span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
-    redirect conn, to: quote_path(conn, :index)
-  end
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def show(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    conn
-    |> assign(:quote, Repo.get(Splurty.Quote, id))
-    |> render("show.html")
-  end
+  <span class="k">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;show.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def edit(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    conn
-    |> assign(:quote, Repo.get(Splurty.Quote, id))
-    |> render("edit.html")
-  end
+  <span class="k">def</span> <span class="n">edit</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;edit.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
 
-  def update(conn, %{"id" => id, "quote" => %{"saying" => saying, "author" => author}}) do
-    {id, _} = Integer.parse(id)
-    q = Repo.get(Splurty.Quote, id)
-    q = %{q | saying: saying, author: author }
-    Repo.update(q)
-    redirect conn, to: quote_path(conn, :show, q.id)
-  end
+  <span class="k">def</span> <span class="n">update</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">,</span> <span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="p">{</span><span class="n">q</span> <span class="o">|</span> <span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span> <span class="ss">author:</span> <span class="n">author</span> <span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def destroy(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    q = Repo.get(Splurty.Quote, id)
-    Repo.delete(q)
-    redirect conn, to: quote_path(conn, :index)
-  end
-
-end
-</code></pre>
+<div class="emphasis">  <span class="k">def</span> <span class="n">destroy</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 <p>
 Save the file.
 </p>

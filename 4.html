@@ -1,7 +1,7 @@
 <html>
 	<head>
 
-  
+
     <script src="https://code.jquery.com/jquery-1.11.2.js"></script>
     <script src="js/lightbox.min.js"></script>
     <link href="css/lightbox.css" rel="stylesheet" />
@@ -36,35 +36,33 @@
     <p>
     Edit <code>web/router.ex</code> and add the following line:
     </p>
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Router</span>
 
-    <pre><code>defmodule Splurty.Router do
-  use Phoenix.Router
+  <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="err">~</span><span class="n">w</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">plug</span> <span class="ss">:fetch_session</span>
+    <span class="n">plug</span> <span class="ss">:fetch_flash</span>
+    <span class="n">plug</span> <span class="ss">:protect_from_forgery</span>
+  <span class="k">end</span>
 
-  pipeline :browser do
-    plug :accepts, ~w(html)
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-  end
+  <span class="n">pipeline</span> <span class="ss">:api</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="err">~</span><span class="n">w</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  pipeline :api do
-    plug :accepts, ~w(json)
-  end
+  <span class="n">scope</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="no">Splurty</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">pipe_through</span> <span class="ss">:browser</span> <span class="c1"># Use the default browser stack</span>
 
-  scope "/", Splurty do
-    pipe_through :browser # Use the default browser stack
+    <span class="n">get</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="no">QuoteController</span><span class="p">,</span> <span class="ss">:homepage</span>
+<div class="emphasis">    <span class="n">resources</span> <span class="s2">&quot;/quotes&quot;</span><span class="p">,</span> <span class="no">QuoteController</span></div>
+  <span class="k">end</span>
 
-    get "/", QuoteController, :homepage
-    resources "/quotes", QuoteController
-
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Splurty do
-  #   pipe_through :api
-  # end
-end
-</code></pre>
+  <span class="c1"># Other scopes may use custom stacks.</span>
+  <span class="c1"># scope &quot;/api&quot;, Splurty do</span>
+  <span class="c1">#   pipe_through :api</span>
+  <span class="c1"># end</span>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file.
@@ -106,22 +104,20 @@ Since it's mad we don't have the index action in our controller, let's go add on
 </p>
 
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    render conn, "index.html"
-  end
-  
-end
-</code></pre>
-
+<div class="emphasis">  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;index.html&quot;</span>
+  <span class="k">end</span></div>  
+<span class="k">end</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  It should show you an error message that the template <code>index.html</code> hasn't been created.  This makes sense.
 </p>
@@ -130,8 +126,8 @@ Save the file and refresh the page.  It should show you an error message that th
 Add a file in <code>web/templates/quote/index.html.eex</code> that looks like this:
 </p>
 
-<pre><code>YOLO!</code></pre>
-
+<div class="highlight"><pre>YOLO!
+</pre></div>
 <p>
 Save the file, and refresh the page.  Awesome, we no longer see an error message.
 </p>
@@ -166,23 +162,23 @@ First thing we'll need to do is load up our quotes in our controller.
 Open <code>web/controller/quote_controller.ex</code> and edit the index action to look like this:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+<div class="emphasis">  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 
-end
-</code></pre>
 
 <p>
 This will render the <code>index.html.eex</code> template on the connection and pass through the assignment of <code>@quotes</code> being all the quotes loaded up.
@@ -192,26 +188,25 @@ This will render the <code>index.html.eex</code> template on the connection and 
 Now edit <code>web/templates/quote/index.html.eex</code> and add the following code:
 </p>
 
-<pre><code>&lt;table&gt;
-  &lt;thead>
-    &lt;tr&gt;
-      &lt;th&gt;Saying&lt;/th&gt;
-      &lt;th&gt;Author&lt;/th&gt;
-  &lt;/thead>
-  &lt;%= for q &lt;- @quotes do %&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-      &lt;%= q.saying %&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;%= q.author %&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;% end %&gt;
+<div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;thead&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Saying<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Author<span class="nt">&lt;/th&gt;</span>
+  <span class="nt">&lt;/thead&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">for</span> <span class="n">q</span> <span class="o">&lt;-</span> <span class="vi">@quotes</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">q</span><span class="o">.</span><span class="n">author</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/td&gt;</span>
+  <span class="nt">&lt;/tr&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
 
-&lt;/table&gt;
-</code></pre>
-
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
 <p>
 Save the file and open <a href="http://localhost:4000/quotes/">localhost:4000/quotes</a> in your browser.
 </p>

@@ -43,28 +43,27 @@
     Add the following module for queries, and method to pull out a random quote in <code>web/models/quote.ex</code>.
     </p>
 
-    <pre><code>defmodule Splurty.Quote do
-  use Ecto.Model
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Model</span>
 
-  schema "quotes" do
-    field :saying, :string
-    field :author, :string
-  end
+  <span class="n">schema</span> <span class="s2">&quot;quotes&quot;</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">field</span> <span class="ss">:saying</span><span class="p">,</span> <span class="ss">:string</span>
+    <span class="n">field</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="k">end</span>
 
-  defmodule Queries do
-    def random do
-      query = Ecto.Adapters.Postgres.query(
-        Repo,
-        "SELECT id, saying, author from quotes ORDER BY RANDOM() LIMIT 1",
-        [])
-      %Postgrex.Result{rows: [row]} = query
-      {id, saying, author} = row
-      %Splurty.Quote{id: id, saying: saying, author: author}
-    end
-
-  end
-end
-</code></pre>
+<div class="emphasis">  <span class="k">defmodule</span> <span class="no">Queries</span> <span class="k">do</span>
+<span class="k">    def</span> <span class="n">random</span> <span class="k">do</span>
+<span class="k">      </span><span class="n">query</span> <span class="o">=</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Adapters</span><span class="o">.</span><span class="no">Postgres</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="no">Repo</span><span class="p">,</span>
+        <span class="s2">&quot;SELECT id, saying, author from quotes ORDER BY RANDOM() LIMIT 1&quot;</span><span class="p">,</span>
+        <span class="p">[])</span>
+      <span class="err">%</span><span class="no">Postgrex</span><span class="o">.</span><span class="no">Result</span><span class="p">{</span><span class="ss">rows:</span> <span class="p">[</span><span class="n">row</span><span class="p">]}</span> <span class="o">=</span> <span class="n">query</span>
+      <span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">saying</span><span class="p">,</span> <span class="n">author</span><span class="p">}</span> <span class="o">=</span> <span class="n">row</span>
+      <span class="err">%</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">{</span><span class="ss">id:</span> <span class="n">id</span><span class="p">,</span> <span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span> <span class="ss">author:</span> <span class="n">author</span><span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 This will allow us to extract a random quote from our database by calling <code>Splurty.Quote.Queries.random</code>.
@@ -74,73 +73,72 @@ This will allow us to extract a random quote from our database by calling <code>
 Let's hook this up in our controller.  Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  alias Splurty.Router
-  import Splurty.Router.Helpers
+  <span class="n">alias</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span>
+  <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    conn
-    |> assign(:quote, Splurty.Quote.Queries.random)
-    |> render("show.html")
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<div class="emphasis"><span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="o">.</span><span class="no">Queries</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;show.html&quot;</span><span class="p">)</span></div>  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
+  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span>
 
-  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
-    q = %Splurty.Quote{saying: saying,  author: author}
-    Repo.insert(q)
+  <span class="k">def</span> <span class="n">create</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">{</span><span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span>  <span class="ss">author:</span> <span class="n">author</span><span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
-    redirect conn, to: quote_path(conn, :index)
-  end
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def show(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    conn
-    |> assign(:quote, Repo.get(Splurty.Quote, id))
-    |> render("show.html")
-  end
+  <span class="k">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;show.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def edit(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    conn
-    |> assign(:quote, Repo.get(Splurty.Quote, id))
-    |> render("edit.html")
-  end
+  <span class="k">def</span> <span class="n">edit</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quote</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;edit.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
 
-  def update(conn, %{"id" => id, "quote" => %{"saying" => saying, "author" => author}}) do
-    {id, _} = Integer.parse(id)
-    q = Repo.get(Splurty.Quote, id)
-    q = %{q | saying: saying, author: author }
-    Repo.update(q)
-    redirect conn, to: quote_path(conn, :show, q.id)
-  end
+  <span class="k">def</span> <span class="n">update</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">,</span> <span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="p">{</span><span class="n">q</span> <span class="o">|</span> <span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span> <span class="ss">author:</span> <span class="n">author</span> <span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def destroy(conn, %{"id" => id}) do
-    {id, _} = Integer.parse(id)
-    q = Repo.get(Splurty.Quote, id)
-    Repo.delete(q)
-    redirect conn, to: quote_path(conn, :index)
-  end
-
+  <span class="k">def</span> <span class="n">destroy</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">{</span><span class="n">id</span><span class="p">,</span> <span class="n">_</span><span class="p">}</span> <span class="o">=</span> <span class="no">Integer</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="no">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span>
 
 
 
 
-end
-</code></pre>
+
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file and then go to the homepage.  You'll notice a random quote is randomly shown.  Sweet!

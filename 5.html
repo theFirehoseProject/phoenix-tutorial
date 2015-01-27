@@ -35,28 +35,26 @@
    Edit <code>web/controllers/quote_controller.ex</code> and add the following method to it:
    </p>
 
-   <pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
-
-end
-</code></pre>
-
+<div class="emphasis">  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -65,8 +63,8 @@ Save the file.
 Refresh the page.  The error message should change to say that the new.html template doesn't exist.  This makes sense.  Add a file in the <code>web/templates/quote/new.html.eex</code> that looks like this:
 </p>
 
-<pre><code>Hello!</code></pre>
-
+<div class="highlight"><pre>Hello!
+</pre></div>
 
 <p>
 Save the file and refresh the page.  Awesome the error message goes away and we see a page.
@@ -76,30 +74,29 @@ Save the file and refresh the page.  Awesome the error message goes away and we 
 We're going to want to use routing aliases in our view (to hook up the action of the form to the create action).  In order to do that, we'll want to add the routing helpers to our app.  Add the following lines of code to <code>web/controllers/quote_controller.ex</code>:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  alias Splurty.Router
-  import Splurty.Router.Helpers
+<div class="emphasis">  <span class="n">alias</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span>
+  <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span></div>
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  plug :action
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
-
-end
-</code></pre>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file, then restart the server.
@@ -111,20 +108,19 @@ Save the file, then restart the server.
 Next let's add the form to the view.  Change the file <code>web/templates/quote/new.html.eex</code> code to look like this:
 </p>
 
-<pre><code>&lt;h1>New Quote&lt;/h1&gt;
-&lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
-  &lt;div class="form-group"&gt;
-    &lt;label for="quote[saying]">saying&lt;/label&gt;
-    &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>New Quote<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[saying]&quot;</span><span class="nt">&gt;</span>saying<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[saying]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
 
-    &lt;label for="quote[author]">author&lt;/label&gt;
-    &lt;input type="text" name="quote[author]" class="form-control" /&gt;
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[author]&quot;</span><span class="nt">&gt;</span>author<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[author]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
 
-  &lt;/div&gt;
-  &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
-
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
 <p>
 Save the file and refresh the page.  Awesome, the form appeared!
 </p>
@@ -143,46 +139,48 @@ It looks like we're getting a CSRF error message.  This indicates we're not pass
 Add the following helper method to <code>web/view.ex</code> to add a helper method to generate csrf tokens:
 </p>
 
-<pre><code>defmodule Splurty.View do
-  use Phoenix.View, root: "web/templates"
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">View</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">View</span><span class="p">,</span> <span class="ss">root:</span> <span class="s2">&quot;web/templates&quot;</span>
 
-  # The quoted expression returned by this block is applied
-  # to this module and all other views that use this module.
-  using do
-    quote do
-      # Import common functionality
-      import Splurty.Router.Helpers
+  <span class="c1"># The quoted expression returned by this block is applied</span>
+  <span class="c1"># to this module and all other views that use this module.</span>
+  <span class="n">using</span> <span class="k">do</span>
+<span class="k">    </span><span class="kn">quote</span> <span class="k">do</span>
+<span class="k">      </span><span class="c1"># Import common functionality</span>
+      <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span>
 
-      # Use Phoenix.HTML to import all HTML functions (forms, tags, etc)
-      use Phoenix.HTML
-    end
-  end
+      <span class="c1"># Use Phoenix.HTML to import all HTML functions (forms, tags, etc)</span>
+      <span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">HTML</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 
-  def csrf_token(conn) do
-    Plug.Conn.get_session(conn, :csrf_token)
-  end
-  # Functions defined here are available to all other views/templates
-end</code></pre>
+<div class="emphasis">  <span class="k">def</span> <span class="n">csrf_token</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="no">Plug</span><span class="o">.</span><span class="no">Conn</span><span class="o">.</span><span class="n">get_session</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:csrf_token</span><span class="p">)</span>
+  <span class="k">end</span></div>  <span class="c1"># Functions defined here are available to all other views/templates</span>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file.  Awesome, add the following snippet to pass through the CSRF token in the action to <code>web/templates/quote/new.html.eex</code>.
 </p>
 
-<pre><code>&lt;h1&gt;New Quote&lt;/h1&gt;
-&lt;form action="&lt;%= quote_path(@conn, :create) %&gt;" method="post"&gt;
-  &lt;div class="form-group"&gt;
-    &lt;input type="hidden" name="csrf_token" value="&lt;%= csrf_token(@conn) %&gt;"&gt;
-    
-    &lt;label for="quote[saying]"&gt;saying&lt;/label&gt;
-    &lt;input type="text" name="quote[saying]" class="form-control" /&gt;
 
-    &lt;label for="quote[author]"&gt;author&lt;/label&gt;
-    &lt;input type="text" name="quote[author]" class="form-control" /&gt;
 
-  &lt;/div>
-  &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>New Quote<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">quote_path</span><span class="p">(</span><span class="vi">@conn</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis">    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;csrf_token&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span><span class="p">(</span><span class="vi">@conn</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span></div>    
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[saying]&quot;</span><span class="nt">&gt;</span>saying<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[saying]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;quote[author]&quot;</span><span class="nt">&gt;</span>author<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;quote[author]&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control&quot;</span> <span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="nt">&gt;</span>Save<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+
 
 <p>
 Save the file.
@@ -200,37 +198,36 @@ Save the file.
 We'll need to add an action to the quotes controller to support the create functionality.  Edit <code>web/controllers/quote_controller.ex</code> and add the create method:
 </p>
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  alias Splurty.Router
-  import Splurty.Router.Helpers
+  <span class="n">alias</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span>
+  <span class="kn">import</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span><span class="o">.</span><span class="no">Helpers</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
 
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
+  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span>
 
-  def index(conn, _params) do
-    conn
-    |> assign(:quotes, Repo.all(Splurty.Quote))
-    |> render("index.html")
-  end
+  <span class="k">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">conn</span>
+    <span class="o">|&gt;</span> <span class="n">assign</span><span class="p">(</span><span class="ss">:quotes</span><span class="p">,</span> <span class="no">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">))</span>
+    <span class="o">|&gt;</span> <span class="n">render</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  def new(conn, _params) do
-    render conn, "new.html"
-  end
+  <span class="k">def</span> <span class="n">new</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;new.html&quot;</span>
+  <span class="k">end</span>
 
-  def create(conn, %{"quote" => %{"saying" => saying, "author" => author}}) do
-    q = %Splurty.Quote{saying: saying,  author: author}
-    Repo.insert(q)
+<div class="emphasis">  <span class="k">def</span> <span class="n">create</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;quote&quot;</span> <span class="o">=&gt;</span> <span class="err">%</span><span class="p">{</span><span class="s2">&quot;saying&quot;</span> <span class="o">=&gt;</span> <span class="n">saying</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span> <span class="o">=&gt;</span> <span class="n">author</span><span class="p">}})</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">q</span> <span class="o">=</span> <span class="err">%</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span><span class="p">{</span><span class="ss">saying:</span> <span class="n">saying</span><span class="p">,</span>  <span class="ss">author:</span> <span class="n">author</span><span class="p">}</span>
+    <span class="no">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
-    redirect conn, to: quote_path(conn, :index)
-  end
-
-end
-</code></pre>
+    <span class="n">redirect</span> <span class="n">conn</span><span class="p">,</span> <span class="ss">to:</span> <span class="n">quote_path</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file.  Try to create a new quote.  Awesome, it seems to work and redirects to the index page.  On the index page you can see the newly added quote.

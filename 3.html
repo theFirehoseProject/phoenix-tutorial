@@ -35,38 +35,39 @@
 		When you want to include a new project as a dependency in your application, you add the its to the <code>deps</code> section in <code>mix.exs</code>.  Add the following two lines into the file:
 		</p>
 
-<pre><code>defmodule Splurty.Mixfile do
-  use Mix.Project
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Mixfile</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Mix</span><span class="o">.</span><span class="no">Project</span>
 
-  def project do
-    [app: :splurty,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     elixirc_paths: ["lib", "web"],
-     compilers: [:phoenix] ++ Mix.compilers,
-     deps: deps]
-  end
+  <span class="k">def</span> <span class="n">project</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span><span class="ss">app:</span> <span class="ss">:splurty</span><span class="p">,</span>
+     <span class="ss">version:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+     <span class="ss">elixir:</span> <span class="s2">&quot;~&gt; 1.0&quot;</span><span class="p">,</span>
+     <span class="ss">elixirc_paths:</span> <span class="p">[</span><span class="s2">&quot;lib&quot;</span><span class="p">,</span> <span class="s2">&quot;web&quot;</span><span class="p">],</span>
+     <span class="ss">compilers:</span> <span class="p">[</span><span class="ss">:phoenix</span><span class="p">]</span> <span class="o">++</span> <span class="no">Mix</span><span class="o">.</span><span class="n">compilers</span><span class="p">,</span>
+     <span class="ss">deps:</span> <span class="n">deps</span><span class="p">]</span>
+  <span class="k">end</span>
 
-  # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
-  def application do
-    [mod: {Splurty, []},
-     applications: [:phoenix, :cowboy, :logger]]
-  end
+  <span class="c1"># Configuration for the OTP application</span>
+  <span class="c1">#</span>
+  <span class="c1"># Type `mix help compile.app` for more information</span>
+  <span class="k">def</span> <span class="n">application</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span><span class="ss">mod:</span> <span class="p">{</span><span class="no">Splurty</span><span class="p">,</span> <span class="p">[]},</span>
+     <span class="ss">applications:</span> <span class="p">[</span><span class="ss">:phoenix</span><span class="p">,</span> <span class="ss">:cowboy</span><span class="p">,</span> <span class="ss">:logger</span><span class="p">]]</span>
+  <span class="k">end</span>
 
-  # Specifies your project dependencies
-  #
-  # Type `mix help deps` for examples and options
-  defp deps do
-    [
-     {:phoenix, "~> 0.8.0"},
-     {:cowboy, "~> 1.0"},
-     {:postgrex, ">= 0.0.0"},
-     {:ecto, "~> 0.2.0"}
-    ]
-  end
-end</code></pre>
+  <span class="c1"># Specifies your project dependencies</span>
+  <span class="c1">#</span>
+  <span class="c1"># Type `mix help deps` for examples and options</span>
+  <span class="k">defp</span> <span class="n">deps</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span>
+     <span class="p">{</span><span class="ss">:phoenix</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.8.0&quot;</span><span class="p">},</span>
+<div class="emphasis">     <span class="p">{</span><span class="ss">:cowboy</span><span class="p">,</span> <span class="s2">&quot;~&gt; 1.0&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="ss">:postgrex</span><span class="p">,</span> <span class="s2">&quot;&gt;= 0.0.0&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="ss">:ecto</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.2.0&quot;</span><span class="p">}</span></div>
+    <span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
 
 
 <p>
@@ -91,38 +92,43 @@ Elixir also has a concept of <code>Applications</code>.  Applications are separa
 We'll also need to add both the <code>postgrex</code> and <code>ecto</code> applications to our application.
 </p>
 
-<pre><code>defmodule Splurty.Mixfile do
-  use Mix.Project
 
-  def project do
-    [app: :splurty,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     elixirc_paths: ["lib", "web"],
-     compilers: [:phoenix] ++ Mix.compilers,
-     deps: deps]
-  end
 
-  # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
-  def application do
-    [mod: {Splurty, []},
-     applications: [:phoenix, :cowboy, :logger, :postgrex, :ecto]]
-  end
 
-  # Specifies your project dependencies
-  #
-  # Type `mix help deps` for examples and options
-  defp deps do
-    [
-     {:phoenix, "~> 0.8.0"},
-     {:cowboy, "~> 1.0"},
-     {:postgrex, ">= 0.0.0"},
-     {:ecto, "~> 0.2.0"}
-    ]
-  end
-end</code></pre>
+
+
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Mixfile</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Mix</span><span class="o">.</span><span class="no">Project</span>
+
+  <span class="k">def</span> <span class="n">project</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span><span class="ss">app:</span> <span class="ss">:splurty</span><span class="p">,</span>
+     <span class="ss">version:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+     <span class="ss">elixir:</span> <span class="s2">&quot;~&gt; 1.0&quot;</span><span class="p">,</span>
+     <span class="ss">elixirc_paths:</span> <span class="p">[</span><span class="s2">&quot;lib&quot;</span><span class="p">,</span> <span class="s2">&quot;web&quot;</span><span class="p">],</span>
+     <span class="ss">compilers:</span> <span class="p">[</span><span class="ss">:phoenix</span><span class="p">]</span> <span class="o">++</span> <span class="no">Mix</span><span class="o">.</span><span class="n">compilers</span><span class="p">,</span>
+     <span class="ss">deps:</span> <span class="n">deps</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Configuration for the OTP application</span>
+  <span class="c1">#</span>
+  <span class="c1"># Type `mix help compile.app` for more information</span>
+  <span class="k">def</span> <span class="n">application</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span><span class="ss">mod:</span> <span class="p">{</span><span class="no">Splurty</span><span class="p">,</span> <span class="p">[]},</span>
+<div class="emphasis">     <span class="ss">applications:</span> <span class="p">[</span><span class="ss">:phoenix</span><span class="p">,</span> <span class="ss">:cowboy</span><span class="p">,</span> <span class="ss">:logger</span><span class="p">,</span> <span class="ss">:postgrex</span><span class="p">,</span> <span class="ss">:ecto</span><span class="p">]]</span></div>  <span class="k">end</span>
+
+  <span class="c1"># Specifies your project dependencies</span>
+  <span class="c1">#</span>
+  <span class="c1"># Type `mix help deps` for examples and options</span>
+  <span class="k">defp</span> <span class="n">deps</span> <span class="k">do</span>
+<span class="k">    </span><span class="p">[</span>
+     <span class="p">{</span><span class="ss">:phoenix</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.8.0&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="ss">:cowboy</span><span class="p">,</span> <span class="s2">&quot;~&gt; 1.0&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="ss">:postgrex</span><span class="p">,</span> <span class="s2">&quot;&gt;= 0.0.0&quot;</span><span class="p">},</span>
+     <span class="p">{</span><span class="ss">:ecto</span><span class="p">,</span> <span class="s2">&quot;~&gt; 0.2.0&quot;</span><span class="p">}</span>
+    <span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
 
 
 <h3>Zooming Out: How Ecto Is Organized</h3>
@@ -162,18 +168,19 @@ The one critical difference between LINQ and Ecto is Ecto is exclusive to queryi
 Add a file in the <code>lib/splurty</code> folder called <code>repo.ex</code>.  This will define the repository we'll be using in the context of this web application.  Make the file look like this:
 </p>
 
-<pre><code>defmodule Repo do
-  use Ecto.Repo, adapter: Ecto.Adapters.Postgres
 
-  def conf do
-    parse_url Application.get_env(:phoenix, :database)[:url]
-  end
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Repo</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Repo</span><span class="p">,</span> <span class="ss">adapter:</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Adapters</span><span class="o">.</span><span class="no">Postgres</span>
 
-  def priv do
-    app_dir(:splurty, "priv/repo")
-  end
-end
-</code></pre>
+  <span class="k">def</span> <span class="n">conf</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">parse_url</span> <span class="no">Application</span><span class="o">.</span><span class="n">get_env</span><span class="p">(</span><span class="ss">:phoenix</span><span class="p">,</span> <span class="ss">:database</span><span class="p">)[</span><span class="ss">:url</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="n">priv</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">app_dir</span><span class="p">(</span><span class="ss">:splurty</span><span class="p">,</span> <span class="s2">&quot;priv/repo&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
 <p>Save the file</p>
 <p>
 	This sets up the repo.  
@@ -195,23 +202,21 @@ In this method we're saying we should pull the database connection string inform
 Now let's setup the configuration for the file.  Add the following line to the bottom of <code>config/dev.exs</code>.
 </p>
 
-<pre><code>use Mix.Config
+<div class="highlight"><pre><span class="kn">use</span> <span class="no">Mix</span><span class="o">.</span><span class="no">Config</span>
 
-config :splurty, Splurty.Endpoint,
-  http: [port: System.get_env("PORT") || 4000],
-  debug_errors: true,
-  cache_static_lookup: false
+<span class="n">config</span> <span class="ss">:splurty</span><span class="p">,</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Endpoint</span><span class="p">,</span>
+  <span class="ss">http:</span> <span class="p">[</span><span class="ss">port:</span> <span class="no">System</span><span class="o">.</span><span class="n">get_env</span><span class="p">(</span><span class="s2">&quot;PORT&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="m">4000</span><span class="p">],</span>
+  <span class="ss">debug_errors:</span> <span class="no">true</span><span class="p">,</span>
+  <span class="ss">cache_static_lookup:</span> <span class="no">false</span>
 
-# Enables code reloading for development
-config :phoenix, :code_reloader, true
+<span class="c1"># Enables code reloading for development</span>
+<span class="n">config</span> <span class="ss">:phoenix</span><span class="p">,</span> <span class="ss">:code_reloader</span><span class="p">,</span> <span class="no">true</span>
 
-# Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+<span class="c1"># Do not include metadata nor timestamps in development logs</span>
+<span class="n">config</span> <span class="ss">:logger</span><span class="p">,</span> <span class="ss">:console</span><span class="p">,</span> <span class="ss">format:</span> <span class="s2">&quot;[$level] $message\n&quot;</span>
 
-config :phoenix, :database,
-url: "ecto://ecto:password@localhost/splurty_development"
-</code></pre>
-
+<div class="emphasis"><span class="n">config</span> <span class="ss">:phoenix</span><span class="p">,</span> <span class="ss">:database</span><span class="p">,</span>
+<span class="ss">url:</span> <span class="s2">&quot;ecto://ecto:password@localhost/splurty_development&quot;</span></div></pre></div>
 <p>
 Save the file.
 </p>
@@ -244,24 +249,23 @@ Let's build a supervisor that uses the <code>one_for_one</code> strategy, and st
 Add a file called in the <code>lib/splurty</code> folder called <code>supervisor.ex</code> that looks like this:
 </p>
 
-<pre><code>defmodule Splurty.Supervisor do
-  use Supervisor
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Supervisor</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Supervisor</span>
   
-  def start_link do
-    :supervisor.start_link(__MODULE__, [])
-  end
+  <span class="k">def</span> <span class="n">start_link</span> <span class="k">do</span>
+<span class="k">    </span><span class="ss">:supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p">(</span><span class="bp">__MODULE__</span><span class="p">,</span> <span class="p">[])</span>
+  <span class="k">end</span>
   
-  def init([]) do
-    # Adding repo to be sent into supervise
-    tree = [
-      worker(Repo, []),
-      worker(Splurty.Endpoint, []),
-    ]
-    supervise(tree, strategy: :one_for_one)
-  end
-end
-</code></pre>
-
+  <span class="k">def</span> <span class="n">init</span><span class="p">([])</span> <span class="k">do</span>
+<span class="k">    </span><span class="c1"># Adding repo to be sent into supervise</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">worker</span><span class="p">(</span><span class="no">Repo</span><span class="p">,</span> <span class="p">[]),</span>
+      <span class="n">worker</span><span class="p">(</span><span class="no">Splurty</span><span class="o">.</span><span class="no">Endpoint</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="p">]</span>
+    <span class="n">supervise</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="ss">strategy:</span> <span class="ss">:one_for_one</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
 <p>
 This sets up a pretty standard supervisor for our application.
 </p>
@@ -282,26 +286,24 @@ Finally, we need to tell our application to use this supervisor.
 Edit the <code>lib/splurty.ex</code> file to point to this supervisor.
 </p>
 
-<pre><code>defmodule Splurty do
-  use Application
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Application</span>
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
-  def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+  <span class="c1"># See http://elixir-lang.org/docs/stable/elixir/Application.html</span>
+  <span class="c1"># for more information on OTP Applications</span>
+<div class="emphasis">  <span class="k">def</span> <span class="n">start</span><span class="p">(</span><span class="n">_type</span><span class="p">,</span> <span class="n">_args</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="kn">import</span> <span class="no">Supervisor</span><span class="o">.</span><span class="no">Spec</span><span class="p">,</span> <span class="ss">warn:</span> <span class="no">false</span>
     
-    Splurty.Supervisor.start_link
-  end
-  
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
-  def config_change(changed, _new, removed) do
-    Splurty.Endpoint.config_change(changed, removed)
-    :ok
-  end
-end
-</code></pre>
-<p>
+    <span class="no">Splurty</span><span class="o">.</span><span class="no">Supervisor</span><span class="o">.</span><span class="n">start_link</span>
+  <span class="k">end</span></div>  
+  <span class="c1"># Tell Phoenix to update the endpoint configuration</span>
+  <span class="c1"># whenever the application is updated.</span>
+  <span class="k">def</span> <span class="n">config_change</span><span class="p">(</span><span class="n">changed</span><span class="p">,</span> <span class="n">_new</span><span class="p">,</span> <span class="n">removed</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="no">Splurty</span><span class="o">.</span><span class="no">Endpoint</span><span class="o">.</span><span class="n">config_change</span><span class="p">(</span><span class="n">changed</span><span class="p">,</span> <span class="n">removed</span><span class="p">)</span>
+    <span class="ss">:ok</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div><p>
 Save the file.
 </p>
 
@@ -345,18 +347,18 @@ At this point, Ecto doesn't have a nice DSL style method to create and modify ou
 Let's edit this up to create a database table for <code>quotes</code> that has a <code>saying</code> and an <code>author</code>. 
 </p>
 
-<pre><code>defmodule Repo.Migrations.CreateQuotes do
-  use Ecto.Migration
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Repo</span><span class="o">.</span><span class="no">Migrations</span><span class="o">.</span><span class="no">CreateQuotes</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Migration</span>
 
-  def up do
-    "CREATE TABLE quotes(id serial primary key, saying varchar(140), author varchar(140));"
-  end
+<div class="emphasis">  <span class="k">def</span> <span class="n">up</span> <span class="k">do</span>
+<span class="k">    </span><span class="s2">&quot;CREATE TABLE quotes(id serial primary key, saying varchar(140), author varchar(140));&quot;</span>
+  <span class="k">end</span>
 
-  def down do
-    "DROP TABLE quotes;"
-  end
-end
-</code></pre>
+  <span class="k">def</span> <span class="n">down</span> <span class="k">do</span>
+<span class="k">    </span><span class="s2">&quot;DROP TABLE quotes;&quot;</span>
+  <span class="k">end</span></div>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file.
@@ -391,15 +393,15 @@ Awesome!  Our database is setup!
 Now that we have our database table setup, we can create the Quote model.  Add a file in <code>web/models</code> called <code>quote.ex</code> that looks like this:
 </p>
 
-<pre><code>defmodule Splurty.Quote do
-  use Ecto.Model
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">Model</span>
 
-  schema "quotes" do
-    field :saying, :string
-    field :author, :string
-  end
-end
-</code></pre>
+  <span class="n">schema</span> <span class="s2">&quot;quotes&quot;</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">field</span> <span class="ss">:saying</span><span class="p">,</span> <span class="ss">:string</span>
+    <span class="n">field</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
 
 <p>
 Save the file. 

@@ -53,11 +53,12 @@
 		Build a new file in the folder <code>web/controllers</code> called <code>quote_controller.ex</code>, and have it be a blank controller, with similar syntax to the page controller.
 		</p>
 
-		<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  plug :action
-end</code></pre>
+  <span class="n">plug</span> <span class="ss">:action</span>
+<span class="k">end</span>
+</pre></div>
 	<p>
 	Save the file.
 	</p>
@@ -87,32 +88,37 @@ Cool, let's change our routes so the root page goes to the QuoteController.
 Open this file <code>web/router.ex</code> and edit it to look like this:
 </p>
 
-<pre><code>defmodule Splurty.Router do
-  use Phoenix.Router
 
-  pipeline :browser do
-    plug :accepts, ~w(html)
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-  end
 
-  pipeline :api do
-    plug :accepts, ~w(json)
-  end
 
-  scope "/", Splurty do
-    pipe_through :browser # Use the default browser stack
 
-    get "/", QuoteController, :homepage
-  end
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Router</span>
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Splurty do
-  #   pipe_through :api
-  # end
-end
-</code></pre>
+  <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="err">~</span><span class="n">w</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">plug</span> <span class="ss">:fetch_session</span>
+    <span class="n">plug</span> <span class="ss">:fetch_flash</span>
+    <span class="n">plug</span> <span class="ss">:protect_from_forgery</span>
+  <span class="k">end</span>
+
+  <span class="n">pipeline</span> <span class="ss">:api</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="err">~</span><span class="n">w</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">scope</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="no">Splurty</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">pipe_through</span> <span class="ss">:browser</span> <span class="c1"># Use the default browser stack</span>
+
+<div class="emphasis">    <span class="n">get</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="no">QuoteController</span><span class="p">,</span> <span class="ss">:homepage</span></div>  <span class="k">end</span>
+
+  <span class="c1"># Other scopes may use custom stacks.</span>
+  <span class="c1"># scope &quot;/api&quot;, Splurty do</span>
+  <span class="c1">#   pipe_through :api</span>
+  <span class="c1"># end</span>
+<span class="k">end</span>
+</pre></div>
+
+
 <p>
 Save the file.
 </p>
@@ -141,17 +147,16 @@ Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </p>
 
 
-<pre><code>defmodule Splurty.QuoteController do
-  use Phoenix.Controller
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Controller</span>
 
-  plug :action
+  <span class="n">plug</span> <span class="ss">:action</span>
   
-  def homepage(conn, _params) do
-    render conn, "homepage.html"
-  end
-  
-end</code></pre>
-
+<div class="emphasis">  <span class="k">def</span> <span class="n">homepage</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">)</span> <span class="k">do</span>
+<span class="k">    </span><span class="n">render</span> <span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;homepage.html&quot;</span>
+  <span class="k">end</span></div>  
+<span class="k">end</span>
+</pre></div>
 <p>
 And then save the file.
 </p>
@@ -166,10 +171,10 @@ We'll need to build the view file to support our quotes controller.
 Build a new, blank view in the <code>web/views</code> folder that is caled <code>quote_view.ex</code> and make it look like this:
 </p>
 
-<pre><code>defmodule Splurty.QuoteView do
-  use Splurty.View
-end</code></pre>
-
+<div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteView</span> <span class="k">do</span>
+<span class="k">  </span><span class="kn">use</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">View</span>
+<span class="k">end</span>
+</pre></div>
 <p>
 Save the file.
 </p>
@@ -190,9 +195,9 @@ Add a new folder for <code>quote</code> templates within the application:
 Then add a file called <code>homepage.html.eex</code> to <code>web/templates/quote</code> folder.  Add the following text to the file:
 </p>
 
-<pre><code>Number of reasons I yolo everyday &lt;%= 10 + 14 %&gt;
-</code></pre>
 
+<div class="highlight"><pre>Number of reasons I yolo everyday <span class="cp">&lt;%=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">14</span> <span class="cp">%&gt;</span>
+</pre></div>
 <p>
 Save the file.  
 </p>
