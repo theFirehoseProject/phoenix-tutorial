@@ -28,6 +28,27 @@ h1,h2,h3,h4,h5,h6 {
 
 
 
+.title-header {
+	margin:0; font-size:35px; padding-left:20px; padding-right:20px;
+}
+
+@media (max-width: 670px) {
+
+.title-header {
+	margin:0; font-size:20px;
+	padding-top:20px;
+	font-weight:bold;
+}
+
+}
+@media (max-width: 443px) {
+.title-header {
+padding-top:8px;
+}
+
+}
+
+
 /* SYNTAX */
 .highlight .hll { background-color: #333333 }
 .highlight  {
