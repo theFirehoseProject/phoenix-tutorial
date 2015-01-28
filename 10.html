@@ -42,18 +42,19 @@
 		<h1>Lesson 10</h1>
 
 		<h2>Making the Application Look Awesome (Optional)</h2>
-		<p>
-		Right now our web application looks pretty lousy.  In this lesson we'll make a few tweaks to the UI to make the application look a lot better.
+
+    <p>
+    In the previous lessons we built out all the back-end functionality to support everything our advice generator will need.  Unfortunately, right now our web application looks pretty lousy.  In this lesson we'll make a few tweaks to the UI to make the application look awesome.
 		</p>
 
-		<h3>Removing existing Phoenix CSS</h3>
+		<h3>Removing the Existing Phoenix CSS</h3>
 
 		<p>
 		Phoenix provides us with some design elements to start with, as well as integrating with the Twitter Bootstrap v3 Framework.
 		</p>
 
 		<p>
-		Remove everything after line 8 in <code>priv/static/css/phoenix.css</code>, which will remove the Phoenix specific CSS, but leave us with Twitter Bootstrap and normalize.css.
+    We won't use the CSS they provide for the default splash page, so let's get rid of it.  To do that delete everything after line 8 in <code>priv/static/css/phoenix.css</code>, which will remove the Phoenix specific CSS, but leave us with Twitter Bootstrap and normalize.css.
 		</p>
 
 		<p>
@@ -73,7 +74,7 @@
 	</p>
 
 	<p>
-	Next let's get rid of the content in <code>web/templates/layout/application.html.eex</code> that is specific to the Phoenix CSS.  Make the body tag of the application start like this:
+	Remove the content in <code>web/templates/layout/application.html.eex</code> that is specific to the Phoenix splash page.  Make the body tag of the application look like this:
 	</p>
 
 <div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
@@ -81,11 +82,7 @@
 <span class="nt">&lt;/body&gt;</span>
 </pre></div>
 <p>
-Save the file.
-</p>
-
-<p>
-Refresh the page and you'll notice all the Phoenix specific styles have been removed.  Now we can add the specific style elements we want.
+Save the file and refresh the page and you'll notice all the Phoenix specific styles have been removed.  Now we have a clean slate we can work with.
 </p>
 		<h3>Adjusting the Font Stack</h3>
 
@@ -98,7 +95,7 @@ Refresh the page and you'll notice all the Phoenix specific styles have been rem
 		</p>
 
 		<p>
-		I selected Roboto Slab, and selected the different font weights and found the standard import code.  I added this to <code>web/templates/layout/application.html.eex</code> beneath the existing style tags:
+		I selected <code>Roboto Slab</code>, chose the different font-weights, and scrolled down and copied the standard import code to the clipboard.  I then pasted the code into <code>web/templates/layout/application.html.eex</code> beneath the existing style tags:
 		</p>
 
 <div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;/css/phoenix.css&quot;</span><span class="nt">&gt;</span>
@@ -109,7 +106,7 @@ Save the file.
 </p>
 
 <p>
-Add the following to the bottom of <code>priv/static/css/phoenix.css</code> (it might be different depending on which font you imported):
+Add the following to the bottom of <code>priv/static/css/phoenix.css</code>, although you may have a slightly different line if you have chosen a different font.
 </p>
 
 <div class="highlight"><pre><span class="nt">body</span> <span class="p">{</span>
@@ -117,17 +114,13 @@ Add the following to the bottom of <code>priv/static/css/phoenix.css</code> (it 
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file.  Refresh the page and you'll notice the font got upgraded.  Nice.
+Save the file.  Refresh the page and you'll notice the font changed!
 </p>
 
 <h3>Adding a Header</h3>
 
 <p>
-Next, let's add a header, with a spot for links and a logo.
-</p>
-
-<p>
-Add the following to <code>web/templates/layouts/application.html.eex</code>:
+Our web application should have a header with a logo and a link to contribute a new quote.  To do this, add the following code to <code>web/templates/layouts/application.html.eex</code>:
 </p>
 
 <div class="highlight"><pre> <span class="nt">&lt;body&gt;</span>
@@ -144,11 +137,11 @@ Add the following to <code>web/templates/layouts/application.html.eex</code>:
 <span class="nt">&lt;/body&gt;</span>
 </pre></div>
   <p>
-Save the file and refresh the page.  Nice it added a section for our header.
+Save the file and refresh the page.  You will notice this change added a a bit of content that will be displayed within our header.
   </p>
 
   <p>
-  Let's add a bit of CSS to the bottom of <code>priv/static/css/phoenix.css</code>:
+  A black border along the top of our header would make it look better.  To do that add the following lines of CSS code to the bottom of the <code>priv/static/css/phoenix.css</code> file:
   </p>
 
 <div class="highlight"><pre><span class="nt">header</span> <span class="p">{</span>
@@ -156,24 +149,23 @@ Save the file and refresh the page.  Nice it added a section for our header.
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file and refresh.  It added a black bar to the top.
+Save the file and refresh the page.  Notice the black bar it added in the header.
 </p>
 
 <p>
-Next let's base our logo in the top left off <a href="http://cssdeck.com/labs/9zdit3ih">this</a> HTML and CSS from CSSDeck.  Replace <code>LOGO HERE</code> in <code>web/templates/layout/application.html.eex</code> with this: 
+ <a href="http://cssdeck.com/labs/9zdit3ih">This UI component</a> from CSSDeck would make an excellent logo for our application.  Replace <code>LOGO HERE</code> in <code>web/templates/layout/application.html.eex</code> with  the HTML markup we pulled from CSSDeck: 
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;header&gt;</span>
   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;circle&quot;</span><span class="nt">&gt;</span>
+<div class="emphasis">    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;circle&quot;</span><span class="nt">&gt;</span>
       <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
       Elixir <span class="err">&amp;</span>
       <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
       Erlang
       <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
       Rock!
-    <span class="nt">&lt;/div&gt;</span>
-
+    <span class="nt">&lt;/div&gt;</span></div>
   <span class="nt">&lt;/div&gt;</span>
 
   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6 text-right&quot;</span><span class="nt">&gt;</span>
@@ -181,9 +173,11 @@ Next let's base our logo in the top left off <a href="http://cssdeck.com/labs/9z
   <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/header&gt;</span>
 </pre></div>
-
 <p>
-And add the CSS from CSSDeck to <code>priv/static/css/phoenix.css</code>:
+Save the file.
+</p>
+<p>
+Next pull in the CSS from the CSSDeck example to the <code>priv/static/css/phoenix.css</code> file:
 </p>
 
 <div class="highlight"><pre><span class="nc">.circle</span> <span class="p">{</span>
@@ -207,11 +201,11 @@ And add the CSS from CSSDeck to <code>priv/static/css/phoenix.css</code>:
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file and refresh the page.  
+Save the file and refresh the page.  Notice the red circle with text was added to the page!  Nice!
 </p>
 
 <p>
-Next play with the font-family, font-size and font-weight within the logo:
+Next play with the <code>font-family</code>, <code>font-size</code> and <code>font-weight</code> within the red circle.  To do that, add the following snippet to <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="nc">.circle</span> <span class="p">{</span>
@@ -235,9 +229,11 @@ Next play with the font-family, font-size and font-weight within the logo:
 <div class="emphasis">  <span class="k">font-family</span><span class="o">:</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
   <span class="k">font-weight</span><span class="o">:</span><span class="m">200</span><span class="p">;</span>
   <span class="k">font-size</span><span class="o">:</span><span class="m">16px</span><span class="p">;</span></div><span class="p">}</span></pre></div>
-
 <p>
-Let's add a horizontal rule under the header.  Edit <code>web/templates/layouts/application.html.eex</code> to look like this:
+Save the file and refresh the page.  Notice how the font within the red circle got updated slightly.
+</p>
+<p>
+Include a horizontal rule under the header.  Edit <code>web/templates/layouts/application.html.eex</code> to add this line:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
@@ -264,12 +260,15 @@ Let's add a horizontal rule under the header.  Edit <code>web/templates/layouts/
   <span class="cp">&lt;%=</span> <span class="vi">@inner</span> <span class="cp">%&gt;</span>
 <span class="nt">&lt;/body&gt;</span>
 </pre></div>
-  <p>
-And let's implement the CSS class for <code>.clear</code> to clear both, and also make the rule have no margin:
-  </p>
 
+<p>
+Save the file.
+</p>
   <p>
-  Add this to <code>priv/static/css/phoenix.css</code>:
+By adding a bit of CSS to implement the <code>.clear</code> CSS selector and adjusting the margins on the horizontal rule, we can get the header to look good.
+
+</p><p>
+Add the following lines to <code>priv/static/css/phoenix.css</code>:
   </p>
 
 <div class="highlight"><pre><span class="nc">.clear</span> <span class="p">{</span>
@@ -280,8 +279,12 @@ And let's implement the CSS class for <code>.clear</code> to clear both, and als
   <span class="k">margin</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+
 <p>
-Next let's add a link to the new form in the header:
+Save the file and refresh the page.  The section for the header will start to standout. 
+</p>
+<p>
+The header should include a link to the new form so add the following lines of code to hook up a link in the header <code>web/templates/layouts/application.html.eex</code>:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;header&gt;</span>
@@ -303,8 +306,12 @@ Next let's add a link to the new form in the header:
     <span class="nt">&lt;/div&gt;</span></div>  <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/header&gt;</span>
 </pre></div>
+
 <p>
-And let's add some CSS to make the contribute link to look good:
+Save the file.
+</p>
+<p>
+Add the follow CSS to <code>priv/static/css/phoenix.css</code> to make the linked in the header look awesome:
 </p>
 
 <div class="highlight"><pre><span class="nf">#header-links</span> <span class="p">{</span>
@@ -322,13 +329,13 @@ And let's add some CSS to make the contribute link to look good:
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file and refresh the page.  Awesome, the header looks solid.  Next let's add a footer.
+Save the file and refresh the page.  The header looks solid.  Next let's add a footer.
 </p>
 
 <h3>Adding a Footer</h3>
 
 <p>
-Next, let's add a sticky footer using <a href="http://philipwalton.github.io/solved-by-flexbox/">flexbox</a>.
+ Add a sticky footer to the application using <a href="http://philipwalton.github.io/solved-by-flexbox/">flexbox</a>.
 
 </p>
 
@@ -349,12 +356,12 @@ Based off the <a href="http://philipwalton.github.io/solved-by-flexbox/demos/sti
 <span class="nt">&lt;/footer&gt;</span></div></pre></div>
 
 <p>
-And add the class <code>Site</code> to the body tag:
+In the example the Sticky Footer post provides, the body tag includes the class of <code>Site</code>.  Adjust the body tag on <code>web/templates/layouts/application.html.eex </code>, so our application matches their example:
 </p>
 <div class="highlight"><pre><span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">&quot;Site&quot;</span><span class="nt">&gt;</span>
 </pre></div><p>Save the file</p>
 <p>
-And add the following line to your <code>priv/static/css/phoenix.css</code> file:
+Copy the CSS from the post and include the following to the bottom of the <code>priv/static/css/phoenix.css</code> file:
 </p>
 
 <div class="highlight"><pre><span class="nc">.Site</span> <span class="p">{</span>
@@ -368,11 +375,11 @@ And add the following line to your <code>priv/static/css/phoenix.css</code> file
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file and refresh the page.
+Save the file and refresh the page.  We now have a Sticky Footer!  Now it is time to fill the footer up with valid stuff.
 </p>
 
 <p>
-It's coming together.  Let's add a link to see another quote in the footer:
+Add a link to display another quote randomly in the footer.  This link can just be a regular link to the <code>homepage</code>.  Adjust <code>web/templates/layouts/application.html.eex</code> to look like this
 </p>
 
 
@@ -391,7 +398,7 @@ Save the file.
 </p>
 
 <p>
-Add a bit of CSS to make the link in the bottom look a bit better:
+Add the following CSS to the <code>priv/static/css/phoenix.css</code> file to make the link in the  footer look awesome:
 </p>
 
 <div class="highlight"><pre><span class="nt">footer</span> <span class="p">{</span>
@@ -408,7 +415,10 @@ Add a bit of CSS to make the link in the bottom look a bit better:
 <span class="p">}</span>
 </pre></div>
 <p>
-Next, let's brag-it-up about how we used the latest tech to build this out.  Download the<a href="http://elixir-lang.org/images/logo/logo.png">elixir logo</a> and the <a href="https://raw.githubusercontent.com/phoenixframework/media/master/badges/poweredby-phoenix-badge1-01.png">phoenix badge</a> into the <code>priv/static/images</code> folder as <code>elixir.png</code> and <code>phoenix.png</code>.  Then add the following code to your app:
+Save the file.
+</p>
+<p>
+Now let's <strong>brag-it-up</strong> about how we used some cool technology to build this.  Download the <a href="http://elixir-lang.org/images/logo/logo.png">elixir logo</a> and the <a href="https://raw.githubusercontent.com/phoenixframework/media/master/badges/poweredby-phoenix-badge1-01.png">phoenix badge</a> into the <code>priv/static/images</code> folder as <code>elixir.png</code> and <code>phoenix.png</code>.  Then add the following code to <code>web/templates/layouts/application.html.eex</code> so the logos are included in the footer:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;footer&gt;</span>
@@ -430,20 +440,20 @@ Next, let's brag-it-up about how we used the latest tech to build this out.  Dow
 Save the file.
 </p>
 <p>
-Then jump into your CSS file and add the following:
+Return to <code>priv/static/css/phoenix.css</code> and add the following line to size our icons reasonably:
 </p>
 
 <div class="highlight"><pre><span class="nt">footer</span> <span class="nt">img</span> <span class="p">{</span>
   <span class="k">height</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div><p>
-Save the file and refresh the page.  Starting to come together...
+Save the file and refresh the page.  Our footer looks awesome now!
 </p>
 
-<h3>Styling the Show Page</h3>
+<h3>Making our Detail Page Look Awesome</h3>
 
 <p>
-Next up, let's jump into <code>web/templates/quote/show.html.eex</code> and get this page looking better.  To start with let's add a bit of spacing from the edges:
+To get our detail page looking awesome we will adjust the HTML we're generating.  Wrap the contents of the page in a div with a few classes in <code>web/templates/quote/show.html.eex</code>.  This will give the content of the page a bit of spacing from the edge of the page.
 </p>
 
 <div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>
@@ -455,7 +465,7 @@ Next up, let's jump into <code>web/templates/quote/show.html.eex</code> and get 
   <span class="nt">&lt;/h2&gt;</span>
 <div class="emphasis"><span class="nt">&lt;/div&gt;</span></div></pre></div>
 <p>
-Next, let's add a little context about the quote we're going to show:
+Showing the user a bit more context about what we are presenting to them on the detail page will make our page look better.  Add another headline to <code>web/templates/quote/show.html.eex</code>, like this:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span>
@@ -474,7 +484,10 @@ Next, let's add a little context about the quote we're going to show:
 </pre></div>
 
 <p>
-Save the file.  Next edit the CSS file to add this:
+Save the file. 
+</p>
+<p>
+Make this <code>h3</code> we added look awesome by adding the following CSS to <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="nt">h3</span> <span class="nt">span</span> <span class="p">{</span>
@@ -489,8 +502,12 @@ Save the file.  Next edit the CSS file to add this:
   <span class="k">font-weight</span><span class="o">:</span> <span class="m">100</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+
 <p>
-Next let's adjust the size of our h1:
+  Save the file and refresh the page.  The blurb we just added looks great.
+</p>
+<p>
+  Our page would look better if the <code>h1</code> was a bit larger.  Add the following to <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="nt">h1</span> <span class="p">{</span>
@@ -498,9 +515,11 @@ Next let's adjust the size of our h1:
   <span class="k">font-weight</span><span class="o">:</span><span class="m">700</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-
 <p>
-And we can right align the author:
+Save the file and refresh the page.  Our detail page is coming together.
+</p>
+<p>
+Let's use bootstrap's <code>text-right</code> to right-align the name of the author by adjusting the <code>h2</code> in <code>web/templates/quote/show.html.eex</code>:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1 page-content&quot;</span><span class="nt">&gt;</span>
@@ -518,19 +537,23 @@ And we can right align the author:
 <span class="nt">&lt;/div&gt;</span>
 </pre></div>
 <p>
-Save the file.
+Save the file and refresh the page.  It's very close.
 </p>
 
 <p>
-Next let's add some spacing from the top of the page:
+Add some spacing between the header and the quote we're displaying by including the following CSS in <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="nc">.page-content</span> <span class="p">{</span>
   <span class="k">margin-top</span><span class="o">:</span><span class="m">30px</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+
 <p>
-And let's adjust the selection color to be red:
+Save the file and refresh the page.
+</p>
+<p>
+If a user selects characters on the page, let's change the color of the selection to be red by adding the following to the bottom of <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="o">:</span><span class="nd">:selection</span> <span class="p">{</span>
@@ -538,17 +561,13 @@ And let's adjust the selection color to be red:
 <span class="p">}</span>
 </pre></div>
 <p>
-Save the file and refresh.  Sweet, this page looks solid.
+Save the file and refresh.  The detail page looks great!
 </p>
 
-<h3>Styling the new and edit forms</h3>
+<h3>Making our Forms Look Awesome</h3>
 
 <p>
-First press the <strong>Contribute</strong> link in the nav.  You'll see the new form.  It looks pretty close, but let's tidy it up a bit.
-</p>
-
-<p>
-Edit <code>web/templates/quote/new.html.eex</code>:
+Press the <strong>Contribute</strong> link in the navigation.  The new form will be presented to you.  Adjust the spacing from the edges of the page by wrapping it in a div with bootstrap classes applied in <code>web/templates/quote/new.html.eex</code>:
 </p>
 
 <div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>New Quote<span class="nt">&lt;/h1&gt;</span>
@@ -567,12 +586,12 @@ Edit <code>web/templates/quote/new.html.eex</code>:
   <span class="nt">&lt;/form&gt;</span>
 <div class="emphasis"><span class="nt">&lt;/div&gt;</span></div></pre></div>
 <p>
-Save the file and refresh the page.  Looks pretty solid.
+Save the file and refresh the page.
 </p>
 
 <p>
 
-Let's do the same to the edit page, edit <code>web/templates/quote/edit.html.eex</code> to look like this:
+Make the same adjustment for the edit form, adjust <code>web/templates/quote/edit.html.eex</code> to look like this:
 </p>
 
 <div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span></div>  <span class="nt">&lt;h1&gt;</span>Edit Quote<span class="nt">&lt;/h1&gt;</span>
@@ -599,8 +618,7 @@ Save the file.
 </p>
 <p>
 
-
- Next, let's adjust the button CSS:
+The last change to make to the forms is to adjust the look and feel of the buttons.  Edit <code>priv/static/css/phoenix.css</code> to define how the <code>btn-primary</code> should look:
 </p>
 <div class="highlight"><pre><span class="nc">.btn-primary</span><span class="o">,</span> <span class="nc">.btn-primary</span><span class="nd">:hover</span> <span class="p">{</span>
   <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
@@ -615,10 +633,10 @@ Save the file.
 Save the file and refresh the page.  Looks solid!
 </p>
 
-<h3>Adjusting the Index Page</h3>
+<h3>Making our Index Page Look Awesome</h3>
 
 <p>
-Navigate to <a href="http://localhost:4000/quotes/">localhost:4000/quotes/</a>
+Navigate to <a href="http://localhost:4000/quotes/">localhost:4000/quotes/</a>.  We'll apply a couple  classes from twitter bootstrap onto this page by adjusting <code>web/templates/quote/index.html.eex</code> to look like this:
 </p>
 
 <div class="highlight"><pre><div class="emphasis"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;page-content col-xs-10 col-xs-offset-1&quot;</span><span class="nt">&gt;</span>
@@ -656,7 +674,9 @@ Navigate to <a href="http://localhost:4000/quotes/">localhost:4000/quotes/</a>
 
 
 <p>
-Save the file and refresh.  Looking good, let's quickly adjust the last button:
+Save the file and refresh.  
+</p>
+As a last tweak, let's override some defaults of the <code>btn-danger</code> button by adding the following CSS to <code>priv/static/css/phoenix.css</code>:
 </p>
 
 <div class="highlight"><pre><span class="nc">.btn-danger</span> <span class="p">{</span>
@@ -666,7 +686,7 @@ Save the file and refresh.  Looking good, let's quickly adjust the last button:
 </pre></div>
 
 <p>
-Save the file and refresh the page.
+Save the file and refresh the page.  It looks great!
 </p>
 
 
