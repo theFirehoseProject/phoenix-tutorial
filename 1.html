@@ -53,7 +53,7 @@ The first step to build a web application with the Phoenix Web Framework is to i
 		<h3>Installing Elixir</h3>
 
 		<p>
-			Follow the <a href="http://elixir-lang.org/install.html">Install Instructions</a> from the Elixir-Lang homepage.  This will install Elixir and the Erlang programming languages on your machine.
+			Follow the <a href="http://elixir-lang.org/install.html">Install Instructions</a> from the Elixir-Lang homepage.  This will install the Elixir and Erlang programming languages on your machine.
 		</p>
 
 		<p>
@@ -118,11 +118,11 @@ iex(2)> </code></pre>
 		</p>
 
 		<p>
-		If you don't have Postgres installed yet, <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">Follow the Instructions</a> to install it.
+		If you don't have Postgres installed yet, <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">follow the instructions</a> to install it.
 		</p>
 
 		<p>
-		Then create an ecto user:
+		Then create an ecto user in Postgres:
 		</p>
 
 		<pre><code>$ createuser ecto --pwprompt</code></pre>
@@ -131,13 +131,13 @@ iex(2)> </code></pre>
 		Enter a password that you will remember.
 		</p>
 		<p>
-		Then create the database:
+		Then create the database for this project:
 		</p>
 
 		<pre><code>$ createdb -Oecto -Eutf8 splurty_development</code></pre>
 
 		<p>
-		Make sure you can log into your postgres database:
+		Make sure you can login to your postgres database by running the following command:
 		</p>
 
 		<pre><code>$ psql splurty_development --user ecto --password</code></pre>
@@ -147,13 +147,13 @@ iex(2)> </code></pre>
 		</p>
 
 		<h3>Getting the Phoenix Framework</h3>
-		<p>  Go into the directory where you usually write code and clone the <a href="https://github.com/phoenixframework/phoenix">phoenix</a> source code:
+		<p>  Navigate in the terminal to the directory where your different projects live and clone the <a href="https://github.com/phoenixframework/phoenix">phoenix</a> source code:
 		</p>
 
 		<pre><code>$ git clone https://github.com/phoenixframework/phoenix.git</code></pre>
 
 		<p>
-		Next, navigate into the phoenix framework folder:
+		Navigate into the phoenix framework folder:
 		</p>
 
 		<pre><code>cd phoenix</code></pre>
@@ -179,11 +179,11 @@ iex(2)> </code></pre>
 		</p>
 
 		<p>
-		This command is the first time we're using <code>mix</code>.  Mix is a program that is a hybrid of bundler and rake if you're familiar with ruby on rails.  In short it allows us to run commands and manages our dependencies.
+		This is the first time we're using the <code>mix</code> command.  Mix is a program that is a hybrid of bundler and rake if you're familiar with ruby on rails.  In short it allows us to run commands and manages our dependencies.
 		</p>
 
 		<p>
-		If you've tried programming in scala, or any other functional programming language, you may have noticed that package management is usually overly complicated.  Mix is very well designed and works seamlessly.
+		If you've tried programming in scala, or any other functional programming language, you may have noticed that package management is usually overly complicated.  Mix is very well designed and works as simply as rake and bundler.
 		</p>
 
 		<h3>Running our Application: the Rise of the Phoenix</h3>

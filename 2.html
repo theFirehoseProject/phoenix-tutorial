@@ -48,15 +48,16 @@
 
 		<h2>Controllers, Views and Templates</h2>
 		<p>
-		Phoenix is an MVC Web Framework.  By default it sets up a controller called <code>page</code> and an action called <code>index</code>.
+		Phoenix is an Model/View/Controller Web Framework and it has many parallels to Ruby on Rails.  New projects have the root page displayed from the <code>page</code> controller's <code>index</code> action, but in this lesson we will override that.  We will point it to a new controller, the <code>quote</code> controller and the <code>homepage</code> action.
 		</p>
 
 		<p>
-		One subtle different you'll notice from rails is controller names tend to be in the <strong>singular</strong> rather than <strong>plural</strong>.
+		<strong>Pro-tip!</strong>
+		One subtle difference you'll notice from rails is that in Phoenix, controller names tend to be in the <strong>singular</strong> rather than <strong>plural</strong>.
 		</p>
 
 		<p>
-		As of <strong>v 0.8</strong> there aren't generators to create controllers, so we need to create them manually.
+		As of <strong>v 0.8</strong> there <a href="https://github.com/phoenixframework/phoenix/pull/507">aren't generators to create controllers</a> yet, so we need to create them manually.
 		</p>
 
 		<p>
@@ -66,17 +67,17 @@
 		<h3>Quick Overview</h3>
 
 		<p>
-		Quickly look at the project structure that was provided by the Phoenix framework.  The bulk of the interesting code is in the folder called <code>web</code>.  You'll see <code>channels</code>, <code>controllers</code>, <code>models</code>, <code>templates</code>, <code>views</code>.
+		Quickly look at the file structure that was generated when we created a blank Phoenix web application.  The bulk of the interesting code is in the folder called <code>web</code>, it's like the app folder in Rails.  You'll see <code>channels</code>, <code>controllers</code>, <code>models</code>, <code>templates</code>, <code>views</code>.
 		</p>
 
 		<p>
-			If you're coming from rails, <code>views</code> is serving a role close to what <code>helpers</code> do in rails.  <code>templates</code> on the otherhand serve the role of templated code.
+			<strong>Pro-tip!</strong> If you're coming from rails, <code>views</code> is serving a role close to what <code>helpers</code> do, and  <code>templates</code> are the templates for HTML, that are generally put in Ruby on Rails views.
 		</p>
 
 		<h3>Create a Controller</h3>
 
 		<p>
-		Build a new file in the folder <code>web/controllers</code> called <code>quote_controller.ex</code>, and have it be a blank controller, with similar syntax to the page controller.
+		Build a new file in the folder <code>web/controllers</code> called <code>quote_controller.ex</code>, and have it be a blank controller. You can compare this to the page controller, as it's code is quite similar.
 		</p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -90,28 +91,28 @@
 	</p>
 
 	<p>
-	We want to hook-up the root page of our application to go to the <code>QuoteController</code> and the <code>homepage</code> action.
+	Our goal now is to hook-up request to the root url of our application to go to the <code>QuoteController</code> and the <code>homepage</code> action (we'll hook the homepage action up in the controller a bit later).
 	</p>
 
 	<p>
-	To start with, let's look at how our application is hooked up.  Run the following command to see which URLs are hooked up to, which controllers/actions.
+	Run the following command to see which URLs are hooked up to which controllers and actions.
 	</p>
 
 	<pre><code>$ mix phoenix.routes</code></pre>
 
 	<p>
-	Right now it should say:
+	Right now it will say:
 	</p>
 
 	<pre><code>page_path  GET  /  Splurty.PageController.index/2
 </code></pre>
 
 <p>
-Cool, let's change our routes so the root page goes to the QuoteController.
+Next, we want to change our routes so the root page goes to the QuoteController.
 </p>
 
 <p>
-Open this file <code>web/router.ex</code> and edit it to look like this:
+To do this, edit <code>web/router.ex</code>  to look like this:
 </p>
 
 
@@ -149,26 +150,24 @@ Open this file <code>web/router.ex</code> and edit it to look like this:
 Save the file.
 </p>
 <p>
-Then run the command to see the routes table again to make sure things are setup properly.
+Then run the command to generate and display the routes table for our application
 </p>
 	<pre><code>$ mix phoenix.routes</code></pre>
 
 	<p>
-	Right now it should say:
+	Now it will say:
 	</p>
 
 	<pre><code>quote_path  GET  /  Splurty.QuoteController.homepage/2
 </code></pre>
 
 <p>
-Cool, we hooked up our new action.
+This indicates we properly hooked up the routes to our new controller.  
 </p>
 
 <p>
-Next, let's add the <code>homepage</code> action into our controller.
-</p>
+We now need to add the <code>homepage</code> action into our controller.
 
-<p>
 Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </p>
 
@@ -184,17 +183,17 @@ Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 <span class="k">end</span>
 </pre></div>
 <p>
-And then save the file.
+Save the file.
 </p>
 
 <h3>Building the View</h3>
 
 <p>
-We'll need to build the view file to support our quotes controller.
+We'll need to build the view file to support our QuoteController.
 </p>
 
 <p>
-Build a new, blank view in the <code>web/views</code> folder that is caled <code>quote_view.ex</code> and make it look like this:
+Build a new file in the <code>web/views</code> directory called <code>quote_view.ex</code> and put the following content in it:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteView</span> <span class="k">do</span>
@@ -206,19 +205,19 @@ Save the file.
 </p>
 
 <p>
-Awesome, we're super close to having our app be updated.
+We are very close to having the root of our web application changed.
 </p>
 
-<h3>Next up, build the template</h3>
+<h3>Build the template</h3>
 
 <p>
-Add a new folder for <code>quote</code> templates within the application:
+Create a new folder for <code>quote</code> templates in the application by running the following command:
 </p>
 
 <pre><code>$ mkdir web/templates/quote</code></pre>
 
 <p>
-Then add a file called <code>homepage.html.eex</code> to <code>web/templates/quote</code> folder.  Add the following text to the file:
+Then add a file to the <code>web/templates/quote</code> directory called <code>homepage.html.eex</code> with the following content:
 </p>
 
 
