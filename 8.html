@@ -46,27 +46,35 @@
 		<h2>Destroy Actions and the RestfulizerJS Library</h2>
    
 
+   <p>
+   Our web application supports most of the standard CRUD functionality, but we haven't tackled deleting content from our database yet.  We will do that in this lesson.
+   </p>
+
+
     <p>
-    Now let's allow users to destroy quotes from the index page.
+    From our web application we'll want to trigger a <code>DELETE</code> HTTP request to the <code>quote_path</code> in our application.  Rather than doing this through submitting a form, we should trigger the HTTP request by clicking on a link.
+
+    Unfortunately, right now Phoenix doesn't support links to non-<code>GET</code> requests out of the box.  We can pull in a JavaScript library to do this for us called the RestfulizerJs.
+    </p>
+
+    <h3>RestfulizerJs</h3>
+
+    <p>
+    Add the <a href="https://github.com/Ifnot/RestfulizerJs">RestfulizerJs</a> to your Phoenix web application.  To start with copy the <code>jquery.restfulizer.js</code> file into <code>priv/static/js</code> folder.
+
     </p>
 
     <p>
-    We'll want to trigger a DELETE HTTP request to the quote_path.  Unfortunately, right now Phoenix doesn't support links to GET requests out of the box.  Let's pull in a JavaScript plugin to do this.
-    </p>
+    We'll also want to include jQuery, so let's pull that into our application too.  We should place this within the <code>web/templates/layout/application.html.eex</code> file, so the JavaScript is loaded on all pages of our web application. 
+</p>
+<p>
+<strong>Pro-tip!</strong>
 
-    <h3>RESTFULIZER</h3>
-
-    <p>
-    The <a href="https://github.com/Ifnot/RestfulizerJs">RestfulizerJs</a> library will support this for us.  To start with copy the <code>jquery.restfulizer.js</code> file into <code>priv/static/js</code> folder.
-
-    </p>
-
-    <p>
-    Next, let's pull in both jQuery and the RESTfulizer into our application in the <code>web/templates/layout/application.html.eex</code> file.  This file is like <code>application.html.erb</code> in rails.
+     The <code>application.html.eex</code> is like <code>application.html.erb</code> in rails.
     </p>
 
     <p>
-    Add the following two lines into the head of the file:
+    Add the following two lines to <code>web/templates/layout/application.html.eex</code>:
     </p>
 
 <div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-1.11.2.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -75,7 +83,7 @@
 
 
     <p>
-    We'll also need to add a bit of JavaScript to activate the plugin, and also play nicely with CSRF tokens.  Add the following script tag to the <code>application.html.eex</code> file:
+    In order to activate the RestfulizerJs plugin, and also tie in our CSRF token we'll need to add a bit of JavaScript code.  Including this script tag to the <code>web/templates/layout/application.html.eex</code> will do the trick:
     </p>
 
 <div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
@@ -92,14 +100,18 @@
 <span class="p">});</span>
 <span class="nt">&lt;/script&gt;</span>
 </pre></div>
+
 <p>
-Save the file.  Sweet, now we've got the ability to do POST/PUT and DELETE from links.
+Save the file. 
+</p>
+<p>
+ We now can quickly perform <code>POST</code>, <code>PUT</code> and <code>DELETE</code> HTTP requests from links.
 </p>
 
 <h3>Adding a Delete Link</h3>
 
 <p>
-Open up <code>web/templates/quote/index.eex</code> and add a button to delete the quote:
+Edit <code>web/templates/quote/index.eex</code> to add a link to delete the quote:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
@@ -134,19 +146,21 @@ Open up <code>web/templates/quote/index.eex</code> and add a button to delete th
 </pre></div>
 
 <p>
-Save the file.  Refresh the index page. 
+Save the file and refresh the index page. You should notice a destroy link got added.  Sweet!
+
 </p>
 
 <p>
-You should notice a destroy link got added.  Sweet!
+In the code above, by giving the link the class of <code>rest</code> we connect it to the script tag we used above to configure the RestfulizerJs library.  The <code>data-method</code> attribute tells RestfulizerJs to perform that type of an HTTP request when the link is clicked, in this case a <code>DELETE</code> request.
+</p>
+
+
+<p>
+When you press the destroy button <strong style="color:red;">you will be presented an error message</strong>, stating that  we haven't implemented the action in the controller yet.  Let's add the action in our controller!
 </p>
 
 <p>
-Press the destroy button and you'll notice the error message that indicates that we haven't implemented the action in the controller yet.  This makes sense.
-</p>
-
-<p>
-Let's add the destroy action in the quotes controller.  Add the method to <code>web/controllers/quote_controller.ex</code> that looks like this:
+  Add the method to <code>web/controllers/quote_controller.ex</code> so the file looks like this:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -212,9 +226,13 @@ Let's add the destroy action in the quotes controller.  Add the method to <code>
 <p>
 Save the file.
 </p>
+<p>
+This code uses the standard code we've been using to load up the <code>Splurty.Quote</code> model in the controller.  We then delete the item from the repo in the same manner we used in <a href="3.html">Lesson 3</a>.  The user is redirected to the index of the QuoteController.
+</p>
+
 
 <p>
-Press the destroy button.  Sweet, it removes the quote from our database and redirects you back to the index page.
+Press the destroy button.  Sweet!  You will be redirected to the index page and the item you deleted will no longer be presented to you in the table.
 </p>
 
 
