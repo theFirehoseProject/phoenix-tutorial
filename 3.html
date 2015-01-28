@@ -104,15 +104,15 @@ Then run the command to fetch and install the dependencies:
 <pre><code>mix do deps.get, compile</code></pre>
 
 <p>
-It should complete without giving you error messages.  That includes the dependencies in our application.
+It should complete without giving you error messages.  That downloads, installs and compiled the dependencies in our application.
 </p>
 
 <p>
-Elixir also has a concept of <code>Applications</code>.  Applications are separate processes from our main application that our web application will communicate with.
+Elixir also has a concept of <code>applications</code>. An application is run in a separate process, which we will communicate with.
 </p>
 
 <p>
-We'll also need to add both the <code>postgrex</code> and <code>ecto</code> applications to our application.
+We will need to add both the <code>postgrex</code> and <code>ecto</code> as applications in our project.
 </p>
 
 
@@ -161,7 +161,7 @@ For an in-depth analysis of how ecto works, check <a href="https://www.youtube.c
 </p>
 
 <p>
-The part of the Ecto documentation that you'll want to know going in is that there are three main components to it.
+The key thing to know about Ecto is that it is organized into  three main components.
 </p>
 
 <h4>Repo</h4>
@@ -178,11 +178,11 @@ Models make it easy to save items to our database and provides callbacks in the 
 <h4>Queries</h4>
 
 <p>
-Unlike ActiveRecord, Ecto doesn't hide the querying so much.  The querying system is influenced by dot-net's <code>LINQ</code>.  Since Elixir's syntax supports macros, the library actually doesn't need any "Language Integration", in the same vein as LINQ.
+Unlike ActiveRecord, Ecto exposes queries in a direct manner.  The querying system is influenced by dot-net's <code>LINQ</code>.  Since Elixir's syntax supports macros, the library actually doesn't need any "Language Integration", in the same vein as LINQ, to achieve the same "Language-Integrated-ness".
 </p>
 
 <p>
-The one critical difference between LINQ and Ecto is Ecto is exclusive to querying databases.  In LINQ the abstraction is moved to any type of collection (such as arrays, hashes, etc).  Ecto makes the claim that the relational algebra it supports should be available to databases, which it maps to intuitively, but should not provide the functionality for regular collections, since the data types are not optimized for those types of queries.
+One critical difference between LINQ and Ecto is that Ecto exclusively deals with databases.  In LINQ the abstraction is moved to any type of collection (such as arrays, hashes, etc).  Ecto makes the claim that the relational algebra it supports should be available to databases, which it maps to intuitively, but should not provide the functionality for regular collections, since the data types are not optimized for those types of queries.
 </p>
 
 <h3>Building the Repo</h3>
@@ -222,7 +222,7 @@ In this method we're saying we should pull the database connection string inform
 </p>
 
 <p>
-Now let's setup the configuration for the file.  Add the following line to the bottom of <code>config/dev.exs</code>.
+Setup the configuration for our database by adding the following line to the bottom of <code>config/dev.exs</code>.
 </p>
 
 <div class="highlight"><pre><span class="kn">use</span> <span class="no">Mix</span><span class="o">.</span><span class="no">Config</span>
@@ -249,11 +249,11 @@ This sets up most of Ecto's repo.  The core repo code will run in external erlan
 </p>
 
 <p>
-When dealing with multiple processes, both Erlang and Elixir use the concept of <code>Supervisors</code>, and this is how the code is considered <code>Fault Tolerant</code>, because we think about strategies to keep our processes running smoothly (and how to deal with exceptional cases), by default.
+When dealing with multiple processes, both Erlang and Elixir use the concept of <code>Supervisors</code>, and this ensures our application is <code>Fault Tolerant</code>. In short, we will think about strategies to keep our processes running smoothly, and how to deal with exceptional cases in advance of problems arising.
 </p>
 
 <p>
-The core thought in the erlang community is that <strong>Exceptional Cases Should Crash the Process</strong>, and then supervisors will re-start a new process that isn't messed up.
+The core thought in the Erlang community is that <strong>Exceptional Cases Should Crash the Process</strong>, and then supervisors will re-start a new process that isn't messed up.
 </p>
 
 <p>
@@ -265,7 +265,7 @@ For more information about Elixir's supervision tree check the <a href="http://e
 </p>
 
 <p>
-Let's build a supervisor that uses the <code>one_for_one</code> strategy, and starts our Web Application's Endpoints as well as the Repo.
+In this application, we will build a supervisor that uses the <code>one_for_one</code> strategy, and starts our web application's endpoints as well as the Ecto repo.
 </p>
 
 <p>
@@ -298,11 +298,11 @@ The <code>start_link</code> method you may notice starts the line with <code>:su
 </p>
 
 <p>
-The <code>tree</code> indicates all the child processes we want this supervisor to monitor.
+The variable <code>tree</code> is a list of all the child processes we want this supervisor to monitor with the strategy.
 </p>
 
 <p>
-Finally, we need to tell our application to use this supervisor.
+Now, we need to tell our application to use this supervisor.
 </p>
 
 <p>
@@ -331,7 +331,7 @@ Save the file.
 </p>
 
 <p>
-This changes our application to use the Supervisor we just setup for the supervisor of the application.  It also builds a whole new supervisor file, rather than having the supervision code within the application start method.
+This changes our application to use the Supervisor we just setup for the supervisor of the application.
 </p>
 
 <h3>Create a Database Migration</h3>
@@ -341,7 +341,7 @@ Just like ActiveRecord, changes to the database schema are managed through migra
 </p>
 
 <p>
-Let's generate a new migration by running the mix command:
+Generate a new migration by running the mix command:
 </p>
 
 <pre><code>$ mix ecto.gen.migration Repo create_quotes</code></pre>
@@ -355,19 +355,19 @@ This should output text similar to the following when indicating files it genera
 </code></pre>
 
 <p>
-Cool.  Let's open up the <code>XXXXX_create_quotes.ex</code> within the <code>priv/repo</code> folder.
+Open the <code>priv/repo/XXXXX_create_quotes.ex</code> file.
 </p>
 
 <p>
-You'll notice there are two methods.  A method for migrating up, and a method for rolling back.  Each is expected to return a string of SQL code that will run against the database. 
+You'll notice there are two methods empty methods in the module:  a method for migrating up, and a method for rolling back.  Each is expected to return a string of SQL code that will run against the database. 
 </p>
 
 <p>
-At this point, Ecto doesn't have a nice DSL style method to create and modify our database structure, so we'll need to put direct SQL commands.  The fact it deals with migrations though solves most of the complexity of database schema changes.
+At this point, Ecto doesn't have a nice DSL style method to create and modify our database structure, so we'll need to enter SQL commands to alter the structure.
 </p>
 
 <p>
-Let's edit this up to create a database table for <code>quotes</code> that has a <code>saying</code> and an <code>author</code>. 
+Edit the <code>priv/repo/XXXXX_create_quotes.ex</code> file to create a database table for <code>quotes</code> that has a <code>saying</code> and an <code>author</code>. 
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Repo</span><span class="o">.</span><span class="no">Migrations</span><span class="o">.</span><span class="no">CreateQuotes</span> <span class="k">do</span>
@@ -394,7 +394,7 @@ Execute the database migration by running the following command:
 <pre><code>mix ecto.migrate Repo</code></pre>
 
 <p>
-It should output some text on the console that looks something like this:
+It will output text on the console that looks like this:
 </p>
 
 <pre><code>[debug] CREATE TABLE IF NOT EXISTS schema_migrations (id serial primary key, version bigint) (404670µs)
@@ -407,13 +407,13 @@ It should output some text on the console that looks something like this:
 </code></pre>
 
 <p>
-Awesome!  Our database is setup!
+Awesome!  This means that our database is setup!
 </p>
 
 <h3>Setting up the Model</h3>
 
 <p>
-Now that we have our database table setup, we can create the Quote model.  Add a file in <code>web/models</code> called <code>quote.ex</code> that looks like this:
+Now that we have our database table setup, we can build a model to interact with the database table.  Add a file in <code>web/models</code> directory called <code>quote.ex</code> that contains the following code:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span> <span class="k">do</span>
@@ -430,7 +430,7 @@ Now that we have our database table setup, we can create the Quote model.  Add a
 Save the file. 
 </p>
 <p>
- Notice how we have to explicitly tell the model, which fields it has and what table it is connected to.  
+ Notice how we have to explicitly tell the model explicitly what the database schema is for the model that it's mapping to.  
 </p>
 
 
@@ -441,31 +441,31 @@ Let's add a quote in our database by using elixir's interactive console.
 </p>
 
 <p>
-Run the following command to get into interactive elixir console:
+Run the following command to get into interactive elixir console, pulling in our mix project's code:
 </p>
 
 <pre><code>$ iex -S mix</code></pre>
 
 <p>
-Once it boots up, let's build up quote specifying the key/value pairs for the quote and store it in a variable.
+When it boots,  build a quote specifying the key/value pairs for the quote and store it in a variable.
 </p>
 
 <pre><code>&gt; quote = %Splurty.Quote{saying: "Haters gonna hate.  Ain'ters gonna ain't.", author: "Dave Skylark"}</code></pre>
 
 <p>
-And we can extract the message from the quote in the map by access the <code>saying</code> field.
+W can extract the message from the quote in the map by access the <code>saying</code> field from the <code>quote</code> variable now, like this:
 </p>
 
 <pre><code>&gt; quote.saying </code></pre>
 
 <p>
-And we see the following output:
+You should see output that looks like this:
 </p>
 
 <pre><code>"Haters gunna hate.  Ain'ter gunna a'int."</code></pre>
 
 <p>
-Cool.  Now let's store this into our database (aka the Repo)
+Insert the quote in the repo, or in other-words save it to the database, by running the following command:
 </p>
 
 <pre><code>&gt; Repo.insert(quote)</code></pre>
@@ -477,27 +477,35 @@ When you run the command you should see something like the following output to t
 <pre><code>[debug] INSERT INTO "quotes" ("author", "saying") VALUES ($1, $2) RETURNING "id" (347555µs)
 %Splurty.Quote{author: "Dave Skylark", id: 1,
  saying: "Haters gonna hate.  Ain'ters gonna ain't."}</code></pre>
+<p>
+This indicates the item was saved to the database and now has an id of 1.  Awesome!
+</p>
 
  <p>
-We can load the item back from the database by running the following code.
+Load the item from the database by running the following command.
  </p>
 
  <pre><code>quote2 = Repo.get(Splurty.Quote, 1)</code></pre>
-
+<p>
+Ecto allows us to update records in the database quite easily too.
+</p>
  <p>
-And we can update the author to be <code>James Franco</code> instead of <code>Dave Skylark</code> like this:
+In order to update the author to be <code>James Franco</code> instead of <code>Dave Skylark</code> for the quote we have in our database, run the following two commands:
  </p>
 
  <pre><code>&gt; quote3 = %{quote2 | author: "James Franco"}
- &gt; Repo.update(quote3)</code></pre>
+&gt; Repo.update(quote3)</code></pre>
 <p>
-And finally we can remove the item from our database like this:
+Delete the item from our database by running this command:
 </p>
 
 <pre><code>&gt; Repo.delete(quote3)</code></pre>
 
 <p>
-Sweet.  We know our database connection is working properly!  Press CTRL+C  twice to exit <code>iex</code>.
+Sweet!  We know our database connection is working properly!  We also have a pretty good idea of how we will be able to implement most of the CRUD functionality with Ecto.
+</p>
+<p>
+  Press CTRL+C  twice to exit <code>iex</code>, and let's move on to the next lesson.
 </p>
 
 		<div class="text-center">
