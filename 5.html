@@ -44,17 +44,17 @@
 
 		<h2>Supporting new forms, create actions and CSRF</h2>
    <p>
-   The first part of the application to allow user generated quotes we'll need is to build a new form where a user is prompted to enter details about the quote they want to add.  Then we can deal with storing the quote in our database.
+   In order to allow the application to accept user generated quotes, we will need to build form where the user is prompted to enter details about the quote they want to add.  We also will need to store the quote in the database when the form button is pressed.  We will accomplish both in this lesson.
    </p>
 
    <h4>Building a new form</h4>
 
    <p>
-   Right now if you navigate to <a href="http://localhost:4000/quotes/new">quotes/new</a>, you'll see an error message indicating we need to add the action to our controller.
+   Right now if you navigate to <a href="http://localhost:4000/quotes/new">localhost:4000/quotes/new</a>, <strong style="color:red;">you'll see an error message</strong> indicating we need to add the new action to the controller.
    </p>
 
    <p>
-   Edit <code>web/controllers/quote_controller.ex</code> and add the following method to it:
+   Edit <code>web/controllers/quote_controller.ex</code> and add the new action to it:
    </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -82,18 +82,18 @@ Save the file.
 </p>
 
 <p>
-Refresh the page.  The error message should change to say that the new.html template doesn't exist.  This makes sense.  Add a file in the <code>web/templates/quote/new.html.eex</code> that looks like this:
+Refresh the page.  <strong style="color:red;">The error message will change</strong>, and it will say that the new.html template doesn't exist.  This means we will need to create a file called <code>new.html.eex</code>.  To start with create the <code>web/templates/quote/new.html.eex</code> file with the following content:
 </p>
 
 <div class="highlight"><pre>Hello!
 </pre></div>
 
 <p>
-Save the file and refresh the page.  Awesome the error message goes away and we see a page.
+Save the file and refresh the page.  We no longer are presented with an error message, instead we see the text: Hello!
 </p>
 
 <p>
-We're going to want to use routing aliases in our view (to hook up the action of the form to the create action).  In order to do that, we'll want to add the routing helpers to our app.  Add the following lines of code to <code>web/controllers/quote_controller.ex</code>:
+In this lesson we'll want to use routing helpers to build URLs in our controller.  To do that, we'll want to include the routing helpers by adding the following lines of code to <code>web/controllers/quote_controller.ex</code>:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -121,13 +121,13 @@ We're going to want to use routing aliases in our view (to hook up the action of
 </pre></div>
 
 <p>
-Save the file, then restart the server.
+Save the file and restart the server.
 </p>
 
 
 
 <p>
-Next let's add the form to the view.  Change the file <code>web/templates/quote/new.html.eex</code> code to look like this:
+Next let's add the form to the view.  Edit <code>web/templates/quote/new.html.eex</code> so it looks like this:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>New Quote<span class="nt">&lt;/h1&gt;</span>
@@ -150,15 +150,15 @@ Save the file and refresh the page.  Awesome, the form appeared!
 <h3>Dealing with CSRF</h3>
 
 <p>
-Next up let's support the create action.  To start with let's see what error message comes up when we press the submit button.
+Next, we should plan to support the creation of a quote in the database.  Navigate to <a href="http://localhost:4000/quotes/new">localhost:4000/quotes/new</a>, populate the form with data and press the submit button.
 </p>
 
 <p>
-It looks like we're getting a CSRF error message.  This indicates we're not passing along a valid CSRF token when we're submitting the form.
+<strong style="color:red;">An error message is displayed</strong>, indicating problems with CSRF.  This is because we're not passing along a valid CSRF token in the form we're submitting.
 </p>
 
 <p>
-Add the following helper method to <code>web/view.ex</code> to add a helper method to generate csrf tokens:
+Add the following helper method to <code>web/view.ex</code>, to allow us to get the CSRF token from the template:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">View</span> <span class="k">do</span>
@@ -183,7 +183,10 @@ Add the following helper method to <code>web/view.ex</code> to add a helper meth
 </pre></div>
 
 <p>
-Save the file.  Awesome, add the following snippet to pass through the CSRF token in the action to <code>web/templates/quote/new.html.eex</code>.
+Save the file. 
+</p>
+<p>
+ Add a hidden form field to pass through the CSRF token when the form is submitted by adding this line to the <code>web/templates/quote/new.html.eex</code> file:
 </p>
 
 
@@ -209,7 +212,7 @@ Save the file.
 </p>
 
    <p>
-   Navigate to <a href="http://localhost:4000/quotes/new">quotes/new</a> and refresh the page.  Then fill out the form and press the submit button.  Nice, now we see an error message that the controller action is undefined.
+   Navigate to <a href="http://localhost:4000/quotes/new">localhost:4000/quotes/new</a> and refresh the page.  Then fill out the form and press the submit button.  <strong style="color:red;">The error message changes</strong>, and indicates the problem now is that the controller action is undefined.  This means we've properly dealt with CSRF.
    </p>
 
 
@@ -217,7 +220,7 @@ Save the file.
 <h3>Adding the create action</h3>
 
 <p>
-We'll need to add an action to the quotes controller to support the create functionality.  Edit <code>web/controllers/quote_controller.ex</code> and add the create method:
+We'll need to add an action that will be triggered when someone pressed the submit button on the new form.  Edit <code>web/controllers/quote_controller.ex</code> and add the create method, which will create a quote in the database and redirect the user to the index page:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -252,7 +255,7 @@ We'll need to add an action to the quotes controller to support the create funct
 </pre></div>
 
 <p>
-Save the file.  Try to create a new quote.  Awesome, it seems to work and redirects to the index page.  On the index page you can see the newly added quote.
+Save the file.  Navigate to <a href="http://localhost:4000/quotes/new">localhost:4000/quotes/new</a>, fill out the form and press the submit button.  You will be redirected to the index page and see the quote you just added displayed on the page.
 </p>
 
 <p>
