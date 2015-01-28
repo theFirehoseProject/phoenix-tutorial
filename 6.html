@@ -46,11 +46,11 @@
    
 
    <p>
-   Let's add a detail page for the quote.  This will be in the <code>quote</code> controller and the <code>show</code> action.
+   In this lesson we will add a detail page to display a single quote.  We will do this in the <code>quote</code> controller and the <code>show</code> action.
    </p>
 
    <p>
-   To start with let's edit the quote saying on the index page to link to the detail page.  Edit <code>web/templates/quote/index.html.eex</code> to look like this:
+   We want to link to the detail page from the index page.  Add the link in the <code>web/templates/quote/index.html.eex</code> file:
    </p>
 
 
@@ -74,12 +74,16 @@
   <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
 <span class="nt">&lt;/table&gt;</span>
 </pre></div>
+
 <p>
-Awesome, this added a link to the detail page on the index page.  When you click the link you'll see an error that we haven't build the show action in the quotes controller.  Let's add that now.
+Save the file.  Navigate to <a href="http://localhost:4000/quotes">localhost:4000/quotes</a> and you will see the saying is now a link that will send the user to the detail page.
+</p>
+<p>
+When you click the link <strong style="color:red;">you will see an error</strong> that indicates that we haven't built the show action in the quote controller yet.
 </p>
 
 <p>
-Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+Edit <code>web/controllers/quote_controller.ex</code> to include the show action by adding the following method:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -121,26 +125,37 @@ Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </pre></div>
 
 <p>
-Save the file.  One thing you'll notice is we need to convert the input from a string as an id to an integer.  If we don't do this, Ecto will give us error messages.
+Save the file. 
 </p>
 
 <p>
-If you try to view the page again, you'll notice an error message that indicates we haven't build the template yet.  This makes sense, let's build one.
+
+ The first thing this does is convert the id we extract from the parameters in the URL from a string to an integer.  If we don't do this, Ecto will give us error messages about type errors.
+</p>
+
+
+<p>
+This also renders the <code>show.html</code> template and assigns the quote we load up from the Repo with the proper id into the <code>@quote</code> assignment.
 </p>
 
 <p>
-Add a file to the folder <code>web/templates/quote/show.html.eex</code> that looks like this:
+Refresh the page and <strong style="color:red;">you will see a different error message</strong>, which indicates we haven't build the template yet.  
+</p>
+
+
+<p>
+Add the template file <code>web/templates/quote/show.html.eex</code> with the following dummy content within it:
 </p>
 
 <div class="highlight"><pre>hi
 </pre></div>
 <p>
-Save the file and refresh the page.  Excellent, the error goes away and we see "hi".  Let's put details about the quote we're showing on the page now.
+Save the file and refresh the page.  Excellent, the error goes away and are presented with the "hi" message.
+</p>
+<p>
+  Add the saying and the author as headers on <code>web/templates/quote/show.html.eex</code> like this:
 </p>
 
-<p>
-Edit <code>web/templates/quote/show.html.eex</code> to look like this:
-</p>
 
 <div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>
   <span class="cp">&lt;%=</span> <span class="vi">@quote</span><span class="o">.</span><span class="n">saying</span> <span class="cp">%&gt;</span>
@@ -151,7 +166,7 @@ Edit <code>web/templates/quote/show.html.eex</code> to look like this:
 <span class="nt">&lt;/h2&gt;</span>
 </pre></div>
 <p>
-Save the file and refresh the page.  Awesome, we now see an awesome detail page.
+Save the file and refresh the page.  Awesome, we now see the details of the quote presented to us on the quote detail page.
 </p>
 
 
