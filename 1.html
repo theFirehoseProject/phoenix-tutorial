@@ -46,17 +46,18 @@
 		<h2>Installing Elixir, setting up a coding environment, and starting a Phoenix project.</h2>
 
 		<p>
-		The first step to building web applications with the Phoenix Web Framework is to install all the tools you'll need to get coding.  
+The first step to build a web application with the Phoenix Web Framework is to install the tools you need to start coding.
+
 		</p>
 
 		<h3>Installing Elixir</h3>
 
 		<p>
-			Follow the <a href="http://elixir-lang.org/install.html">Install Instructions</a> from the Elixir-Lang homepage.  This will install Elixir and the Erlang programming language on your machine.
+			Follow the <a href="http://elixir-lang.org/install.html">Install Instructions</a> from the Elixir-Lang homepage.  This will install Elixir and the Erlang programming languages on your machine.
 		</p>
 
 		<p>
-			I used the homebrew instructions and it went through seemlessly.  Once you have installed Elixir, you can verify it's properly installed by running the following commands:
+			The homebrew instructions worked seamlessly for me.  Once you have installed Elixir, you can verify that it is properly installed by running the following commands:
 		</p>
 
 		<pre><code>$ elixir --version
@@ -88,32 +89,36 @@ iex(2)> </code></pre>
 	</p>
 
 	<p>
-	When you get to the point where you need more of an rbenv type tool, checkout the <a href="https://github.com/mururu/exenv">exenv</a> project.
+	In the future, if you need to manage multiple versions of Elixir on the same machine, the <a href="https://github.com/mururu/exenv">exenv</a> project, will do just that.  For this tutorial though, we'll stick to using just the single version of Elixir that we just installed on your computer.
 	</p>
 
 	<p>
-	The syntax to Elixir is very similar to ruby.  The key differences are: macros instead of meta-programming, no classes or instance variables and pattern matching support.
+	The syntax of Elixir is very similar to ruby.  The key differences are: <a href="http://elixir-lang.org/getting_started/meta/2.html">macros</a> instead of meta-programming, no classes or instance variables and pattern matching support.
+	</p>
+
+	<p>
+	To get a feel for pattern matching in Elixir, read <a href="http://reefpoints.dockyard.com/2014/12/26/pattern-matching-in-elixir-for-rubyists.html">Pattern Matching in Elixir for Rubyists</a> from DockYard, it covers the topic in an excellent manner.
 	</p>
 
 
 		<h3>Setting Up A Text Editor</h3>
 
 		<p>
-		Most text editors don't include syntax highlighting for Elixir source code by default.  You can find packages for Sublime if you use that, but I'll walk you through how to add support for Elixir into atom.  If you haven't installed the atom text editor, you can get it <a href="https://atom.io/">here</a>.
+		Most text editors don't include syntax highlighting for Elixir source code by default.  There are packages for Sublime, but I will show you how to add support for Elixir into Atom.  If you haven't installed the atom text editor, you can get it <a href="https://atom.io/">here</a>.
 		</p>
 
 		<p>
-		Once you load up atom, in the menu click Atom&gt;Preferences...  Click the "packages" button, filter for the <code>language-elixir</code> package and install it.  This will automatically highlight files with the extension <code>exs</code> as elixir source code.
+		Once you load atom, select Atom&gt;Preferences... in the menu.  Select the "packages" button, filter for the <code>language-elixir</code>.  Now you can install it.  This will automatically highlight files with the extension <code>ex</code> and <code>exs</code> as elixir source code.
 		</p>
 
 		<h3>Installing and Setting Up Postgres</h3>
 
 		<p>
-		Right now, Postgres is the only supported database by <code>Ecto</code>, which is what we'll be using to connect to our database.  That makes the decision about what database to choose easy!
+		Right now, Postgres is the only database supported by <code>Ecto</code>, which is what we'll be using to connect to our database.  This makes deciding which to use easy!
 		</p>
 
 		<p>
-		So if you don't have Postgres installed yet, <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">Follow the Instructions</a> to install it.
+		If you don't have Postgres installed yet, <a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">Follow the Instructions</a> to install it.
 		</p>
 
 		<p>
@@ -123,22 +128,22 @@ iex(2)> </code></pre>
 		<pre><code>$ createuser ecto --pwprompt</code></pre>
 
 		<p>
-		Then enter a password you'll remember.
+		Enter a password that you will remember.
 		</p>
 		<p>
-		Then create our database:
+		Then create the database:
 		</p>
 
 		<pre><code>$ createdb -Oecto -Eutf8 splurty_development</code></pre>
 
 		<p>
-		Then make sure you can log into your postgres database:
+		Make sure you can log into your postgres database:
 		</p>
 
 		<pre><code>$ psql splurty_development --user ecto --password</code></pre>
 
 		<p>
-		When you get pulled into the postgres database prompt, hold CTRL+D to exit.
+		When it asks you for a password, enter it in the prompt.  Once you get pulled into the postgres database prompt, press CTRL+D to exit.
 		</p>
 
 		<h3>Getting the Phoenix Framework</h3>
@@ -146,6 +151,12 @@ iex(2)> </code></pre>
 		</p>
 
 		<pre><code>$ git clone https://github.com/phoenixframework/phoenix.git</code></pre>
+
+		<p>
+		Next, navigate into the phoenix framework folder:
+		</p>
+
+		<pre><code>cd phoenix</code></pre>
 
 		<p>
 		This tutorial is geared to work with Phoenix version 0.8.  As it's changing quite quickly, you'll want to make sure you're using that version.
@@ -158,7 +169,7 @@ iex(2)> </code></pre>
 		<h3>Starting your first project</h3>
 
 		<p>
-		You'll need to be in the same directory as the phoenix project you cloned when you run the command to create the first project:
+		You'll need to be in the same directory as the phoenix project you cloned when you run the command to create a new project:
 		</p>
 
 		<pre><code>$ mix phoenix.new splurty ../splurty</code></pre>
@@ -172,28 +183,30 @@ iex(2)> </code></pre>
 		</p>
 
 		<p>
-		If you've tried programming in scala, or other functional programming, you may have noticed package management usually tends to suck.  Mix is very well designed and works seemlessly.
+		If you've tried programming in scala, or any other functional programming language, you may have noticed that package management is usually overly complicated.  Mix is very well designed and works seamlessly.
 		</p>
 
+		<h3>Running our Application: the Rise of the Phoenix</h3>
+
 		<p>
-		Next change the directory to the folder your splurty application is located in:
+		 Navigate to the directory that your splurty application is located in:
 		</p>
 
 		<pre><code>$ cd ../splurty</code></pre>
 
 		<p>
-		Next compile your application's source code and also fetch and install all the dependencies:
+		 Fetch, install and compile your application's source code and dependencies by running this command:
 		</p>
 
 		<pre><code>$ mix do deps.get, compile</code></pre>
 
 		<p>
-		It should complete without showing you any error messages and you can start your server by running the following command:
+		It should complete without showing you any error messages. Once it does you can start your server by running the following command:
 		</p>
 		<pre><code>$ mix phoenix.server</code></pre>
 
 		<p>
-		Then you can go to <a href="http://localhost:4000">localhost:4000</a> and see your generated phoenix web application.  Awesome!
+		Navigate your browser to <a href="http://localhost:4000">localhost:4000</a> and see your generated phoenix web application.  Awesome!
 		</p>
 
 <p>
