@@ -104,7 +104,7 @@ Then run the command to fetch and install the dependencies:
 <pre><code>mix do deps.get, compile</code></pre>
 
 <p>
-It should complete without giving you error messages.  That downloads, installs and compiled the dependencies in our application.
+It should complete without giving you error messages.  That command will download, install and compile all the dependencies in our application.
 </p>
 
 <p>
@@ -161,13 +161,13 @@ For an in-depth analysis of how ecto works, check <a href="https://www.youtube.c
 </p>
 
 <p>
-The key thing to know about Ecto is that it is organized into  three main components.
+The key thing to know about Ecto are it's  three main components.
 </p>
 
 <h4>Repo</h4>
 
 <p>
-Short for Repository, a repo is the connection to a database.  Ecto makes it easy to connect to multiple different database in a single application.
+Short for Repository, a repo is the connection to a database.  Ecto makes it easy to connect to multiple different databases in a single application.
 </p>
 
 <h4>Model</h4>
@@ -245,7 +245,7 @@ Save the file.
 </p>
 
 <p>
-This sets up most of Ecto's repo.  The core repo code will run in external erlang process however, so we'll to configure that process to work.
+This sets up most of Ecto's repo.  The core repo code will run in external erlang process however, so we'll to configure the repo's process to run.
 </p>
 
 <p>
@@ -253,7 +253,7 @@ When dealing with multiple processes, both Erlang and Elixir use the concept of 
 </p>
 
 <p>
-The core thought in the Erlang community is that <strong>Exceptional Cases Should Crash the Process</strong>, and then supervisors will re-start a new process that isn't messed up.
+The core thought in the Erlang community is that <strong>Exceptional Cases Should Crash the Process</strong>, and then supervisors should restart a new process that isn't messed up.
 </p>
 
 <p>
@@ -331,7 +331,7 @@ Save the file.
 </p>
 
 <p>
-This changes our application to use the Supervisor we just setup for the supervisor of the application.
+This changes our application to use the Supervisor we just setup.
 </p>
 
 <h3>Create a Database Migration</h3>

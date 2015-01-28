@@ -49,15 +49,15 @@
 
 		<h2>Building an Index Action</h2>
     <p>
-    Let's build a page to list out all the quotes in our application.  In this case we'll use the <code>quote_controller</code> and <code>index</code> action.
+    In this lesson we will build a page to list out all the quotes in our application.  We will use the <code>QuoteController</code> and <code>index</code> action.
     </p>
 
     <p>
-    We're going to build full CRUD functionality on the quotes controller, so we can go ahead and setup the full set of RESTful (or <code>resource</code>ful) routes.
+    In advance we know we will build full CRUD functionality on the QuoteController, so we can setup the full set of RESTful, <code>resource</code>ful, routes all at once.
     </p>
 
     <p>
-    Edit <code>web/router.ex</code> and add the following line:
+    To do this, edit <code>web/router.ex</code> and add the following line:
     </p>
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Router</span> <span class="k">do</span>
 <span class="k">  </span><span class="kn">use</span> <span class="no">Phoenix</span><span class="o">.</span><span class="no">Router</span>
@@ -92,13 +92,13 @@ Save the file.
 </p>
 
 <p>
-Let's output our routes table and make sure it looks ok.
+Whenever I change the routes file, I like to verify that my code changes did what I expected, so I will run the command to display the routes table:
 </p>
 
   <pre><code>$ mix phoenix.routes</code></pre>
 
   <p>
-  Right now it should say:
+  Right now it will say:
   </p>
 <pre><code>quote_path  GET     /                 Splurty.QuoteController.homepage/2
 quote_path  GET     /quotes           Splurty.QuoteController.index/2
@@ -112,7 +112,7 @@ quote_path  DELETE  /quotes/:id       Splurty.QuoteController.destroy/2
 </code></pre>
 
 <p>
-Awesome, it hooked up the full set of resourceful routes.  Sweet.
+The single-line code change hooked up the full set of RESTful routes on our QuoteController.
 </p>
 
 <p>
@@ -120,10 +120,10 @@ Restart your server.
 </p>
 
 <p>
-Next up, go into the web browser to the URL that looks like: <a href="http://localhost:4000/quotes/">localhost:4000/quotes</a>.  It complains with the error message: <strong>undefined function: Splurty.QuoteController.index/2</strong>.
+Navigate in your web browser to the URL that looks like: <a href="http://localhost:4000/quotes/">localhost:4000/quotes</a>.  <strong style="color:red">You should see an error message</strong> explaining there is an <code>undefined function: Splurty.QuoteController.index/2</code>.
 </p>
 <p>
-Since it's mad we don't have the index action in our controller, let's go add one.  Open <code>web/controllers/quote_controller.ex</code> and add the following section:
+This indicates we must add an index action to the QuoteController.  Edit <code>web/controllers/quote_controller.ex</code> and add it:
 </p>
 
 
@@ -142,28 +142,28 @@ Since it's mad we don't have the index action in our controller, let's go add on
 <span class="k">end</span>
 </pre></div>
 <p>
-Save the file and refresh the page.  It should show you an error message that the template <code>index.html</code> hasn't been created.  This makes sense.
+Save the file and refresh the page.  <strong style="color:red;">It will show you an error message</strong> that indicates the template <code>index.html</code> hasn't been created.  This means we must create one.
 </p>
 
 <p>
-Add a file in <code>web/templates/quote/index.html.eex</code> that looks like this:
+Create a file  <code>web/templates/quote/index.html.eex</code> that contains the following text:
 </p>
 
 <div class="highlight"><pre>YOLO!
 </pre></div>
 <p>
-Save the file, and refresh the page.  Awesome, we no longer see an error message.
+Save the file and refresh the page.  Awesome, we no longer see an error message, instead we see the text from our template file.
 </p>
 
 <p>
-We want this page to list out each of the quotes in our database, but right now our database has no quotes in it.  Let's jump into iex and add a couple quotes:
+We want this page to list out each of the quotes in our database, but right now our database has no quotes in it.  Let's jump into iex and add a couple quotes in our database so this page has data it can display.  To start with spin up iex by running the following command:
 </p>
 
 <pre><code>$ iex -S mix</code></pre>
 
 
 <p>
-And add two quotes, running commands like this:
+Store two quotes into the database, by running commands like this:
 </p>
 
 <pre><code>&gt; quote = %Splurty.Quote{saying: "They hate us, cause they ain't us.", author: "Dave Skylark"}
@@ -177,12 +177,12 @@ Then press CTRL+C twice to exit iex.
 </p>
 
 <p>
-Cool, now that we have quotes in our database, let's loop through each of them and put them on an HTML table.
+Since we now have two quotes in our database our goal will be to list all of the quotes in our database on the index template.
 </p>
 
 <p>
-First thing we'll need to do is load up our quotes in our controller.
-Open <code>web/controller/quote_controller.ex</code> and edit the index action to look like this:
+The first step is to load the quotes in our controller, and allow our template access the records.
+Edit the index action in <code>web/controller/quote_controller.ex</code> so the code looks like this:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -204,11 +204,11 @@ Open <code>web/controller/quote_controller.ex</code> and edit the index action t
 
 
 <p>
-This will render the <code>index.html.eex</code> template on the connection and pass through the assignment of <code>@quotes</code> being all the quotes loaded up.
+This will render the <code>index.html.eex</code> template and give the template access to <code>@quotes</code>, which will be a list of all the quotes that exist in our database.
 </p>
 
 <p>
-Now edit <code>web/templates/quote/index.html.eex</code> and add the following code:
+Edit <code>web/templates/quote/index.html.eex</code> and replace it's contents with this, so it displays a table on the page, with a table row for each record in our database:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
