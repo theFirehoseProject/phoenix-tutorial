@@ -43,13 +43,13 @@
 
 		<h2>Adding Edit and Update Functionality</h2>
    <p>
-   Next up in setting up CRUD will be to allow us to edit and update a quote in our database.
+   Most CRUD applications include forms to edit an existing record in the database, and react to the update button being pressed.  In this lesson we will setup this functionality in our web application.
    </p>
 
    <h3>Edit Page</h3>
 
    <p>
-   To start with, let's add a link to the edit page to the index page.  Edit <code>web/templates/quote/index.eex</code> to look like this:
+   The index page should include a link to edit the record, so edit <code>web/templates/quote/index.eex</code> to look like this:
    </p>
 
 
@@ -77,9 +77,11 @@
   <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
 <span class="nt">&lt;/table&gt;</span>
 </pre></div>
-
 <p>
-Return to the quotes index page and notice that a link to the edit page comes up.  Awesome.  When you click it, it gives you an error that the action isn't present in the controller.  Let's add it!
+Save the file.
+</p>
+<p>
+Navigate to <a href="http://localhost:4000/quotes">localhost:4000/quotes</a>, notice the edit link we added was added to the page.  When you press the link <strong style="color:red">it will present you with an error message</strong> that indicates that the action isn't present in the controller.  Let's add it!
 </p>
 
 <p>
@@ -132,14 +134,24 @@ Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 </pre></div>
 
 <p>
-Save the file.  Now if you refresh the edit page, you'll see an error that the template doesn't exist yet.  This makes sense, since we haven't built one.  Let's build one now.
+Save the file. 
+</p>
+
+<p>
+This action is doing the same thing as the show action, it's loading up the quote and storing it as the assignment <code>@quote</code> we can use within the template.
 </p>
 <p>
-Add a file in <code>web/templates/quote</code> called <code>edit.html.eex</code>:
+ Refresh the edit page, and <strong style="color:red;">you will see an error</strong>  that the template doesn't exist yet.  Let's add one now!
+</p>
+<p>
+Add a file in <code>web/templates/quote</code> called <code>edit.html.eex</code> and populate it with this content:
 </p>
 <div class="highlight"><pre>Hello!
 </pre></div><p>
-Save the file.  Nice the error message went away.  Now let's add the real form.  For now let's just copy and paste the markup from the <code>new.html.eex</code> and make a few edits.
+Save the file and refresh the page.  The error message vanished, and we now are present with: Hello!
+</p>
+
+<p>Replace the content of the page with a form, similar to <code>new.html.eex</code>, but with some tweaks.  Adjust <code>web/templates/quote/edit.html.eex</code> to look like this:
 </p>
 
 <div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Edit Quote<span class="nt">&lt;/h1&gt;</span>
@@ -159,17 +171,17 @@ Save the file.  Nice the error message went away.  Now let's add the real form. 
 <span class="nt">&lt;/form&gt;</span>
 </pre></div>
 <p>
-Save the file and refresh the page.  Awesome, our form came up.
+Save the file and refresh the page.  You will be presented with a pre-populated form for the item we are editing.
 </p>
 
 <h3>Update Action</h3>
 
 <p>
-Press the submit button.  You'll see an error message that there is an undefined controller action for update.  This makes sense.  Let's jump in and add one.
+On the edit page, adjust the values in the form and press the submit button.  <strong style="color:red;">You will be presented an error message</strong> that there is an undefined controller action for update.  Let's add one!
 </p>
 
 <p>
-Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+Edit <code>web/controllers/quote_controller.ex</code> to support update functionality:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -228,6 +240,10 @@ Edit <code>web/controllers/quote_controller.ex</code> to look like this:
 
 <p>
 Save the file.
+</p>
+
+<p>
+This code loads the proper quote and performs an update, just like we did in <a href="3.html">Lesson 3</a> from within iex.  It then redirects the user to the detail page for the quote they edited.
 </p>
 
 <p>
