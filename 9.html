@@ -45,24 +45,23 @@
 		<h2>Ecto Queries</h2>
    
 
+
     <p>
-    Our plan of attack should be to pull a random item from the database and then render the show page for the particular quote on the <code>homepage</code> action.
+    We want our splurty application to splurt out un-expected quotes to the user from the database.  
+
+    This means the <code>homepage</code> action of the QuoteController should load up a quote randomly from the database, and then show the details for the quote.  We will do that in this lesson.
     </p>
 
     <p>
     Ecto's query syntax is quite nice for simple queries.  See an example <a href="https://github.com/elixir-lang/ecto/blob/master/examples/simple/lib/simple.ex#L33">here</a>.
-    </p>
-
-    <p>
+    
     Unfortunately it doesn't allow us to perform an <code>ORDER BY RANDOM()</code> from SQL easily.
-    </p>
-
-    <p>
+  
     This means we'll need to craft a custom SQL query and load up a <code>Splurty.Quote</code> based on that.
     </p>
 
     <p>
-    Add the following module for queries, and method to pull out a random quote in <code>web/models/quote.ex</code>.
+    We will build a submodule within <code>quote.ex</code> that will allow us to put various queries inside it.  In this module we can build a <code>random</code> method that will execute a SQL query to extract a random record and parse the result into a <code>Splurty.Quote</code> model.  To do that, add the following lines of code to <code>web/models/quote.ex</code>:
     </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">Quote</span> <span class="k">do</span>
@@ -87,12 +86,16 @@
 <span class="k">end</span>
 </pre></div>
 
+
 <p>
-This will allow us to extract a random quote from our database by calling <code>Splurty.Quote.Queries.random</code>.
+Save the file.
+</p>
+<p>
+Now we can extract a random quote from our database by calling <code>Splurty.Quote.Queries.random</code>.
 </p>
 
 <p>
-Let's hook this up in our controller.  Edit <code>web/controllers/quote_controller.ex</code> to look like this:
+Modify the <code>homepage</code> action within the QuoteController to hook this functionality up. The homepage action should load a random quote, assign it to <code>@quote</code> and render the <code>show.html</code> template.  To do that edit  <code>web/controllers/quote_controller.ex</code> to look like this:
 </p>
 
 <div class="highlight"><pre><span class="k">defmodule</span> <span class="no">Splurty</span><span class="o">.</span><span class="no">QuoteController</span> <span class="k">do</span>
@@ -159,18 +162,19 @@ Let's hook this up in our controller.  Edit <code>web/controllers/quote_controll
 </pre></div>
 
 <p>
-Save the file and then go to the homepage.  You'll notice a random quote is randomly shown.  Sweet!
+Save the file.
+</p>
+
+<p>When you navigate to <a href="http://localhost:4000">localhost:4000</a>,  you'll notice a random quote is randomly shown.  Sweet!
 </p>
 
 <p>
-Let's clean up after ourselves and delete the file <code>homepage.html.eex</code>, since we're no longer using it.
+We should cleanup after ourselves and delete the file <code>homepage.html.eex</code>, since we're no longer using it, we're actually rendering the <code>show.html</code> from the homepage action.  Run this command:
 </p>
 
 <pre><code>$ rm web/templates/quote/homepage.html.eex</code></pre>
 
-<p>
-You're page should now look like this:
-</p>
+
 
 <p>
 Your application should look
