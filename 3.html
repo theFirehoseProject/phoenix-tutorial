@@ -236,7 +236,7 @@ For an in-depth analysis of how ecto works, check <a href="https://www.youtube.c
 </p>
 
 <p>
-The key thing to know about Ecto are it's  three main components.
+The key to understanding Ecto is  understanding the three components it is broken into:
 </p>
 
 <h4>Repo</h4>
@@ -247,7 +247,7 @@ Short for Repository, a repo is the connection to a database.  Ecto makes it eas
 
 <h4>Model</h4>
 <p>
-Models make it easy to save items to our database and provides callbacks in the lifecycle of the object.
+Models make it easy to save items to our database and provide callbacks in the lifecycle of the object.
 </p>
 
 <h4>Queries</h4>
@@ -434,7 +434,7 @@ Open the <code>priv/repo/XXXXX_create_quotes.ex</code> file.
 </p>
 
 <p>
-You'll notice there are two methods empty methods in the module:  a method for migrating up, and a method for rolling back.  Each is expected to return a string of SQL code that will run against the database. 
+You'll notice there are two empty methods in the module:  a method for migrating up, and a method for rolling back.  Each is expected to return a string of SQL code that will run against the database. 
 </p>
 
 <p>
