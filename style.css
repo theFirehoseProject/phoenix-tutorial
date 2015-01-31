@@ -92,6 +92,23 @@ ul li {
 }
 
 
+
+
+
+.btn.btn-xs.btn-primary {
+	font-size:20px;
+	border:none;
+	font-weight:100;
+}
+
+
+.btn:hover ::select {
+	background-color:#c20c49;
+	border-color:#a20c29;
+}
+
+
+
 /* SYNTAX */
 .highlight .hll { background-color: #333333 }
 .highlight  {
@@ -139,6 +156,10 @@ text-transform: none;
 top: auto;
 
 }
+
+
+
+
 
 
 .highlight p > a > code
