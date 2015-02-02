@@ -242,7 +242,11 @@ iex(2)> </code></pre>
 		<h3>Starting your first project</h3>
 
 		<p>
-		You'll need to be in the same directory as the phoenix project you cloned when you run the command to create a new project:
+		You need to be in the same directory as the phoenix project.  You need to get the dependencies and compile the phoenix project before you go any further.
+		</p>
+		<pre><code>$ mix do deps.get, compile</code></pre>
+		<p>
+		Once that completes, run the following command:
 		</p>
 
 		<pre><code>$ mix phoenix.new splurty ../splurty</code></pre>
